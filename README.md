@@ -1,70 +1,25 @@
-Title
-===
-Abstract:xxx
-## Papar Information
-- Title:  `paper name`
-- Authors:  `A`,`B`,`C`
-- Preprint: [https://arxiv.org/abs/xx]()
-- Full-preprint: [paper position]()
-- Video: [video position]()
+# Hey, Ik ben Manu Devloo
 
-## Install & Dependence
-- python
-- pytorch
-- numpy
+<br>
 
-## Dataset Preparation
-| Dataset | Download |
-| ---     | ---   |
-| dataset-A | [download]() |
-| dataset-B | [download]() |
-| dataset-C | [download]() |
+## Info over mezelf: 
 
-## Use
-- for train
-  ```
-  python train.py
-  ```
-- for test
-  ```
-  python test.py
-  ```
-## Pretrained model
-| Model | Download |
-| ---     | ---   |
-| Model-1 | [download]() |
-| Model-2 | [download]() |
-| Model-3 | [download]() |
+<p style="font-size: 15px;">Ik ben startend web developer. Momenteel ben ik nog aan het studeren, ik zit in het 5de middelbaar technische informatica.</p>
 
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Manu-Devloo&hide=prs&show_icons=true&theme=dark)
 
-## Directory Hierarchy
-```
-```
-## Code Details
-### Tested Platform
-- software
-  ```
-  OS: Debian unstable (May 2021), Ubuntu LTS
-  Python: 3.8.5 (anaconda)
-  PyTorch: 1.7.1, 1.8.1
-  ```
-- hardware
-  ```
-  CPU: Intel Xeon 6226R
-  GPU: Nvidia RTX3090 (24GB)
-  ```
-### Hyper parameters
-```
-```
-## References
-- [paper-1]()
-- [paper-2]()
-- [code-1](https://github.com)
-- [code-2](https://github.com)
-  
-## License
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Manu-Devloo&theme=dark&layout=compact&langs_count=6&hide=mcfunction)](https://github.com/Manu-Devloo)
 
-## Citing
-If you use xxx,please use the following BibTeX entry.
-```
-```
+<br>
+<br>
+
+## Projecten:
+
+<p style="font-size: 15px;">Ik heb al een paar projecten gedaan waarvan de grootste
+<br>
+Deze site voor Rak Sunakh:
+<br>
+<a href="https://thai-ridgeback.eu">thai-ridgeback.eu</a>
+</p>
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=Rak-Sunakh&repo=Rak-Sunakh-Site&theme=dark)](https://thai-ridgeback.eu)
