@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name=”robots” content=”nofollow”>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Anton&family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Russo+One&display=swap&family=Stylish&display=swap");
+
+        html {
+            scroll-snap-align: start;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background-color: #1d1d1d;
+            color: gray;
+            font-family: "Cabin", sans-serif;
+        }
+
+        header .mainNav {
+            position: fixed;
+            z-index: 1;
+            width: 100%;
+            border-bottom: 1px solid gray;
+            background-color: rgba(0, 0, 0, 0.452);
+            top: 0;
+            opacity: 1;
+        }
+
+        header .mainNav ul {
+            list-style: none;
+        }
+
+        header .mainNav ul a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header .mainNav ul .Logo {
+            text-align: left;
+            font-family: "Russo One", sans-serif;
+            font-size: 3rem;
+        }
+
+        header .mainNav ul .Logo span {
+            color: red;
+        }
+
+        header .mainNav ul .Left {
+            margin-top: 1.1rem;
+            float: right;
+            margin-right: 1rem;
+            font-size: 1rem;
+            transition: color 0.5s;
+        }
+
+        header .mainNav ul .Left:hover {
+            color: red;
+            border-bottom: 2px solid red;
+        }
+
+        header .navBackground {
+            height: 5.5rem;
+            background-color: black;
+        }
+
+        main a {
+            color: inherit;
+        }
+
+        main {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        main h1 {
+            font-family: "Anton", sans-serif;
+            font-size: 5rem;
+            letter-spacing: 5px;
+        }
+    </style>
+
+    <title>404</title>
+</head>
+
+<body>
+    <header>
+        <nav class="mainNav">
+            <ul>
+                <li class="Left"><a href="index.html#contact">Contact</a></li>
+                <li class="Left"><a href="index.html#Projects">Projects</a></li>
+                <li class="Left"><a href="index.html#AboutMe">About me</a></li>
+                <li class="Logo"><a href="index.html#">M<span>D</span></a></li>
+            </ul>
+        </nav>
+
+        <nav class="navBackground"></nav>
+    </header>
+
+    <main>
+        <h1>404</h1>
+
+        Deze wabpagina bestaat niet meer of u heeft een foutive url gebruikt, herbekijk de url of <a
+            href="index.html">Ga naar de home page</a>.
+    </main>
+</body>
+
+</html>
