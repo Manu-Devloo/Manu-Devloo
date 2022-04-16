@@ -8,8 +8,11 @@ html {
 body {
   margin: 0;
   background-color: #1d1d1d;
-  color: gray;
+  color: rgb(231, 231, 231);
   font-family: "Cabin", sans-serif;
+}
+body h2 {
+  color: gray;
 }
 
 header .mainNav {
@@ -20,6 +23,7 @@ header .mainNav {
   background-color: rgba(0, 0, 0, 0.452);
   top: 0;
   opacity: 1;
+  color: gray;
 }
 header .mainNav ul {
   list-style: none;
@@ -100,6 +104,7 @@ main h1 {
   letter-spacing: 1px;
   margin-top: 0;
   padding-top: 0;
+  color: gray;
 }
 main .intoduction span {
   transition: font-size 0.2s;
@@ -111,6 +116,7 @@ main .intoduction span:hover {
 main .subIntro {
   font-size: 1.4rem;
   padding-bottom: 10rem;
+  color: gray;
 }
 main .contactMe {
   border: 1px solid red;
@@ -130,7 +136,7 @@ main .contactMe {
 }
 main .contactMe:hover {
   background-color: red;
-  color: darkgray;
+  color: white;
   transition: background-color 0.5s ease;
 }
 main .AboutMe {
@@ -208,7 +214,7 @@ main .Projects .websiteExtraInfo .alleProjecten {
 }
 main .Projects .websiteExtraInfo .alleProjecten:hover {
   background-color: red;
-  color: darkgray;
+  color: white;
   transition: background-color 0.5s ease;
 }
 
@@ -252,10 +258,11 @@ footer .contact .contactInfo form #subject {
   height: 1rem;
   padding: 1rem;
   font-family: inherit;
-  border: 2px solid grey;
+  border: 2px solid gray;
   border-radius: 0.3rem;
   background-color: inherit;
   color: inherit;
+  letter-spacing: 2px;
 }
 footer .contact .contactInfo form #verzenden {
   text-align: center;
@@ -265,7 +272,7 @@ footer .contact .contactInfo form #verzenden {
   border-radius: 0.3rem;
   margin-top: 0.5rem;
   background-color: inherit;
-  color: inherit;
+  color: gray;
 }
 footer .contact .contactInfo form textarea {
   padding: 1rem;
@@ -275,6 +282,7 @@ footer .contact .contactInfo form textarea {
   border: 2px solid grey;
   color: inherit;
   margin-top: 1rem;
+  letter-spacing: 2px;
 }
 footer .contact .contactInfo form textarea:focus,
 footer .contact .contactInfo form #email:focus,
@@ -300,6 +308,11 @@ footer .links {
   margin-top: 1rem;
   text-align: center;
 }
+footer .links h3 a {
+  color: inherit;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
 footer .links .gridContactLogo {
   display: grid;
   grid-template-columns: 4rem 4rem 4rem 4rem;
@@ -307,6 +320,7 @@ footer .links .gridContactLogo {
        column-gap: 1rem;
   justify-content: center;
   align-items: center;
+  color: darkgrey;
 }
 footer .links .gridContactLogo a {
   text-decoration: none;
