@@ -155,7 +155,7 @@ main .AboutMe .ulAboutMe {
 main .AboutMe .ulAboutMe ul li:last-child {
   margin-top: 1rem;
 }
-main .AboutMe embed {
+main .AboutMe .stats {
   width: 100%;
 }
 main .Projects {
