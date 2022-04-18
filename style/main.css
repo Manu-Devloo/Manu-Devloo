@@ -10,11 +10,21 @@ body {
   background-color: #1d1d1d;
   color: rgb(231, 231, 231);
   font-family: "Cabin", sans-serif;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-name: scale-up-center;
+          animation-name: scale-up-center;
 }
 body h2 {
   color: gray;
 }
 
+header {
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-name: slidin;
+          animation-name: slidin;
+}
 header .mainNav {
   position: fixed;
   z-index: 1;
@@ -235,6 +245,13 @@ footer {
   margin-right: 2rem;
   margin-bottom: 3rem;
 }
+footer * {
+  opacity: 0;
+  transition: opacity 250ms ease-in;
+}
+footer *.appear {
+  opacity: 1;
+}
 footer .contact {
   display: grid;
   grid-template-columns: 60% 35%;
@@ -379,5 +396,41 @@ footer .links img {
   footer .links .gridContactLogo {
     display: grid;
     grid-template-columns: 3rem 3rem 3rem 3rem;
+  }
+}
+@-webkit-keyframes slidin {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+@keyframes slidin {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+@-webkit-keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
   }
 }/*# sourceMappingURL=main.css.map */

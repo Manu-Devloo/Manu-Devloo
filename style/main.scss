@@ -11,13 +11,20 @@ body {
     background-color: #1d1d1d;
     color: rgb(231, 231, 231);
     font-family: "Cabin", sans-serif;
+    animation-duration: 2s;
+    animation-name: scale-up-center;
 
     h2 {
         color: gray;
     }
+
+    
 }
 
 header {
+    animation-duration: 2s;
+    animation-name: slidin;
+
     .mainNav {
         position: fixed;
         z-index: 1;
@@ -275,6 +282,15 @@ footer {
     margin-right: 2rem;
     margin-bottom: 3rem;
 
+    * {
+        opacity: 0;
+        transition: opacity 250ms ease-in;
+    }
+
+    *.appear {
+        opacity: 1;
+    }
+
     .contact {
         display: grid;
         grid-template-columns: 60% 35%;
@@ -447,5 +463,28 @@ footer {
                 grid-template-columns: 3rem 3rem 3rem 3rem;
             }
         }
+    }
+}
+
+@keyframes slidin {
+    from {
+        margin-left: 100%;
+        width: 300%;
+    }
+
+    to {
+        margin-left: 0%;
+        width: 100%;
+    }
+}
+
+@keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
     }
 }
