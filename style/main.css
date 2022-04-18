@@ -157,6 +157,7 @@ main .AboutMe .ulAboutMe ul li:last-child {
 }
 main .AboutMe .stats {
   width: 100%;
+  border-radius: 0.5;
 }
 main .Projects {
   display: grid;
