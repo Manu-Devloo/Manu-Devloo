@@ -157,7 +157,7 @@ main .AboutMe .ulAboutMe ul li:last-child {
 }
 main .AboutMe .stats {
   width: 100%;
-  border-radius: 0.5;
+  border-radius: 0.5rem;
 }
 main .Projects {
   display: grid;
@@ -173,12 +173,16 @@ main .Projects .Website {
   background-color: #2b2b2b;
   border-radius: 0.5rem;
 }
-main .Projects .Website iframe {
-  height: 100%;
+main .Projects .Website .webPagina {
   width: 100%;
-  border: 0;
-  border-radius: inherit;
-  background-color: white;
+  height: 100%;
+  overflow: auto;
+  border-radius: 0.5rem;
+  scrollbar-base-color: red;
+  scrollbar-face-color: red;
+}
+main .Projects .Website .webPagina img {
+  width: 100%;
 }
 main .Projects .websiteExtraInfo {
   border-radius: 0.5rem;
@@ -217,6 +221,13 @@ main .Projects .websiteExtraInfo .alleProjecten:hover {
   background-color: red;
   color: white;
   transition: background-color 0.5s ease;
+}
+main * {
+  opacity: 0;
+  transition: opacity 250ms ease-in;
+}
+main *.appear {
+  opacity: 1;
 }
 
 footer {
@@ -339,6 +350,12 @@ footer .links img {
   main .Projects {
     grid-template-columns: 100%;
   }
+  main .Projects .Website {
+    height: 50vh;
+  }
+  main .Projects .Website .webPagina img {
+    width: 100%;
+  }
   main .AboutMe {
     max-width: unset;
     grid-template-columns: 100%;
@@ -346,8 +363,11 @@ footer .links img {
     justify-content: center;
     align-items: center;
   }
-  main .AboutMe embed {
+  main .AboutMe .stats {
     height: 10rem;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   footer .contact {

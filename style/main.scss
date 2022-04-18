@@ -12,7 +12,7 @@ body {
     color: rgb(231, 231, 231);
     font-family: "Cabin", sans-serif;
 
-    h2{
+    h2 {
         color: gray;
     }
 }
@@ -183,7 +183,7 @@ main {
 
         .stats {
             width: 100%;
-            border-radius: 0.5;
+            border-radius: 0.5rem;
         }
     }
 
@@ -201,12 +201,17 @@ main {
             background-color: #2b2b2b;
             border-radius: 0.5rem;
 
-            iframe {
-                height: 100%;
+            .webPagina {
                 width: 100%;
-                border: 0;
-                border-radius: inherit;
-                background-color: white;
+                height: 100%;
+                overflow: auto;
+                border-radius: 0.5rem;
+                scrollbar-base-color: red;
+                scrollbar-face-color: red;
+
+                img {
+                    width: 100%;
+                }
             }
         }
 
@@ -253,6 +258,15 @@ main {
                 transition: background-color 0.5s ease;
             }
         }
+    }
+
+    * {
+        opacity: 0;
+        transition: opacity 250ms ease-in;
+    }
+
+    *.appear {
+        opacity: 1;
     }
 }
 
@@ -356,8 +370,8 @@ footer {
         margin-top: 1rem;
         text-align: center;
 
-        h3{
-            a{
+        h3 {
+            a {
                 color: inherit;
                 text-decoration: none;
                 letter-spacing: 2px;
@@ -393,6 +407,15 @@ footer {
 
         .Projects {
             grid-template-columns: 100%;
+
+            .Website {
+                height: 50vh;
+                .webPagina {
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
         }
 
         .AboutMe {
@@ -402,8 +425,11 @@ footer {
             justify-content: center;
             align-items: center;
 
-            embed{
+            .stats {
                 height: 10rem;
+                width: auto;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
     }
