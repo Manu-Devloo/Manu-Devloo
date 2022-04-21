@@ -249,25 +249,11 @@ main .Projects .websiteExtraInfo .alleProjecten:hover {
   color: var(--color);
   transition: background-color 0.5s ease;
 }
-main * {
-  opacity: 0;
-  transition: opacity 250ms ease-in;
-}
-main *.appear {
-  opacity: 1;
-}
 
 footer {
   margin-left: 3rem;
   margin-right: 2rem;
   margin-bottom: 3rem;
-}
-footer * {
-  opacity: 0;
-  transition: opacity 250ms ease-in;
-}
-footer *.appear {
-  opacity: 1;
 }
 footer .contact {
   display: grid;
@@ -477,4 +463,4 @@ footer .links img {
   100% {
     transform: scale(1);
   }
-}/*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=noJs.css.map */

@@ -283,30 +283,12 @@ main {
             }
         }
     }
-
-    * {
-        opacity: 0;
-        transition: opacity 250ms ease-in;
-    }
-
-    *.appear {
-        opacity: 1;
-    }
 }
 
 footer {
     margin-left: 3rem;
     margin-right: 2rem;
     margin-bottom: 3rem;
-
-    * {
-        opacity: 0;
-        transition: opacity 250ms ease-in;
-    }
-
-    *.appear {
-        opacity: 1;
-    }
 
     .contact {
         display: grid;

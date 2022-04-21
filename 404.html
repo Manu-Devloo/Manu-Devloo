@@ -10,6 +10,26 @@
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Anton&family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Russo+One&display=swap&family=Stylish&display=swap");
 
+        :root {
+            --color: rgb(231, 231, 231);
+            --color-2: grey;
+            --back-color: #1d1d1d;
+            --back-color-2: #2b2b2b;
+            --nav: black;
+
+            --acent-color: red;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --back-color: white;
+                --back-color-2: rgb(134, 134, 134);
+                --color: black;
+                --color-2: rgb(95, 95, 95);
+                --nav: rgb(134, 134, 134);
+            }
+        }
+
         html {
             scroll-snap-align: start;
             scroll-behavior: smooth;
@@ -17,7 +37,7 @@
 
         body {
             margin: 0;
-            background-color: #1d1d1d;
+            background-color: var(--back-color);
             color: gray;
             font-family: "Cabin", sans-serif;
         }
@@ -66,7 +86,7 @@
 
         header .navBackground {
             height: 5.5rem;
-            background-color: black;
+            background-color: var(--nav);
         }
 
         main a {
