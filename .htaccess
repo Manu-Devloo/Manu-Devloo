@@ -1,1 +1,2 @@
-ErrorDocument 404 /404.html
+ErrorDocument 404 /other/404.html
+ErrorDocument 403 /fouten/geen-toegang.html

@@ -405,6 +405,9 @@ footer .links img {
 }
 
 @media screen and (max-width: 1000px) {
+  main h1 {
+    font-size: 4rem;
+  }
   main .contactMe {
     display: none;
   }
@@ -421,12 +424,10 @@ footer .links img {
     max-width: unset;
     grid-template-columns: 100%;
     margin-bottom: 4rem;
-    justify-content: center;
-    align-items: center;
   }
   main .AboutMe .stats {
-    height: auto;
-    width: 100%;
+    height: 80%;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
   }
