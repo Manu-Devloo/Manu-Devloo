@@ -218,14 +218,14 @@ main {
         justify-content: center;
         align-items: center;
 
-        .Website {
+        .Website{
             height: 70vh;
             padding: 1rem;
             width: auto;
             background-color: var(--back-color-2);
             border-radius: 0.5rem;
 
-            .webPagina {
+            .webPagina{
                 width: 100%;
                 height: 100%;
                 overflow: auto;
@@ -239,7 +239,25 @@ main {
             }
         }
 
-        .websiteExtraInfo {
+        .Nest{
+            height: auto;
+            padding: 1rem;
+            width: auto;
+            background-color: var(--back-color-2);
+            border-radius: 0.5rem;
+
+            .NestPagina{
+                height: auto;
+                width: 100%;
+                border-radius: 0.5rem;
+
+                img{
+                    width: 100%;
+                }
+            }
+        }
+
+        .websiteExtraInfo, .NestExtraInfo {
             border-radius: 0.5rem;
 
             .info,
@@ -280,6 +298,12 @@ main {
                 background-color: var(--acent-color);
                 color: var(--color);
                 transition: background-color 0.5s ease;
+            }
+        }
+
+        .NestExtraInfo{
+            .info{
+                padding: 1rem;
             }
         }
     }

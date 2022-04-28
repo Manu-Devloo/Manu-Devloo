@@ -211,11 +211,27 @@ main .Projects .Website .webPagina {
 main .Projects .Website .webPagina img {
   width: 100%;
 }
-main .Projects .websiteExtraInfo {
+main .Projects .Nest {
+  height: auto;
+  padding: 1rem;
+  width: auto;
+  background-color: var(--back-color-2);
+  border-radius: 0.5rem;
+}
+main .Projects .Nest .NestPagina {
+  height: auto;
+  width: 100%;
+  border-radius: 0.5rem;
+}
+main .Projects .Nest .NestPagina img {
+  width: 100%;
+}
+main .Projects .websiteExtraInfo, main .Projects .NestExtraInfo {
   border-radius: 0.5rem;
 }
 main .Projects .websiteExtraInfo .info,
-main .Projects .websiteExtraInfo .links {
+main .Projects .websiteExtraInfo .links, main .Projects .NestExtraInfo .info,
+main .Projects .NestExtraInfo .links {
   padding: 0.5rem;
   display: block;
   background-color: var(--back-color-2);
@@ -224,16 +240,17 @@ main .Projects .websiteExtraInfo .links {
   color: inherit;
 }
 main .Projects .websiteExtraInfo .info h3,
-main .Projects .websiteExtraInfo .links h3 {
+main .Projects .websiteExtraInfo .links h3, main .Projects .NestExtraInfo .info h3,
+main .Projects .NestExtraInfo .links h3 {
   text-align: center;
 }
-main .Projects .websiteExtraInfo .links {
+main .Projects .websiteExtraInfo .links, main .Projects .NestExtraInfo .links {
   margin-top: 1rem;
 }
-main .Projects .websiteExtraInfo .links a {
+main .Projects .websiteExtraInfo .links a, main .Projects .NestExtraInfo .links a {
   color: inherit;
 }
-main .Projects .websiteExtraInfo .alleProjecten {
+main .Projects .websiteExtraInfo .alleProjecten, main .Projects .NestExtraInfo .alleProjecten {
   display: block;
   position: relative;
   padding: 1rem;
@@ -244,10 +261,13 @@ main .Projects .websiteExtraInfo .alleProjecten {
   margin-top: 2rem;
   text-decoration: none;
 }
-main .Projects .websiteExtraInfo .alleProjecten:hover {
+main .Projects .websiteExtraInfo .alleProjecten:hover, main .Projects .NestExtraInfo .alleProjecten:hover {
   background-color: var(--acent-color);
   color: var(--color);
   transition: background-color 0.5s ease;
+}
+main .Projects .NestExtraInfo .info {
+  padding: 1rem;
 }
 main * {
   opacity: 0;
