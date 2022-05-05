@@ -31,6 +31,7 @@ body {
           animation-duration: 2s;
   -webkit-animation-name: scale-up-center;
           animation-name: scale-up-center;
+  overflow-x: hidden;
 }
 body h2 {
   color: var(--color-2);
