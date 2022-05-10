@@ -137,7 +137,7 @@ main {
         font-weight: 900;
     }
 
-    .intro{
+    .intro {
         height: 100vh;
     }
 
@@ -187,6 +187,30 @@ main {
         background-color: var(--acent-color);
         color: var(--color);
         transition: background-color 0.5s ease;
+    }
+
+    .Scroll {
+        position: absolute;
+        bottom: 1.5rem;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        color: red;
+        font-size: 0.8rem;
+    }
+
+    .bounce {
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-name: bounce;
+        animation-timing-function: ease;
+    }
+
+    .Left {
+        left: 0;
+    }
+
+    .Right {
+        right: 0;
     }
 
     .AboutMe {
@@ -467,7 +491,7 @@ footer {
             font-size: 4rem;
         }
 
-        .intoduction::before{
+        .intoduction::before {
             top: 10.5rem;
         }
 
@@ -539,5 +563,22 @@ footer {
     100% {
         -webkit-transform: scale(1);
         transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    50% {
+        -webkit-transform: translateY(-15px);
+        transform: translateY(-15px);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
     }
 }
