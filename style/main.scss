@@ -20,9 +20,8 @@
 }
 
 html {
-    scroll-snap-align: end;
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7rem;
 }
 
 body {
@@ -138,6 +137,10 @@ main {
         font-weight: 900;
     }
 
+    .intro{
+        height: 100vh;
+    }
+
     h1 {
         font-family: "Anton", sans-serif;
         font-size: 5rem;
@@ -219,14 +222,14 @@ main {
         justify-content: center;
         align-items: center;
 
-        .Website{
+        .Website {
             height: 70vh;
             padding: 1rem;
             width: auto;
             background-color: var(--back-color-2);
             border-radius: 0.5rem;
 
-            .webPagina{
+            .webPagina {
                 width: 100%;
                 height: 100%;
                 overflow: auto;
@@ -240,25 +243,27 @@ main {
             }
         }
 
-        .Nest{
+        .Nest {
             height: auto;
             padding: 1rem;
             width: auto;
             background-color: var(--back-color-2);
             border-radius: 0.5rem;
 
-            .NestPagina{
+            .NestPagina {
                 height: auto;
                 width: 100%;
                 border-radius: 0.5rem;
 
-                img{
+                img {
                     width: 100%;
+                    border-radius: 0.5rem;
                 }
             }
         }
 
-        .websiteExtraInfo, .NestExtraInfo {
+        .websiteExtraInfo,
+        .NestExtraInfo {
             border-radius: 0.5rem;
 
             .info,
@@ -302,20 +307,11 @@ main {
             }
         }
 
-        .NestExtraInfo{
-            .info{
+        .NestExtraInfo {
+            .info {
                 padding: 1rem;
             }
         }
-    }
-
-    * {
-        opacity: 0;
-        transition: opacity 250ms ease-in;
-    }
-
-    *.appear {
-        opacity: 1;
     }
 }
 
@@ -323,15 +319,6 @@ footer {
     margin-left: 3rem;
     margin-right: 2rem;
     margin-bottom: 3rem;
-
-    * {
-        opacity: 0;
-        transition: opacity 250ms ease-in;
-    }
-
-    *.appear {
-        opacity: 1;
-    }
 
     .contact {
         display: grid;
@@ -354,18 +341,18 @@ footer {
                 align-items: center;
                 width: 100%;
 
-                ::placeholder {
+                &::placeholder {
                     /* Chrome, Firefox, Opera, Safari 10.1+ */
                     color: darkgrey;
                     opacity: 1; /* Firefox */
                 }
 
-                :-ms-input-placeholder {
+                &:-ms-input-placeholder {
                     /* Internet Explorer 10-11 */
                     color: darkgrey;
                 }
 
-                ::-ms-input-placeholder {
+                &::-ms-input-placeholder {
                     /* Microsoft Edge */
                     color: darkgrey;
                 }
@@ -476,9 +463,13 @@ footer {
 
 @media screen and (max-width: 1000px) {
     main {
-h1{
-    font-size: 4rem;
-}
+        h1 {
+            font-size: 4rem;
+        }
+
+        .intoduction::before{
+            top: 10.5rem;
+        }
 
         .contactMe {
             display: none;
@@ -512,6 +503,7 @@ h1{
     }
 
     footer {
+        margin-top: 15rem;
         .contact {
             grid-template-columns: 100%;
         }

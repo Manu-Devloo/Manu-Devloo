@@ -17,9 +17,8 @@
   }
 }
 html {
-  scroll-snap-align: end;
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 7rem;
 }
 
 body {
@@ -126,6 +125,9 @@ main .subIntro::after {
   left: 2rem;
   font-weight: 900;
 }
+main .intro {
+  height: 100vh;
+}
 main h1 {
   font-family: "Anton", sans-serif;
   font-size: 5rem;
@@ -226,12 +228,15 @@ main .Projects .Nest .NestPagina {
 }
 main .Projects .Nest .NestPagina img {
   width: 100%;
+  border-radius: 0.5rem;
 }
-main .Projects .websiteExtraInfo, main .Projects .NestExtraInfo {
+main .Projects .websiteExtraInfo,
+main .Projects .NestExtraInfo {
   border-radius: 0.5rem;
 }
 main .Projects .websiteExtraInfo .info,
-main .Projects .websiteExtraInfo .links, main .Projects .NestExtraInfo .info,
+main .Projects .websiteExtraInfo .links,
+main .Projects .NestExtraInfo .info,
 main .Projects .NestExtraInfo .links {
   padding: 0.5rem;
   display: block;
@@ -241,17 +246,21 @@ main .Projects .NestExtraInfo .links {
   color: inherit;
 }
 main .Projects .websiteExtraInfo .info h3,
-main .Projects .websiteExtraInfo .links h3, main .Projects .NestExtraInfo .info h3,
+main .Projects .websiteExtraInfo .links h3,
+main .Projects .NestExtraInfo .info h3,
 main .Projects .NestExtraInfo .links h3 {
   text-align: center;
 }
-main .Projects .websiteExtraInfo .links, main .Projects .NestExtraInfo .links {
+main .Projects .websiteExtraInfo .links,
+main .Projects .NestExtraInfo .links {
   margin-top: 1rem;
 }
-main .Projects .websiteExtraInfo .links a, main .Projects .NestExtraInfo .links a {
+main .Projects .websiteExtraInfo .links a,
+main .Projects .NestExtraInfo .links a {
   color: inherit;
 }
-main .Projects .websiteExtraInfo .alleProjecten, main .Projects .NestExtraInfo .alleProjecten {
+main .Projects .websiteExtraInfo .alleProjecten,
+main .Projects .NestExtraInfo .alleProjecten {
   display: block;
   position: relative;
   padding: 1rem;
@@ -262,7 +271,8 @@ main .Projects .websiteExtraInfo .alleProjecten, main .Projects .NestExtraInfo .
   margin-top: 2rem;
   text-decoration: none;
 }
-main .Projects .websiteExtraInfo .alleProjecten:hover, main .Projects .NestExtraInfo .alleProjecten:hover {
+main .Projects .websiteExtraInfo .alleProjecten:hover,
+main .Projects .NestExtraInfo .alleProjecten:hover {
   background-color: var(--acent-color);
   color: var(--color);
   transition: background-color 0.5s ease;
@@ -270,25 +280,11 @@ main .Projects .websiteExtraInfo .alleProjecten:hover, main .Projects .NestExtra
 main .Projects .NestExtraInfo .info {
   padding: 1rem;
 }
-main * {
-  opacity: 0;
-  transition: opacity 250ms ease-in;
-}
-main *.appear {
-  opacity: 1;
-}
 
 footer {
   margin-left: 3rem;
   margin-right: 2rem;
   margin-bottom: 3rem;
-}
-footer * {
-  opacity: 0;
-  transition: opacity 250ms ease-in;
-}
-footer *.appear {
-  opacity: 1;
 }
 footer .contact {
   display: grid;
@@ -311,29 +307,29 @@ footer .contact .contactInfo form {
   align-items: center;
   width: 100%;
 }
-footer .contact .contactInfo form ::-moz-placeholder {
+footer .contact .contactInfo form::-moz-placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: darkgrey;
   opacity: 1;
   /* Firefox */
 }
-footer .contact .contactInfo form :-ms-input-placeholder {
+footer .contact .contactInfo form:-ms-input-placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: darkgrey;
   opacity: 1;
   /* Firefox */
 }
-footer .contact .contactInfo form ::placeholder {
+footer .contact .contactInfo form::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: darkgrey;
   opacity: 1;
   /* Firefox */
 }
-footer .contact .contactInfo form :-ms-input-placeholder {
+footer .contact .contactInfo form:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: darkgrey;
 }
-footer .contact .contactInfo form ::-ms-input-placeholder {
+footer .contact .contactInfo form::-ms-input-placeholder {
   /* Microsoft Edge */
   color: darkgrey;
 }
@@ -429,6 +425,9 @@ footer .links img {
   main h1 {
     font-size: 4rem;
   }
+  main .intoduction::before {
+    top: 10.5rem;
+  }
   main .contactMe {
     display: none;
   }
@@ -453,6 +452,9 @@ footer .links img {
     margin-right: auto;
   }
 
+  footer {
+    margin-top: 15rem;
+  }
   footer .contact {
     grid-template-columns: 100%;
   }
