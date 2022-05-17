@@ -1,0 +1,56 @@
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    margin: 0;
+    padding: 2rem;
+    overflow-x: hidden;
+}
+
+.navbar{
+    padding: 1rem;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.navbar ul{
+    padding-right: 2rem;
+    float: right;
+}
+
+.navbar li{
+    display: inline;
+    margin: 0.5rem;
+}
+
+.dark{
+    background-color: rgb(70, 70, 70);
+    color: rgb(224, 224, 224);
+}
+
+.light{
+    background-color: lightgray;
+    color: black;
+}
+
+main{
+    margin-top: 4rem;
+}
+
+.box{
+    border-radius: 0.5rem;
+    display: inline-block;
+    padding: 1.5rem;
+}
+
+.box.dark{
+    background-color: rgba(70, 70, 70, 0.85);
+}
+
+.box.light{
+    background-color: rgba(211, 211, 211, 0.85);
+}
