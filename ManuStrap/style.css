@@ -1,14 +1,17 @@
-html{
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html {
     scroll-behavior: smooth;
 }
 
-body{
+body {
     margin: 0;
     padding: 2rem;
     overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
 }
 
-.navbar{
+.navbar {
     padding: 1rem;
     display: block;
     position: fixed;
@@ -17,40 +20,118 @@ body{
     width: 100%;
 }
 
-.navbar ul{
+.navbar ul {
     padding-right: 2rem;
     float: right;
 }
 
-.navbar li{
+.navbar li {
     display: inline;
     margin: 0.5rem;
 }
 
-.dark{
+.navbar a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbarSide-left {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    left: 0;
+    text-align: center;
+}
+
+.navbarSide-right {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    right: 0;
+    text-align: center;
+}
+
+.navbarSide-left, .navbarSide-right {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbarSide-left a, .navbarSide-right a {
+    display: block;
+    padding: 1.5rem;
+}
+
+.navbarSide-left.dark a, .navbarSide-right.dark a {
+    border: 1px solid black;
+    color: inherit;
+    text-decoration: none;
+}
+
+.dark {
     background-color: rgb(70, 70, 70);
     color: rgb(224, 224, 224);
 }
 
-.light{
+.light {
     background-color: lightgray;
     color: black;
 }
 
-main{
-    margin-top: 4rem;
-}
-
-.box{
+.box {
     border-radius: 0.5rem;
     display: inline-block;
-    padding: 1.5rem;
+    padding: 0.5rem;
 }
 
-.box.dark{
+.box.dark {
     background-color: rgba(70, 70, 70, 0.85);
 }
 
-.box.light{
+.box.light {
     background-color: rgba(211, 211, 211, 0.85);
+}
+
+.hidden {
+    display: none;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.opacity-50 {
+    opacity: 50%;
+}
+
+.opacity-100 {
+    opacity: 100%;
+}
+
+.cleanList {
+    list-style: none;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.brackets::before{
+    content: "<";
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.brackets::after{
+    content: ">";
+    font-size: inherit;
+    font-family: inherit;
 }
