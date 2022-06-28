@@ -86,6 +86,7 @@ header .navBackground {
 main {
   margin-left: 3rem;
   margin-right: 2rem;
+  margin-bottom: 5rem;
 }
 main .intro {
   height: 200vh;
@@ -459,30 +460,30 @@ footer .links img {
 }
 
 @media screen and (max-width: 1000px) {
-  main h1 {
+  main .intro .under h1 {
     font-size: 4rem;
   }
-  main .intoduction::before {
-    top: 10.5rem;
+  main .intro .under .intoduction::before {
+    top: 5rem;
   }
-  main .contactMe {
+  main .intro .under .contactMe {
     display: none;
   }
-  main .Projects {
+  main .over .Projects {
     grid-template-columns: 100%;
   }
-  main .Projects .Website {
+  main .over .Projects .Website {
     height: 50vh;
   }
-  main .Projects .Website .webPagina img {
+  main .over .Projects .Website .webPagina img {
     width: 100%;
   }
-  main .AboutMe {
+  main .over .AboutMe {
     max-width: unset;
     grid-template-columns: 100%;
     margin-bottom: 4rem;
   }
-  main .AboutMe .stats {
+  main .over .AboutMe .stats {
     height: 80%;
     width: auto;
     margin-left: auto;

@@ -94,6 +94,7 @@ header {
 main {
     margin-left: 3rem;
     margin-right: 2rem;
+    margin-bottom: 5rem;
 
     .intro {
         height: 200vh;
@@ -499,41 +500,47 @@ footer {
 
 @media screen and (max-width: 1000px) {
     main {
-        h1 {
-            font-size: 4rem;
-        }
-
-        .intoduction::before {
-            top: 10.5rem;
-        }
-
-        .contactMe {
-            display: none;
-        }
-
-        .Projects {
-            grid-template-columns: 100%;
-
-            .Website {
-                height: 50vh;
-                .webPagina {
-                    img {
-                        width: 100%;
-                    }
+        .intro{
+            .under{
+                h1 {
+                    font-size: 4rem;
+                }
+        
+                .intoduction::before {
+                    top: 5rem;
+                }
+        
+                .contactMe {
+                    display: none;
                 }
             }
         }
 
-        .AboutMe {
-            max-width: unset;
-            grid-template-columns: 100%;
-            margin-bottom: 4rem;
-
-            .stats {
-                height: 80%;
-                width: auto;
-                margin-left: auto;
-                margin-right: auto;
+        .over{
+            .Projects {
+                grid-template-columns: 100%;
+    
+                .Website {
+                    height: 50vh;
+                    .webPagina {
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+    
+            .AboutMe {
+                max-width: unset;
+                grid-template-columns: 100%;
+                margin-bottom: 4rem;
+    
+                .stats {
+                    height: 80%;
+                    width: auto;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
             }
         }
     }
