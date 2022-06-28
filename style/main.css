@@ -86,7 +86,6 @@ header .navBackground {
 main {
   margin-left: 3rem;
   margin-right: 2rem;
-  margin-bottom: 5rem;
 }
 main .intro {
   height: 200vh;
@@ -252,30 +251,11 @@ main .over .Projects .Website .webPagina {
 main .over .Projects .Website .webPagina img {
   width: 100%;
 }
-main .over .Projects .Nest {
-  height: auto;
-  padding: 1rem;
-  width: auto;
-  background-color: var(--back-color-2);
-  border-radius: 0.5rem;
-}
-main .over .Projects .Nest .NestPagina {
-  height: auto;
-  width: 100%;
-  border-radius: 0.5rem;
-}
-main .over .Projects .Nest .NestPagina img {
-  width: 100%;
-  border-radius: 0.5rem;
-}
-main .over .Projects .websiteExtraInfo,
-main .over .Projects .NestExtraInfo {
+main .over .Projects .websiteExtraInfo {
   border-radius: 0.5rem;
 }
 main .over .Projects .websiteExtraInfo .info,
-main .over .Projects .websiteExtraInfo .links,
-main .over .Projects .NestExtraInfo .info,
-main .over .Projects .NestExtraInfo .links {
+main .over .Projects .websiteExtraInfo .links {
   padding: 0.5rem;
   display: block;
   background-color: var(--back-color-2);
@@ -284,21 +264,16 @@ main .over .Projects .NestExtraInfo .links {
   color: inherit;
 }
 main .over .Projects .websiteExtraInfo .info h3,
-main .over .Projects .websiteExtraInfo .links h3,
-main .over .Projects .NestExtraInfo .info h3,
-main .over .Projects .NestExtraInfo .links h3 {
+main .over .Projects .websiteExtraInfo .links h3 {
   text-align: center;
 }
-main .over .Projects .websiteExtraInfo .links,
-main .over .Projects .NestExtraInfo .links {
+main .over .Projects .websiteExtraInfo .links {
   margin-top: 1rem;
 }
-main .over .Projects .websiteExtraInfo .links a,
-main .over .Projects .NestExtraInfo .links a {
+main .over .Projects .websiteExtraInfo .links a {
   color: inherit;
 }
-main .over .Projects .websiteExtraInfo .alleProjecten,
-main .over .Projects .NestExtraInfo .alleProjecten {
+main .over .Projects .websiteExtraInfo .alleProjecten {
   display: block;
   position: relative;
   padding: 1rem;
@@ -309,14 +284,10 @@ main .over .Projects .NestExtraInfo .alleProjecten {
   margin-top: 2rem;
   text-decoration: none;
 }
-main .over .Projects .websiteExtraInfo .alleProjecten:hover,
-main .over .Projects .NestExtraInfo .alleProjecten:hover {
+main .over .Projects .websiteExtraInfo .alleProjecten:hover {
   background-color: var(--acent-color);
   color: var(--color);
   transition: background-color 0.5s ease;
-}
-main .over .Projects .NestExtraInfo .info {
-  padding: 1rem;
 }
 
 footer {
@@ -345,32 +316,6 @@ footer .contact .contactInfo form {
   align-items: center;
   width: 100%;
 }
-footer .contact .contactInfo form::-moz-placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: darkgrey;
-  opacity: 1;
-  /* Firefox */
-}
-footer .contact .contactInfo form:-ms-input-placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: darkgrey;
-  opacity: 1;
-  /* Firefox */
-}
-footer .contact .contactInfo form::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: darkgrey;
-  opacity: 1;
-  /* Firefox */
-}
-footer .contact .contactInfo form:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: darkgrey;
-}
-footer .contact .contactInfo form::-ms-input-placeholder {
-  /* Microsoft Edge */
-  color: darkgrey;
-}
 footer .contact .contactInfo form #subject,
 footer .contact .contactInfo form textarea,
 footer .contact .contactInfo form #verzenden {
@@ -392,6 +337,26 @@ footer .contact .contactInfo form #subject {
   letter-spacing: 2px;
   color: var(--color);
 }
+footer .contact .contactInfo form #email::-moz-placeholder, footer .contact .contactInfo form #name::-moz-placeholder, footer .contact .contactInfo form #subject::-moz-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: darkgray;
+  opacity: 1;
+  /* Firefox */
+}
+footer .contact .contactInfo form #email:-ms-input-placeholder, footer .contact .contactInfo form #name:-ms-input-placeholder, footer .contact .contactInfo form #subject:-ms-input-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: darkgray;
+  opacity: 1;
+  /* Firefox */
+}
+footer .contact .contactInfo form #email::placeholder,
+footer .contact .contactInfo form #name::placeholder,
+footer .contact .contactInfo form #subject::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: darkgray;
+  opacity: 1;
+  /* Firefox */
+}
 footer .contact .contactInfo form #verzenden {
   text-align: center;
   padding: 0.5rem;
@@ -411,16 +376,35 @@ footer .contact .contactInfo form textarea {
   color: inherit;
   margin-top: 1rem;
   letter-spacing: 2px;
+  height: auto;
 }
-footer .contact .contactInfo form textarea:focus,
-footer .contact .contactInfo form #email:focus,
-footer .contact .contactInfo form #name:focus,
-footer .contact .contactInfo form #subject:focus {
+footer .contact .contactInfo form textarea::-moz-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: darkgray;
+  opacity: 1;
+  /* Firefox */
+}
+footer .contact .contactInfo form textarea:-ms-input-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: darkgray;
+  opacity: 1;
+  /* Firefox */
+}
+footer .contact .contactInfo form textarea::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: darkgray;
+  opacity: 1;
+  /* Firefox */
+}
+footer .contact .contactInfo textarea:focus,
+footer .contact .contactInfo #email:focus,
+footer .contact .contactInfo #name:focus,
+footer .contact .contactInfo #subject:focus {
   outline: none;
   border-bottom: 2px solid red;
   transition: border 1s;
 }
-footer .contact iframe {
+footer iframe {
   border-radius: 0.5rem;
   border: 1px solid red;
   height: 100%;
@@ -460,6 +444,9 @@ footer .links img {
 }
 
 @media screen and (max-width: 1000px) {
+  main {
+    margin-bottom: -6rem;
+  }
   main .intro .under h1 {
     font-size: 4rem;
   }

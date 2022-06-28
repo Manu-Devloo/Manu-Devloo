@@ -94,7 +94,6 @@ header {
 main {
     margin-left: 3rem;
     margin-right: 2rem;
-    margin-bottom: 5rem;
 
     .intro {
         height: 200vh;
@@ -113,7 +112,7 @@ main {
                 font-weight: 900;
                 top: 6rem;
             }
-    
+
             .intoduction::after {
                 content: "</h1>";
                 font-family: "Stylish", sans-serif;
@@ -123,7 +122,7 @@ main {
                 left: 0;
                 font-weight: 900;
             }
-    
+
             .subIntro::before {
                 content: "<p>";
                 font-family: "Stylish", sans-serif;
@@ -133,7 +132,7 @@ main {
                 left: 0;
                 font-weight: 900;
             }
-    
+
             .subIntro::after {
                 content: "</p>";
                 font-family: "Stylish", sans-serif;
@@ -143,7 +142,7 @@ main {
                 left: 0;
                 font-weight: 900;
             }
-    
+
             h1 {
                 font-family: "Anton", sans-serif;
                 font-size: 5rem;
@@ -152,7 +151,7 @@ main {
                 padding-top: 0;
                 color: var(--color-2);
             }
-    
+
             .intoduction {
                 span {
                     transition: font-size 0.2s;
@@ -162,13 +161,13 @@ main {
                     font-size: 4.5rem;
                 }
             }
-    
+
             .subIntro {
                 font-size: 1.4rem;
                 padding-bottom: 10rem;
                 color: var(--color-2);
             }
-    
+
             .contactMe {
                 border: 1px solid var(--acent-color);
                 color: var(--acent-color);
@@ -185,7 +184,7 @@ main {
                 border-radius: 0.5rem;
                 text-decoration: none;
             }
-    
+
             .contactMe:hover {
                 background-color: var(--acent-color);
                 color: var(--color);
@@ -194,28 +193,28 @@ main {
         }
 
         .Scroll {
-        position: absolute;
-        bottom: 1.5rem;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
-        color: red;
-        font-size: 0.8rem;
-    }
+            position: absolute;
+            bottom: 1.5rem;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            color: red;
+            font-size: 0.8rem;
+        }
 
-    .bounce {
-        animation-duration: 2s;
-        animation-iteration-count: infinite;
-        animation-name: bounce;
-        animation-timing-function: ease;
-    }
+        .bounce {
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-name: bounce;
+            animation-timing-function: ease;
+        }
 
-    .Left {
-        left: 0;
-    }
+        .Left {
+            left: 0;
+        }
 
-    .Right {
-        right: 0;
-    }
+        .Right {
+            right: 0;
+        }
     }
 
     .over {
@@ -279,27 +278,7 @@ main {
                 }
             }
 
-            .Nest {
-                height: auto;
-                padding: 1rem;
-                width: auto;
-                background-color: var(--back-color-2);
-                border-radius: 0.5rem;
-
-                .NestPagina {
-                    height: auto;
-                    width: 100%;
-                    border-radius: 0.5rem;
-
-                    img {
-                        width: 100%;
-                        border-radius: 0.5rem;
-                    }
-                }
-            }
-
-            .websiteExtraInfo,
-            .NestExtraInfo {
+            .websiteExtraInfo{
                 border-radius: 0.5rem;
 
                 .info,
@@ -342,12 +321,6 @@ main {
                     transition: background-color 0.5s ease;
                 }
             }
-
-            .NestExtraInfo {
-                .info {
-                    padding: 1rem;
-                }
-            }
         }
     }
 }
@@ -378,22 +351,6 @@ footer {
                 align-items: center;
                 width: 100%;
 
-                &::placeholder {
-                    /* Chrome, Firefox, Opera, Safari 10.1+ */
-                    color: darkgrey;
-                    opacity: 1; /* Firefox */
-                }
-
-                &:-ms-input-placeholder {
-                    /* Internet Explorer 10-11 */
-                    color: darkgrey;
-                }
-
-                &::-ms-input-placeholder {
-                    /* Microsoft Edge */
-                    color: darkgrey;
-                }
-
                 #subject,
                 textarea,
                 #verzenden {
@@ -416,6 +373,12 @@ footer {
                     color: inherit;
                     letter-spacing: 2px;
                     color: var(--color);
+
+                    &::placeholder {
+                        /* Chrome, Firefox, Opera, Safari 10.1+ */
+                        color: darkgray;
+                        opacity: 1; /* Firefox */
+                    }
                 }
 
                 #verzenden {
@@ -438,26 +401,33 @@ footer {
                     color: inherit;
                     margin-top: 1rem;
                     letter-spacing: 2px;
-                }
+                    height: auto;
 
-                textarea:focus,
-                #email:focus,
-                #name:focus,
-                #subject:focus {
-                    outline: none;
-                    border-bottom: 2px solid red;
-                    transition: border 1s;
+                    &::placeholder {
+                        /* Chrome, Firefox, Opera, Safari 10.1+ */
+                        color: darkgray;
+                        opacity: 1; /* Firefox */
+                    }
                 }
             }
-        }
 
-        iframe {
-            border-radius: 0.5rem;
-            border: 1px solid red;
-            height: 100%;
-            width: 100%;
-            font-family: inherit;
+            textarea:focus,
+            #email:focus,
+            #name:focus,
+            #subject:focus {
+                outline: none;
+                border-bottom: 2px solid red;
+                transition: border 1s;
+            }
         }
+    }
+
+    iframe {
+        border-radius: 0.5rem;
+        border: 1px solid red;
+        height: 100%;
+        width: 100%;
+        font-family: inherit;
     }
 
     .links {
@@ -500,26 +470,28 @@ footer {
 
 @media screen and (max-width: 1000px) {
     main {
-        .intro{
-            .under{
+        margin-bottom: -6rem;
+
+        .intro {
+            .under {
                 h1 {
                     font-size: 4rem;
                 }
-        
+
                 .intoduction::before {
                     top: 5rem;
                 }
-        
+
                 .contactMe {
                     display: none;
                 }
             }
         }
 
-        .over{
+        .over {
             .Projects {
                 grid-template-columns: 100%;
-    
+
                 .Website {
                     height: 50vh;
                     .webPagina {
@@ -529,12 +501,12 @@ footer {
                     }
                 }
             }
-    
+
             .AboutMe {
                 max-width: unset;
                 grid-template-columns: 100%;
                 margin-bottom: 4rem;
-    
+
                 .stats {
                     height: 80%;
                     width: auto;
