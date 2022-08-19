@@ -73,6 +73,12 @@ header .navBackground {
   background-color: black;
 }
 
+@media screen and (max-width: 1000px) {
+  header {
+    -webkit-animation: none;
+            animation: none;
+  }
+}
 main {
   margin-left: 3rem;
   margin-right: 2rem;
@@ -300,6 +306,40 @@ main .over .Projects .websiteExtraInfo .alleProjecten:hover {
   transition: background-color 0.5s ease;
 }
 
+@media screen and (max-width: 1000px) {
+  main {
+    margin-bottom: -6rem;
+  }
+  main .intro .under h1 {
+    font-size: 4rem;
+  }
+  main .intro .under .intoduction::before {
+    top: 5rem;
+  }
+  main .intro .under .contactMe {
+    display: none;
+  }
+  main .over .Projects {
+    grid-template-columns: 100%;
+  }
+  main .over .Projects .Website {
+    height: 50vh;
+  }
+  main .over .Projects .Website .webPagina img {
+    width: 100%;
+  }
+  main .over .AboutMe {
+    max-width: unset;
+    grid-template-columns: 100%;
+    margin-bottom: 4rem;
+  }
+  main .over .AboutMe .stats {
+    height: 80%;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 footer {
   margin-left: 3rem;
   margin-right: 2rem;
@@ -454,49 +494,6 @@ footer .links img {
 }
 
 @media screen and (max-width: 1000px) {
-  body {
-    -webkit-animation: none;
-            animation: none;
-  }
-
-  header {
-    -webkit-animation: none;
-            animation: none;
-  }
-
-  main {
-    margin-bottom: -6rem;
-  }
-  main .intro .under h1 {
-    font-size: 4rem;
-  }
-  main .intro .under .intoduction::before {
-    top: 5rem;
-  }
-  main .intro .under .contactMe {
-    display: none;
-  }
-  main .over .Projects {
-    grid-template-columns: 100%;
-  }
-  main .over .Projects .Website {
-    height: 50vh;
-  }
-  main .over .Projects .Website .webPagina img {
-    width: 100%;
-  }
-  main .over .AboutMe {
-    max-width: unset;
-    grid-template-columns: 100%;
-    margin-bottom: 4rem;
-  }
-  main .over .AboutMe .stats {
-    height: 80%;
-    width: auto;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   footer {
     margin-top: 15rem;
   }
@@ -568,4 +565,4 @@ footer .links img {
   100% {
     transform: translateY(0);
   }
-}/*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=style.css.map */
