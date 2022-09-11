@@ -1,10 +1,10 @@
-# Hey, Ik ben Manu Devloo
+# Ik heet Manu Devloo
 
 <br>
 
 ## Info over mezelf: 
 
-<p style="font-size: 15px;">Ik ben startend web developer. Momenteel ben ik nog aan het studeren, ik zit in het 5de middelbaar technische informatica.</p>
+<p style="font-size: 15px;">Ik ben startend web developer. Als 17 jarige volg ik de studieriching Technishe informatica.</p>
 
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Manu-Devloo&hide=prs&show_icons=true&theme=dark&layout=compact)
 
@@ -15,9 +15,9 @@
 
 ## Projecten:
 
-<p style="font-size: 15px;">Ik heb al een paar projecten gedaan waarvan de grootste
+<p style="font-size: 15px;">Ik heb reeds enkele een paar projecten gerealiseerd, waarvan de voornaamste:
 <br>
-Deze site voor Rak Sunakh:
+Website Rak Sunakh:
 <br>
 <a href="https://thai-ridgeback.eu">thai-ridgeback.eu</a>
 </p>
