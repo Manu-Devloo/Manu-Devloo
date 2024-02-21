@@ -4,7 +4,7 @@
 
 ## Info over mezelf: 
 
-<p style="font-size: 15px;">Ik ben startend web developer. Als 17 jarige volg ik de studieriching Technishe informatica.</p>
+<p style="font-size: 15px;">Ik ben startend web developer. Als 18 jarige volg ik de bachelor toegepaste informatica aan HoGent.</p>
 
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Manu-Devloo&hide=prs&show_icons=true&theme=dark&layout=compact)
 
