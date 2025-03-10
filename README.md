@@ -1,7 +1,5 @@
 # Manu Devloo
 
-![Profile Image](https://avatars.githubusercontent.com/u/95429732?s=400&u=7ce3a3bb8608b2cf3d5476347e646955c403c8a0&v=4)
-
 **Bachelor Student in Applied Computer Science** | Age: 19 | Bevrijdingslaan 85 A, 9200 Appels, Dendermonde, Belgium
 
 ## About Me
