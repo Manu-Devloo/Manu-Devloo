@@ -1,37 +1,35 @@
 name: Generate README
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  generate:
+  generate-readme:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: '16'
-
-    - name: Enable Corepack
-      run: corepack enable
-
+        node-version: '18.12.0'
+        
     - name: Install dependencies
-      run: |
-        corepack prepare yarn@4.7.0 --activate
-        yarn install
-
+      run: yarn install
+    
     - name: Generate README
       run: yarn generate-readme
 
-    - name: Commit changes
+    - name: Commit and push changes
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add README.md
         git commit -m 'Update README'
         git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
