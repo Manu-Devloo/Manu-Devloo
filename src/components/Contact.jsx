@@ -94,25 +94,36 @@ function Contact() {
         </Col>
         
         <Col lg={6}>
-          <Form name="Contact Portfolio" netlify className={isDarkMode ? "dark-form" : ""}>
+          <Form 
+            name="contact" 
+            method="POST" 
+            data-netlify="true" 
+            data-netlify-honeypot="bot-field" 
+            className={isDarkMode ? "dark-form" : ""}>
+            
+            <input type="hidden" name="form-name" value="contact" />
+            <p className="hidden" style={{ display: 'none' }}>
+              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </p>
+            
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Your Name" />
+              <Form.Control type="text" name="name" placeholder="Your Name" />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Your Email" />
+              <Form.Control type="email" name="email" placeholder="Your Email" />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Label>Subject</Form.Label>
-              <Form.Control type="text" placeholder="Subject" />
+              <Form.Control type="text" name="subject" placeholder="Subject" />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Label>Message</Form.Label>
-              <Form.Control as="textarea" rows={5} placeholder="Your Message" />
+              <Form.Control as="textarea" name="message" rows={5} placeholder="Your Message" />
             </Form.Group>
             
             <Button variant={isDarkMode ? "primary" : "primary"} type="submit">
