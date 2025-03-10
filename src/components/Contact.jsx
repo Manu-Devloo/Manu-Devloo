@@ -94,7 +94,7 @@ function Contact() {
         </Col>
         
         <Col lg={6}>
-          <Form className={isDarkMode ? "dark-form" : ""}>
+          <Form data-netlify="true" className={isDarkMode ? "dark-form" : ""}>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
               <Form.Control type="text" placeholder="Your Name" />
