@@ -1,0 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+// Light Theme Variables
+:root {
+  // Primary Colors
+  --primary-color: #2563eb;
+  --secondary-color: #1e3a8a;
+  
+  // Background Colors
+  --bg-color: #ffffff;
+  --light-bg: #f9fafb;
+  --card-bg: #ffffff;
+  
+  // Text Colors
+  --text-color: #333;
+  --text-muted: #666;
+  --text-light: #888;
+  
+  // UI Colors
+  --border-color: #eaeaea;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --footer-bg: #1f2937;
+  --footer-text: #ffffff;
+}
+
+// Dark Theme Variables
+.dark-theme {
+  // Primary Colors
+  --primary-color: #ff3333; // Red primary color
+  --secondary-color: #cc0000; // Darker red
+  
+  // Background Colors
+  --bg-color: #121212;
+  --light-bg: #1e1e1e;
+  --card-bg: #2a2a2a;
+  
+  // Text Colors
+  --text-color: #e0e0e0;
+  --text-muted: #bbbbbb;
+  --text-light: #999999;
+  
+  // UI Colors
+  --border-color: #333333;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --footer-bg: #000000;
+  --footer-text: #e0e0e0;
+}
+
+// Fix for SASS compatibility - move nested rules outside
+.dark-theme .card {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.dark-theme .text-muted {
+  color: var(--text-muted) !important;
+}
+
+// Make sure icons change color with theme
+.dark-theme .text-primary {
+  color: var(--primary-color) !important;
+}
+
+.dark-theme .icon {
+  color: var(--primary-color);
+}
+
+// Button color in dark theme
+.dark-theme .btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.dark-theme .btn-outline-primary {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.dark-theme .btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+}
+
+.dark-theme .timeline-item {
+  border-left-color: var(--primary-color);
+}
+
+.dark-theme .timeline-item::before {
+  background: var(--primary-color);
+}
+
+.dark-theme .hero {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.dark-theme .badge {
+  background-color: var(--secondary-color) !important;
+}
+
+// Global Styles
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  line-height: 1.7;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+section {
+  padding: 5rem 0;
+  background-color: var(--bg-color);
+}
+
+.section-title {
+  position: relative;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 50px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+// Theme toggle button
+.theme-toggle {
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+// Hero Section
+.hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding-top: 100px;
+}
+
+.hero .hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.hero .hero-content h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.hero .hero-image {
+  max-width: 350px;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 0 20px var(--shadow-color);
+}
+
+// About Section
+.about {
+  background-color: var(--light-bg);
+}
+
+// Experience & Education
+.timeline-item {
+  position: relative;
+  padding-left: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-left: 2px solid var(--primary-color);
+}
+
+// Experience Section
+.experience {
+  padding: 2rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  left: -9px;
+  top: 0;
+  background: var(--primary-color);
+}
+
+.timeline-item:last-child {
+  border-left: 0;
+}
+
+.timeline-item .timeline-date {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.timeline-item .timeline-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.timeline-item .timeline-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.position-item {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.position-item:not(:last-child) {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.dark-theme .position-item:not(:last-child) {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.promotion-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #198754;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.promotion-indicator i {
+  font-size: 1rem;
+}
+
+// Skills Section
+.skills {
+  background-color: var(--light-bg);
+  padding: 2rem;
+}
+
+.skills .skill-category {
+  margin-bottom: 2rem;
+}
+
+.skills .skill-item {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+}
+
+.skills .skill-item:hover {
+  transform: translateY(-5px);
+}
+
+.skills .skill-item h5 {
+  margin-bottom: 0.5rem;
+}
+
+// Contact Section
+.contact {
+  padding: 2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.contact .contact-info {
+  margin-bottom: 2rem;
+}
+
+.contact .contact-info .contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.contact .contact-info .contact-item .icon {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-right: 1rem;
+}
+
+.contact .contact-info .contact-item .download-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.contact .contact-info .contact-item .download-link:hover {
+  text-decoration: underline;
+}
+
+// Form styling
+.contact .form-control {
+  background-color: var(--bg-color);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.contact .form-control:focus {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+// Placeholder styling for light theme
+.form-control::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+// Placeholder styling for dark theme
+.dark-theme .form-control::placeholder {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+// Dark theme form focus styles
+.dark-theme .form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(255, 51, 51, 0.25);
+}
+
+// Footer
+footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 2rem 0;
+}
+
+footer .social-icons a {
+  color: var(--footer-text);
+  margin: 0 0.5rem;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+footer .social-icons a:hover {
+  color: var(--primary-color);
+}
+
+// Even-odd section styling for better visual separation
+section:nth-child(even) {
+  background-color: var(--light-bg);
+}
+
+section:nth-child(odd) {
+  background-color: var(--bg-color);
+}
+
+// Card styles
+.card {
+  transition: all 0.3s ease;
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.card .card-title {
+  color: var(--text-color);
+}
+
+.card .card-text {
+  color: var(--text-muted);
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .hero {
+    text-align: center;
+  }
+  
+  .hero .hero-image {
+    margin-top: 2rem;
+    max-width: 250px;
+  }
+  
+  .section-title {
+    text-align: center;
+  }
+  
+  .section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

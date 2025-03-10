@@ -1,0 +1,184 @@
+{
+  "personal": {
+    "name": "Manu Devloo",
+    "title": "Bachelor Student in Applied Computer Science",
+    "profileImage": "https://avatars.githubusercontent.com/u/95429732?s=400&u=7ce3a3bb8608b2cf3d5476347e646955c403c8a0&v=4",
+    "address": "Bevrijdingslaan 85 A, 9200 Appels, Dendermonde, Belgium",
+    "phone": "+32 468 22 74 25",
+    "email": "devloo.prive@gmail.com",
+    "website": null,
+    "linkedin": "https://www.linkedin.com/in/manu-devloo-18557a270/",
+    "github": "https://github.com/Manu-Devloo",
+    "shortBio": "Passionate about software development, with a focus on web development and backend solutions."
+  },
+  "about": [
+    "My passion primarily lies in software development, with a strong focus on web development and backend development. I've always been interested in technology, which has motivated me to continue developing myself and specializing in modern technologies and frameworks.",
+    "My personality traits are: extraversion, intuition, thinking, and judging. I enjoy working on development projects, both frontend and backend. I'm motivated, eager to learn, and enjoy working in a team, but I also like to take the lead on projects. My focus is on writing efficient, scalable, and well-structured code."
+  ],
+  "experiences": [
+    {
+      "company": "Stokerij Rubbens",
+      "location": "Wichelen, Belgium",
+      "positions": [
+        {
+          "title": "All-round Employee",
+          "period": "May 2024 - Present",
+          "responsibilities": [
+            "Setting up events and parties",
+            "Food service and delivery", 
+            "Taking orders from customers",
+            "Cashier duties",
+            "Customer service and guest relations"
+          ]
+        },
+        {
+          "title": "Server",
+          "period": "June 2023 - May 2024",
+          "responsibilities": [
+            "Customer service and hospitality",
+            "Beverage service and delivery"
+          ]
+        }
+      ],
+      "type": "Student Job"
+    },
+    {
+      "company": "Dominos",
+      "location": "Dendermonde, Belgium",
+      "positions": [
+        {
+          "title": "Delivery Driver",
+          "period": "April 2023 - June 2023",
+          "responsibilities": ["Order delivery", "Customer service"]
+        }
+      ],
+      "type": "Student Job"
+    },
+    {
+      "company": "Dee Spas",
+      "location": "Malta",
+      "positions": [
+        {
+          "title": "Intern",
+          "period": "March 2023",
+          "responsibilities": [
+            "Set up Slack server for team communication",
+            "Website analysis and improvement recommendations",
+            "International work experience"
+          ]
+        }
+      ],
+      "type": "Internship"
+    },
+    {
+      "company": "Lidl Belgium & Luxembourg",
+      "location": "De Panne, Belgium",
+      "positions": [
+        {
+          "title": "Store Associate",
+          "period": "July 2022",
+          "responsibilities": ["Customer service", "Stock management", "Cashier duties"]
+        }
+      ],
+      "type": "Student Job"
+    },
+    {
+      "company": "AluK Belgium",
+      "location": "Hamme, Belgium",
+      "positions": [
+        {
+          "title": "Factory Worker",
+          "period": "August 2022",
+          "responsibilities": ["Production line work", "Quality control", "Assembly tasks"]
+        }
+      ],
+      "type": "Student Job"
+    }
+  ],
+  "education": [
+    {
+      "institution": "HOGENT",
+      "degree": "Bachelor of Applied Computer Science",
+      "period": "January 2023 - December 2026",
+      "skills": [
+        "Frontend: React.js, TypeScript, HTML, CSS",
+        "Backend: Node.js, API Development, SQL, Docker",
+        "Tools & Frameworks: Yarn, GitHub, GitHub Copilot, Microsoft Azure, AWS",
+        "Software Development & Analysis: Functional Analysis, Software Analysis, Costing, Planning",
+        "Netwerken & Cybersecurity: Networking, Network Protocols, Network Defense, Threat Analysis, Linux, Linux Kernel"
+      ]
+    },
+    {
+      "institution": "GO Talent Dendermonde",
+      "degree": "Technical Computer Science (Secondary Education)",
+      "period": "September 2017 - June 2023",
+      "skills": [
+        "Web development: HTML, CSS, JavaScript",
+        "Programming languages: C++, Visual Basic",
+        "Web design & Computer Science: Web Design, Computer Science"
+      ]
+    },
+    {
+      "institution": "KASK Dendermonde",
+      "degree": "Photography (Photography Student)",
+      "period": "September 2019 - June 2023",
+      "skills": [
+        "Photoshop, Lightroom, Studio Lighting, Photography"
+      ]
+    }
+  ],
+  "certificates": [
+    {
+      "title": "Networking Basics",
+      "issuer": "Cisco",
+      "url": "https://www.credly.com/badges/91446cdc-38de-472c-a284-85bc5cd24890/linked_in_profile"
+    },
+    {
+      "title": "Introduction to Cybersecurity",
+      "issuer": "Cisco",
+      "url": "https://www.credly.com/badges/dcdac22d-bd1e-4c18-99f3-bcf5ffe9adcc/linked_in_profile"
+    },
+    {
+      "title": "English for IT 1",
+      "issuer": "Cisco",
+      "url": "https://www.credly.com/badges/917e96ef-9c30-45c8-93f6-9ab615bb7fa4/linked_in_profile"
+    },
+    {
+      "title": "Getting Started with Artificial Intelligence",
+      "issuer": "IBM",
+      "url": "https://www.credly.com/badges/dd00e10f-3a47-47af-95f7-00f0ba75702a/linked_in_profile"
+    }
+  ],
+  "skillCategories": [
+    {
+      "title": "Frontend Development",
+      "icon": "FaCode",
+      "skills": ["React.js", "TypeScript", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "title": "Backend Development",
+      "icon": "FaServer",
+      "skills": ["Node.js", "API Development", "SQL", "Docker", "Python", "Java", "C++"]
+    },
+    {
+      "title": "Tools & Technologies", 
+      "icon": "FaTools",
+      "skills": ["Yarn", "GitHub", "GitHub Copilot", "Microsoft Azure", "Netlify", "AWS", "Planning"]
+    },
+    {
+      "title": "Design & Media",
+      "icon": "FaCamera",
+      "skills": ["Photoshop", "Lightroom", "Studioverlichting", "Fotografie"]
+    },
+    {
+      "title": "Microsoft Office",
+      "icon": "FaMicrosoft",
+      "skills": ["Word", "Excel", "PowerPoint", "Access"]
+    },
+    {
+      "title": "Languages",
+      "icon": "FaLanguage",
+      "skills": ["Dutch (native)", "English (fluent)"]
+    }
+  ]
+}
