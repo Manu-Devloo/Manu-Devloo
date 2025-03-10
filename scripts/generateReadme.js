@@ -69,14 +69,6 @@ ${edu.skills ? edu.skills.map(skill => `- ${skill}`).join('\n') : ''}
 
 ${about.join('\n\n')}
 
-<div align="center">
-
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=${personal.github.split('/').pop()}&hide=prs&show_icons=true&theme=dark&layout=compact)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=${personal.github.split('/').pop()}&theme=dark&layout=compact&langs_count=6&hide=mcfunction)](https://github.com/${personal.github.split('/').pop()})
-
-</div>
-
 ## Contact
 
 - 📧 Email: [${personal.email}](mailto:${personal.email})
@@ -101,8 +93,6 @@ ${certificatesSection}
 
 - **Rak Sunakh Website**: [thai-ridgeback.eu](https://thai-ridgeback.eu)
 - **DevKin Website**: [devkin.be](https://devkin.be)
-
-[![Rak Sunakh Site](https://github-readme-stats.vercel.app/api/pin/?username=Rak-Sunakh&repo=Rak-Sunakh-Site&theme=dark)](https://github.com/Rak-Sunakh/Rak-Sunakh-Site)
 `;
 
   fs.writeFileSync(path.join(__dirname, '../README.md'), readmeContent.trim());
