@@ -105,7 +105,7 @@ ${certificatesSection}
 [![Rak Sunakh Site](https://github-readme-stats.vercel.app/api/pin/?username=Rak-Sunakh&repo=Rak-Sunakh-Site&theme=dark)](https://github.com/Rak-Sunakh/Rak-Sunakh-Site)
 `;
 
-  fs.writeFileSync(path.join(__dirname, '../readme.md'), readmeContent.trim());
+  fs.writeFileSync(path.join(__dirname, '../README.md'), readmeContent.trim());
 };
 
 generateReadme();
