@@ -8,18 +8,18 @@ const calculateAge = (birthdate) => {
   const birthDate = new Date(birthdate);
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDifference = today.getMonth() - birthDate.getMonth();
-  
+
   if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
     age--;
   }
-  
+
   return age;
 };
 
 const generateReadme = () => {
   const { personal, about, experiences, education, certificates, skillCategories } = resumeData;
   const age = calculateAge('2005-12-16');
-  
+
   // Generate skills section
   const skillsSection = skillCategories.map(category => {
     return `
@@ -36,7 +36,7 @@ ${category.skills.join(' • ')}
 ${pos.responsibilities.map(r => `- ${r}`).join('\n')}
 `;
     }).join('\n');
-    
+
     return `
 ### ${exp.company} - ${exp.location}
 *${exp.type}*
@@ -60,8 +60,6 @@ ${edu.skills ? edu.skills.map(skill => `- ${skill}`).join('\n') : ''}
 
   const readmeContent = `
 # ${personal.name}
-
-![Profile Image](${personal.profileImage})
 
 **${personal.title}** | Age: ${age} | ${personal.location || personal.address}
 
