@@ -22,6 +22,14 @@ function Contact() {
   
   return (
     <section className="contact" id="contact">
+      {/* Hidden form for Netlify bots to detect */}
+      <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="text" name="subject" />
+        <textarea name="message"></textarea>
+      </form>
+
       <Row>
         <Col lg={12}>
           <h2 className="section-title">Contact Me</h2>
