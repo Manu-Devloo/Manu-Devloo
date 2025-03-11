@@ -42,64 +42,6 @@ Word • Excel • PowerPoint • Access
 Dutch (native) • English (fluent)
 
 
-## Experience
-
-### Stokerij Rubbens - Wichelen, Belgium
-*Student Job*
-
-#### All-round Employee (May 2024 - Present)
-- Setting up events and parties
-- Food service and delivery
-- Taking orders from customers
-- Cashier duties
-- Customer service and guest relations
-
-
-#### Server (June 2023 - May 2024)
-- Customer service and hospitality
-- Beverage service and delivery
-
-
-
-### Dominos - Dendermonde, Belgium
-*Student Job*
-
-#### Delivery Driver (April 2023 - June 2023)
-- Order delivery
-- Customer service
-
-
-
-### Dee Spas - Malta
-*Internship*
-
-#### Intern (March 2023)
-- Set up Slack server for team communication
-- Website analysis and improvement recommendations
-- International work experience
-
-
-
-### Lidl Belgium & Luxembourg - De Panne, Belgium
-*Student Job*
-
-#### Store Associate (July 2022)
-- Customer service
-- Stock management
-- Cashier duties
-
-
-
-### AluK Belgium - Hamme, Belgium
-*Student Job*
-
-#### Factory Worker (August 2022)
-- Production line work
-- Quality control
-- Assembly tasks
-
-
-
 ## Education
 
 ### HOGENT
