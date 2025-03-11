@@ -62,9 +62,6 @@ ${personal.website ? `- 🔗 Website: [${personal.website}](${personal.website})
 ## Skills
 ${skillsSection}
 
-## Experience
-${experienceSection}
-
 ## Education
 ${educationSection}
 
