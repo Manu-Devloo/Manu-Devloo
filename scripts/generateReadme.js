@@ -28,22 +28,6 @@ ${category.skills.join(' • ')}
 `;
   }).join('\n');
 
-  // Generate experience section
-  const experienceSection = experiences.map(exp => {
-    const positions = exp.positions.map(pos => {
-      return `
-#### ${pos.title} (${pos.period})
-${pos.responsibilities.map(r => `- ${r}`).join('\n')}
-`;
-    }).join('\n');
-
-    return `
-### ${exp.company} - ${exp.location}
-*${exp.type}*
-${positions}
-`;
-  }).join('\n');
-
   // Generate education section
   const educationSection = education.map(edu => {
     return `
