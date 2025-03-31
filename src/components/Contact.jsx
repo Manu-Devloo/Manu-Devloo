@@ -1,5 +1,5 @@
-import React from 'react';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaFileAlt } from 'react-icons/fa';
 import resumeData from '../data/resume.json';
 import { downloadCV } from '../utils/generateCV';
@@ -9,6 +9,8 @@ import { useTheme } from '../hooks/useTheme';
 function Contact() {
   const { isDarkMode } = useTheme();
   const { address, phone, email, linkedin, github } = resumeData.personal;
+  const [formStatus, setFormStatus] = useState({ show: false, type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleDownloadCV = (e) => {
     e.preventDefault();
@@ -17,6 +19,43 @@ function Contact() {
     } catch (error) {
       console.error("Error generating CV:", error);
       downloadFallbackCV();
+    }
+  };
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+      
+      if (response.ok) {
+        // Reset the form
+        form.reset();
+        setFormStatus({
+          show: true,
+          type: 'success',
+          message: 'Thank you for your message! I will get back to you soon.'
+        });
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormStatus({
+        show: true,
+        type: 'danger',
+        message: 'Something went wrong. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
@@ -43,7 +82,16 @@ function Contact() {
               <FaMapMarkerAlt className="icon" />
               <div>
                 <h5>Location</h5>
-                <p>{address}</p>
+                <p>
+                  <a 
+                    href={`https://maps.google.com/?q=${encodeURIComponent(address)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="contact-link"
+                  >
+                    {address}
+                  </a>
+                </p>
               </div>
             </div>
             
@@ -51,7 +99,14 @@ function Contact() {
               <FaPhone className="icon" />
               <div>
                 <h5>Phone</h5>
-                <p>{phone}</p>
+                <p>
+                  <a 
+                    href={`tel:${phone.replace(/\s+/g, '')}`}
+                    className="contact-link"
+                  >
+                    {phone}
+                  </a>
+                </p>
               </div>
             </div>
             
@@ -59,7 +114,14 @@ function Contact() {
               <FaEnvelope className="icon" />
               <div>
                 <h5>Email</h5>
-                <p>{email}</p>
+                <p>
+                  <a 
+                    href={`mailto:${email}`}
+                    className="contact-link"
+                  >
+                    {email}
+                  </a>
+                </p>
               </div>
             </div>
             
@@ -83,7 +145,7 @@ function Contact() {
               <FaLinkedin className="icon" />
               <div>
                 <h5>LinkedIn</h5>
-                <p><a href={linkedin} target="_blank" rel="noopener noreferrer">
+                <p><a href={linkedin} target="_blank" rel="noopener noreferrer" className="contact-link">
                   {linkedin.split('/').slice(-2)[0]}
                 </a></p>
               </div>
@@ -93,7 +155,7 @@ function Contact() {
               <FaGithub className="icon" />
               <div>
                 <h5>GitHub</h5>
-                <p><a href={github} target="_blank" rel="noopener noreferrer">
+                <p><a href={github} target="_blank" rel="noopener noreferrer" className="contact-link">
                   {github.split('/').pop()}
                 </a></p>
               </div>
@@ -102,12 +164,23 @@ function Contact() {
         </Col>
         
         <Col lg={6}>
+          {formStatus.show && (
+            <Alert 
+              variant={formStatus.type} 
+              onClose={() => setFormStatus({...formStatus, show: false})} 
+              dismissible
+            >
+              {formStatus.message}
+            </Alert>
+          )}
+          
           <Form 
             name="contact" 
             method="POST" 
             data-netlify="true" 
             data-netlify-honeypot="bot-field" 
-            className={isDarkMode ? "dark-form" : ""}>
+            className={isDarkMode ? "dark-form" : ""}
+            onSubmit={handleSubmit}>
             
             <input type="hidden" name="form-name" value="contact" />
             <p className="hidden" style={{ display: 'none' }}>
@@ -116,26 +189,30 @@ function Contact() {
             
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" name="name" placeholder="Your Name" />
+              <Form.Control type="text" name="name" placeholder="Your Name" required />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" name="email" placeholder="Your Email" />
+              <Form.Control type="email" name="email" placeholder="Your Email" required />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Label>Subject</Form.Label>
-              <Form.Control type="text" name="subject" placeholder="Subject" />
+              <Form.Control type="text" name="subject" placeholder="Subject" required />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Label>Message</Form.Label>
-              <Form.Control as="textarea" name="message" rows={5} placeholder="Your Message" />
+              <Form.Control as="textarea" name="message" rows={5} placeholder="Your Message" required />
             </Form.Group>
             
-            <Button variant={isDarkMode ? "primary" : "primary"} type="submit">
-              Send Message
+            <Button 
+              variant={isDarkMode ? "primary" : "primary"} 
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </Button>
           </Form>
         </Col>

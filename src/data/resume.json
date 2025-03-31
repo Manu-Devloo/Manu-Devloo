@@ -180,5 +180,47 @@
       "icon": "FaLanguage",
       "skills": ["Dutch (native)", "English (fluent)"]
     }
+  ],
+  "projects": [
+    {
+      "title": "Rak Sunakh Website",
+      "url": "https://thai-ridgeback.eu",
+      "image": "/assets/images/projects/rak-sunakh.png",
+      "description": "A specialized website for a Thai Ridgeback kennel in the BeNeLux region. Features information about breeding programs, breed standards, health guarantees, and pedigree documentation. Includes blog section and support resources for puppy buyers with a focus on responsible breeding practices.",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "year": "2024",
+      "role": "Solo Developer",
+      "github": null
+    },
+    {
+      "title": "DevKin Website",
+      "url": "https://devkin.be",
+      "image": "/assets/images/projects/devkin.png",
+      "description": "A service company website for appliance repair and sales. Features on-site and workshop repair services in Dendermonde and Sambreville. Includes product sales with warranty information, customer support, and Trustpilot integration for reviews. Responsive design optimized for all devices.",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "year": "2023",
+      "role": "Solo Developer",
+      "github": null
+    },
+    {
+      "title": "React Frontend Project - BookShare",
+      "url": "https://frontendweb-2425-manu-devloo-1.onrender.com",
+      "image": "/assets/images/projects/bookshare.png",
+      "description": "A full-stack book sharing application developed for HOGENT. Features user authentication, book management, author profiles, and Google Books API integration. Backend uses MySQL with Prisma ORM, RESTful API endpoints, and email functionality for sending books to Kindle devices.",
+      "technologies": ["React", "Vite", "TypeScript", "JavaScript", "SCSS", "MySQL"],
+      "year": "2025",
+      "role": "Solo Developer",
+      "github": "https://github.com/HoGent-Projects/frontendweb-2425-Manu-Devloo"
+    },
+    {
+      "title": "Dellaware Shopfloor App",
+      "url": "https://two025-react-gent9.onrender.com",
+      "image": "/assets/images/projects/shopfloor.png",
+      "description": "A manufacturing management application for tracking production sites, machines, and maintenance schedules. Features an intuitive interface for monitoring equipment status, scheduling maintenance tasks, and generating reports. Built with modern React components and Bootstrap UI framework.",
+      "technologies": ["React", "Bootstrap", "API Integration"],
+      "year": "2025",
+      "role": "Project Lead - Frontend Developer",
+      "github": null
+    }
   ]
 }
