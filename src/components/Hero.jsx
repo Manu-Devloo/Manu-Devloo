@@ -11,7 +11,8 @@ function Hero() {
   const handleDownloadCV = (e) => {
     e.preventDefault();
     try {
-      downloadCV();
+      // downloadCV();
+      downloadFallbackCV();
     } catch (error) {
       console.error("Error generating CV:", error);
       downloadFallbackCV();
