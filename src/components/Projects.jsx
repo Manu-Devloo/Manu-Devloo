@@ -1,10 +1,8 @@
-import React from 'react';
 import { Row, Col, Card, Badge, Button } from 'react-bootstrap';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-import resumeData from '../data/resume.json';
 import { useTheme } from '../hooks/useTheme';
 
-function Projects() {
+function Projects({ resumeData }) {
   const { isDarkMode } = useTheme();
 
   const openProjectWebsite = (url) => {

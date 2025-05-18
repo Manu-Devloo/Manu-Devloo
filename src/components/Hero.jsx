@@ -1,11 +1,9 @@
-import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaGithub, FaLinkedin, FaFileAlt } from 'react-icons/fa';
-import resumeData from '../data/resume.json';
 import { downloadCV } from '../utils/generateCV';
 import downloadFallbackCV from '../utils/downloadFallbackCV';
 
-function Hero() {
+function Hero({ resumeData }) {
   const { name, title, shortBio, github, linkedin, profileImage } = resumeData.personal;
   
   const handleDownloadCV = (e) => {

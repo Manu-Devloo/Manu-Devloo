@@ -1,8 +1,6 @@
-import React from 'react';
 import { Row, Col, Card, Badge } from 'react-bootstrap';
-import resumeData from '../data/resume.json';
 
-function Experience() {
+function Experience({ resumeData }) {
   // Helper function to calculate duration between dates
   const calculateDuration = (startPeriod, endPeriod) => {
     // Parse the dates from period strings

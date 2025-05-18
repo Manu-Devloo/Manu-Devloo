@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaFileAlt } from 'react-icons/fa';
-import resumeData from '../data/resume.json';
 import { downloadCV } from '../utils/generateCV';
 import downloadFallbackCV from '../utils/downloadFallbackCV';
 import { useTheme } from '../hooks/useTheme';
 
-function Contact() {
+function Contact({ resumeData }) {
   const { isDarkMode } = useTheme();
   const { address, phone, email, linkedin, github } = resumeData.personal;
   const [formStatus, setFormStatus] = useState({ show: false, type: '', message: '' });

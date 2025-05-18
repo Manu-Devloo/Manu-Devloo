@@ -1,9 +1,7 @@
-import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
-import resumeData from '../data/resume.json';
 
-function Footer() {
+function Footer({ resumeData}) {
   const { email, linkedin, github, name } = resumeData.personal;
   
   return (

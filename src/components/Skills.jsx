@@ -1,10 +1,8 @@
-import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { FaCode, FaServer, FaTools, FaCamera, FaMicrosoft, FaLanguage } from 'react-icons/fa';
-import resumeData from '../data/resume.json';
 import { useTheme } from '../hooks/useTheme';
 
-function Skills() {
+function Skills({ resumeData }) {
   const { isDarkMode } = useTheme();
   
   // Icon mapping
@@ -26,7 +24,7 @@ function Skills() {
       </Row>
       
       <Row>
-        {resumeData.skillCategories.map((category, index) => {
+        {resumeData.skills.map((category, index) => {
           const IconComponent = iconComponents[category.icon];
           
           return (

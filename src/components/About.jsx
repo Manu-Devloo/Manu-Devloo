@@ -1,8 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import resumeData from '../data/resume.json';
 
-function About() {
+function About({resumeData}) {
   return (
     <section className="about" id="about">
       <Row>

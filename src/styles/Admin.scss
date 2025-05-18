@@ -1,0 +1,130 @@
+.admin-container {
+  min-height: 100vh;
+  padding-bottom: 5rem;
+  
+  .tab-content {
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 0 0 0.25rem 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  
+  .nav-tabs .nav-link {
+    font-weight: 500;
+    
+    &.active {
+      border-bottom-color: transparent;
+    }
+  }
+  
+  .card {
+    margin-bottom: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  }
+  
+  .nested-form {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    position: relative;
+    
+    .remove-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+  
+  .add-item-button {
+    margin-bottom: 1.5rem;
+  }
+  
+  .action-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  
+  // Form input with tags/skills
+  .tag-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    min-height: 100px;
+    
+    .tag-item {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      
+      .remove-tag {
+        margin-left: 0.5rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        color: #666;
+        
+        &:hover {
+          color: #dc3545;
+        }
+      }
+    }
+    
+    .tag-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 0.25rem;
+      min-width: 100px;
+    }
+  }
+
+  // Dark mode overrides  
+  .dark-theme & {
+    .tab-content {
+      background-color: #2d3748;
+    }
+    
+    .nested-form {
+      border-color: #4a5568;
+    }
+    
+    .tag-input-container {
+      border-color: #4a5568;
+      background-color: #1a202c;
+      
+      .tag-item {
+        background-color: #4a5568;
+        color: #fff;
+        
+        .remove-tag {
+          color: #cbd5e0;
+          
+          &:hover {
+            color: #fc8181;
+          }
+        }
+      }
+      
+      .tag-input {
+        background-color: transparent;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.drag-handle {
+  cursor: grab;
+  margin-right: 0.5rem;
+  
+  &:active {
+    cursor: grabbing;
+  }
+}

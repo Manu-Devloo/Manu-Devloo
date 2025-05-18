@@ -1,10 +1,8 @@
-import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { FaCertificate } from 'react-icons/fa';
-import resumeData from '../data/resume.json';
 import { useTheme } from '../hooks/useTheme';
 
-function Certificates() {
+function Certificates({ resumeData }) {
   const { isDarkMode } = useTheme();
   
   const handleCertificateClick = (url) => {
@@ -22,7 +20,7 @@ function Certificates() {
       </Row>
       
       <Row>
-        {resumeData.certificates.map((cert, index) => (
+        {resumeData.certifications.map((cert, index) => (
           <Col lg={3} md={6} className="mb-4" key={index}>
             <Card 
               className={`h-100 shadow-sm text-center p-3 ${cert.url ? 'certificate-card' : ''}`} 
@@ -39,7 +37,7 @@ function Certificates() {
         ))}
       </Row>
 
-      <style jsx>{`
+      <style>{`
         .certificate-card:hover {
           transform: translateY(-5px);
           transition: transform 0.3s ease;

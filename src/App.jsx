@@ -1,36 +1,28 @@
-import React from 'react';
-import { Container } from 'react-bootstrap';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import { ThemeProvider } from './contexts/ThemeContext';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import Education from './components/Education';
-import Skills from './components/Skills';
-import Certificates from './components/Certificates';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import Admin from './pages/Admin';
+import Login from './pages/Login';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
+import Home from './pages/Home';
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="App">
-        <Header />
-        <Hero />
-        <Container>
-          <About />
-          <Experience />
-          <Education />
-          <Skills />
-          <Certificates />
-          <Projects />
-          <Contact />
-        </Container>
-        <Footer />
-      </div>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <Admin />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
