@@ -4,8 +4,8 @@ import type { Context } from "@netlify/edge-functions";
 export default async (req: Request, context: Context) => {
   const { email, password } = await req.json();
 
-  const validUserName = Netlify.env.get('VITE_NETLIFY_USER_NAME');
-  const validPassword = Netlify.env.get('VITE_NETLIFY_USER_PASSWORD');
+  const validUserName = Netlify.env.get('USER_NAME');
+  const validPassword = Netlify.env.get('USER_PASSWORD');
 
   if (email === validUserName && password === validPassword) {
     const token = jwt.sign({ email }, Netlify.env.get('JWT_SECRET'), { expiresIn: '1h' });
