@@ -138,7 +138,7 @@ function Contact({ resumeData }) {
               <div>
                 <h5>LinkedIn</h5>
                 <p><a href={linkedin} target="_blank" rel="noopener noreferrer" className="contact-link">
-                  {linkedin.split('/').slice(-2)[0]}
+                  {linkedin.split('/').pop()}
                 </a></p>
               </div>
             </div>

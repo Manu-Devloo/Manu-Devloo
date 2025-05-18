@@ -9,7 +9,7 @@ import Projects from '../components/Projects';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
-import { Container } from 'react-bootstrap';
+import { Container, Spinner, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getData } from '../api';
 
@@ -24,8 +24,23 @@ const Home = () => {
     
     fetchData();
   }, []);
+  
   if (!resumeData) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading-container d-flex flex-column justify-content-center align-items-center vh-100">
+        <Card className="loading-card text-center p-5 shadow-sm" style={{ maxWidth: '600px' }}>
+          <Spinner animation="border" role="status" variant="primary" className="mb-4">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <h3 className="mb-3">Generating Portfolio</h3>
+          <p className="mb-4">
+            This page is being generated on the fly with up-to-date information.
+            Pulling the latest data to present my most current work and achievements.
+          </p>
+          <p className="text-muted mb-0">Made with ❤️ by Manu Devloo</p>
+        </Card>
+      </div>
+    );
   }
   
   return (

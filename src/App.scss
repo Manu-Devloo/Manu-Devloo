@@ -32,6 +32,11 @@ $dark-card-bg: #2a2a2a;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --footer-bg: #1f2937;
   --footer-text: #{$white};
+  
+  // Loading Screen Styles
+  --loading-bg: #{$light-bg};
+  --loading-text: #{$dark-bg};
+  --loading-card-bg: #{$white};
 }
 
 // Dark Theme Variables
@@ -55,6 +60,11 @@ $dark-card-bg: #2a2a2a;
   --shadow-color: rgba(0, 0, 0, 0.3);
   --footer-bg: #000000;
   --footer-text: #e0e0e0;
+  
+  // Loading Screen Styles
+  --loading-bg: #{$dark-bg};
+  --loading-text: #{$white};
+  --loading-card-bg: #{$dark-card-bg};
   
   // Nested rules for dark theme
   .card {
@@ -500,6 +510,45 @@ footer {
   
   .card-text {
     color: var(--text-muted);
+  }
+}
+
+// Loading Screen
+.loading-container {
+  background-color: var(--loading-bg);
+  color: var(--loading-text);
+  min-height: 100vh;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  
+  .loading-card {
+    background-color: var(--loading-card-bg);
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+    }
+    
+    h3 {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    
+    .text-muted {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
   }
 }
 

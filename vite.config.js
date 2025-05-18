@@ -23,4 +23,14 @@ export default defineConfig({
   build: {
     outDir: 'build',
   },
+  // Configure Sass to use the modern API
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern',
+        // Silence the deprecation warnings if needed
+        silenceDeprecations: ['legacy-js-api']
+      }
+    }
+  },
 });

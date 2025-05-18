@@ -1,5 +1,5 @@
 import type { Context, Config } from "@netlify/edge-functions";
-import { getStore } from "@netlify/blobs";
+import { getStore, Store } from "@netlify/blobs";
 import { STORE, SECTIONS } from "./utils/constants";
 
 export default async (req: Request, context: Context) => {
