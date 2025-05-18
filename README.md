@@ -1,6 +1,6 @@
 # Manu Devloo
 
-**Bachelor Student in Applied Computer Science** | Age: 19 | Bachelor Student in Applied Computer Science
+**Bachelor Student in Applied Computer Science** | Age: 19 | Bevrijdingslaan 85 A, 9200 Appels, Dendermonde, Belgium
 
 ## About Me
 
