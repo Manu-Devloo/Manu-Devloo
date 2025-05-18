@@ -1,9 +1,8 @@
 name: Generate README
 
 on:
-  push:
-    branches:
-      - main
+  repository_dispatch:
+    types: [generate-readme]
 
 jobs:
   generate-readme:
