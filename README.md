@@ -1,6 +1,6 @@
 # Manu Devloo
 
-**Bachelor Student in Applied Computer Science** | Age: 19 | Bevrijdingslaan 85 A, 9200 Appels, Dendermonde, Belgium
+**Bachelor Student in Applied Computer Science** | Age: 19 | Bachelor Student in Applied Computer Science
 
 ## About Me
 
@@ -10,11 +10,11 @@ My personality traits are: extraversion, intuition, thinking, and judging. I enj
 
 ## Contact
 
-- 📧 Email: [devloo.prive@gmail.com](mailto:devloo.prive@gmail.com)
+- 📧 Email: [contact@manudevloo.com](mailto:contact@manudevloo.com)
 - 📱 Phone: +32 468 22 74 25
-- 💼 LinkedIn: [](https://www.linkedin.com/in/manu-devloo-18557a270/)
+- 💼 LinkedIn: [Manu-Devloo](https://www.linkedin.com/in/Manu-Devloo)
 - 🌐 GitHub: [Manu-Devloo](https://github.com/Manu-Devloo)
-- 🔗 Website: [manudevloo.com](manudevloo.com)
+- 🔗 Website: [https://www.manudevloo.com](https://www.manudevloo.com)
 
 ## Skills
 
@@ -65,7 +65,7 @@ Dutch (native) • English (fluent)
 - Photoshop, Lightroom, Studio Lighting, Photography
 
 
-## Certificates
+## certifications
 - [Networking Basics](https://www.credly.com/badges/91446cdc-38de-472c-a284-85bc5cd24890/linked_in_profile) - Cisco
 - [Introduction to Cybersecurity](https://www.credly.com/badges/dcdac22d-bd1e-4c18-99f3-bcf5ffe9adcc/linked_in_profile) - Cisco
 - [English for IT 1](https://www.credly.com/badges/917e96ef-9c30-45c8-93f6-9ab615bb7fa4/linked_in_profile) - Cisco
