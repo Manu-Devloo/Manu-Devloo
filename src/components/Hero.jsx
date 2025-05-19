@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaGithub, FaLinkedin, FaFileAlt } from 'react-icons/fa';
-import { downloadCV } from '../utils/generateCV';
+// import { downloadCV } from '../utils/generateCV';
 import downloadFallbackCV from '../utils/downloadFallbackCV';
 
 function Hero({ resumeData }) {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaFileAlt } from 'react-icons/fa';
-import { downloadCV } from '../utils/generateCV';
+// import { downloadCV } from '../utils/generateCV';
 import downloadFallbackCV from '../utils/downloadFallbackCV';
 import { useTheme } from '../hooks/useTheme';
 
@@ -13,28 +13,7 @@ function Contact({ resumeData }) {
   
   const handleDownloadCV = (e) => {
     e.preventDefault();
-    
-    // Show feedback to user
-    const button = e.target.closest('button');
-    const originalText = button.textContent;
-    button.textContent = 'Generating...';
-    button.disabled = true;
-    
-    try {
-      downloadCV(resumeData);
-      
-      // Reset button after a delay
-      setTimeout(() => {
-        button.textContent = originalText;
-        button.disabled = false;
-      }, 2000);
-    } catch (error) {
-      console.error("Error generating CV:", error);
-      
-      // Reset button 
-      button.textContent = originalText;
-      button.disabled = false;
-    }
+    downloadFallbackCV();
   };
   
   const handleSubmit = async (event) => {
