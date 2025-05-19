@@ -1,263 +1,906 @@
-/**
- * CV Generator Utility
- * 
- * This script generates a PDF CV from the resume.json data using jsPDF.
- * All required dependencies are already included in package.json.
- */
-
 import { jsPDF } from 'jspdf';
-import resumeData from '../data/resume.json';
+import html2canvas from 'html2canvas';
+import downloadFallbackCV from './downloadFallbackCV';
 
 /**
  * Generates a PDF CV from the resume data
- * @returns {jsPDF} The PDF document object
+ * @returns The PDF document object
  */
-export function generateCV() {
-  const { personal, about, experiences, education, certificates, skillCategories } = resumeData;
+export function generateCV(resumeData) {
+  const { personal, about, experiences, education, certifications, skills } = resumeData;
+
+  // Create a container element for the CV
+  const cvContainer = document.createElement('div');
+  cvContainer.className = 'cv-container';
+  cvContainer.style.cssText = `
+    width: 210mm;
+    min-height: 297mm;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background: white;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    overflow: visible;
+    display: flex;
+    page-break-after: always;
+  `;
+
+  // Add CSS to the document head
+  const style = document.createElement('style');
+  style.textContent = `
+    .cv-container {
+      font-size: 12px;
+      line-height: 1.5;
+      display: flex;
+      padding: 0;
+      margin: 0;
+    }
+    .cv-left-column {
+      width: 33%;
+      background: linear-gradient(160deg, #4c5760 80%, #6c7983 100%);
+      box-shadow: 2px 0 16px 0 rgba(44,62,80,0.08);
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+      min-height: 297mm; /* A4 height */
+      height: 100%;
+      /* Ensure sidebar extends to full height */
+      display: flex;
+      flex-direction: column;
+    }
+    .cv-right-column {
+      width: 67%;
+      background: #f8f9fa;
+      border-top-right-radius: 16px;
+      border-bottom-right-radius: 16px;
+      box-shadow: 0 2px 16px 0 rgba(44,62,80,0.08);
+      padding: 20px;
+      box-sizing: border-box;
+      margin: 20px auto;
+      display: block;
+      object-fit: cover;
+      border: 3px solid white;
+      background-color: #fff;
+    }
+    .cv-name {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0 0 5px 0;
+      text-align: center;
+      color: white;
+    }
+    .cv-title {
+      font-size: 16px;
+      color: #e0e0e0;
+      margin: 0 0 25px 0;
+      text-align: center;
+    }
+    .cv-contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      color: white;
+      font-size: 13px;
+    }
+    .cv-contact-icon {
+      width: 20px;
+      margin-right: 10px;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+    }
+    .cv-section {
+      margin: 25px 0;
+    }
+    .cv-left-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 15px 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      color: white;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 8px;
+    }
+    .cv-left-section-title::before {
+      content: '';
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    .cv-right-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 15px 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      color: #333;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      padding-bottom: 8px;
+    }
+    .cv-right-section-title::before {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    .cv-profile {
+      text-align: justify;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .cv-language {
+      margin-bottom: 10px;
+    }
+    .cv-language-name {
+      display: inline-block;
+      width: 100px;
+      font-size: 14px;
+    }
+    .cv-language-level {
+      display: inline-flex;
+    }
+    .cv-dot {
+      height: 10px;
+      width: 10px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 5px;
+      opacity: 1;
+    }
+    .cv-dot.empty {
+      opacity: 0.3;
+    }
+    .cv-reference, .cv-interest {
+      margin-bottom: 15px;
+    }
+    .cv-reference-name, .cv-interest-name {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    .cv-reference-position {
+      font-style: italic;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+    .cv-reference-contact {
+      font-size: 12px;
+    }
+    .cv-experience-item, .cv-education-item {
+      margin-bottom: 20px;
+    }
+    .cv-experience-header, .cv-education-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5px;
+    }
+    .cv-company-name, .cv-institution-name {
+      font-weight: bold;
+      font-size: 15px;
+    }
+    .cv-period {
+      font-style: italic;
+      color: #555;
+      font-size: 13px;
+    }
+    .cv-position-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .cv-location {
+      font-style: italic;
+      color: #555;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .cv-responsibilities {
+      margin-top: 5px;
+      padding-left: 20px;
+    }
+    .cv-responsibilities li {
+      margin-bottom: 3px;
+      font-size: 13px;
+    }
+    .cv-skills-group {
+      margin-bottom: 15px;
+    }
+    .cv-skills-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .cv-skills-items {
+      padding-left: 0;
+      margin-top: 5px;
+    }
+    .cv-skills-items li {
+      display: inline-block;
+      margin-right: 15px;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+    .cv-certificates-list {
+      padding-left: 15px;
+    }
+    .cv-certificate-item {
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .cv-certificate-link {
+      color: #333;
+      text-decoration: none;
+    }
+    .cv-certificate-link::after {
+      content: " ↗";
+      font-size: 10px;
+    }
+  `;
+  document.head.appendChild(style);
   
-  // Create a new PDF document
+  // Create the left column
+  const leftColumn = document.createElement('div');
+  leftColumn.className = 'cv-left-column';
+
+  // Add name and title at top of left column
+  const name = document.createElement('h1');
+  name.className = 'cv-name';
+  name.textContent = personal.name;
+  leftColumn.appendChild(name);
+  
+  const title = document.createElement('div');
+  title.className = 'cv-title';
+  title.textContent = personal.title;
+  leftColumn.appendChild(title);
+  
+  // Add profile photo
+  if (personal.profileImage) {
+    const photo = document.createElement('img');
+    photo.className = 'cv-photo';
+    photo.crossOrigin = 'anonymous'; // Enable CORS for the image
+    photo.src = personal.profileImage;
+    photo.alt = personal.name;
+    photo.onload = () => console.log('Profile image loaded successfully');
+    photo.onerror = (e) => console.error('Error loading profile image', e);
+    leftColumn.appendChild(photo);
+  }
+  
+  // Add contact information with icons
+  const contactSection = document.createElement('div');
+  contactSection.className = 'cv-section';
+  
+  // Email
+  const emailItem = document.createElement('div');
+  emailItem.className = 'cv-contact-item';
+  const emailIcon = document.createElement('span');
+  emailIcon.className = 'cv-contact-icon';
+  emailIcon.innerHTML = '✉️';
+  emailItem.appendChild(emailIcon);
+  const emailText = document.createElement('span');
+  emailText.textContent = personal.email;
+  emailItem.appendChild(emailText);
+  contactSection.appendChild(emailItem);
+  
+  // Phone
+  const phoneItem = document.createElement('div');
+  phoneItem.className = 'cv-contact-item';
+  const phoneIcon = document.createElement('span');
+  phoneIcon.className = 'cv-contact-icon';
+  phoneIcon.innerHTML = '📞';
+  phoneItem.appendChild(phoneIcon);
+  const phoneText = document.createElement('span');
+  phoneText.textContent = personal.phone;
+  phoneItem.appendChild(phoneText);
+  contactSection.appendChild(phoneItem);
+  
+  // Location
+  const locationItem = document.createElement('div');
+  locationItem.className = 'cv-contact-item';
+  const locationIcon = document.createElement('span');
+  locationIcon.className = 'cv-contact-icon';
+  locationIcon.innerHTML = '📍';
+  locationItem.appendChild(locationIcon);
+  const locationText = document.createElement('span');
+  locationText.textContent = personal.address.split(',').pop().trim();
+  locationItem.appendChild(locationText);
+  contactSection.appendChild(locationItem);
+  
+  // Website
+  const websiteItem = document.createElement('div');
+  websiteItem.className = 'cv-contact-item';
+  const websiteIcon = document.createElement('span');
+  websiteIcon.className = 'cv-contact-icon';
+  websiteIcon.innerHTML = '🌐';
+  websiteItem.appendChild(websiteIcon);
+  const websiteText = document.createElement('span');
+  websiteText.textContent = personal.website;
+  websiteItem.appendChild(websiteText);
+  contactSection.appendChild(websiteItem);
+  
+  // LinkedIn
+  const linkedinItem = document.createElement('div');
+  linkedinItem.className = 'cv-contact-item';
+  const linkedinIcon = document.createElement('span');
+  linkedinIcon.className = 'cv-contact-icon';
+  linkedinIcon.innerHTML = 'in';
+  linkedinItem.appendChild(linkedinIcon);
+  const linkedinText = document.createElement('span');
+  linkedinText.textContent = 'linkedin.com/in/manu-devloo';
+  linkedinItem.appendChild(linkedinText);
+  contactSection.appendChild(linkedinItem);
+  
+  // GitHub
+  const githubItem = document.createElement('div');
+  githubItem.className = 'cv-contact-item';
+  const githubIcon = document.createElement('span');
+  githubIcon.className = 'cv-contact-icon';
+  githubIcon.innerHTML = 'gh';
+  githubItem.appendChild(githubIcon);
+  const githubText = document.createElement('span');
+  githubText.textContent = 'github.com/Manu-Devloo';
+  githubItem.appendChild(githubText);
+  contactSection.appendChild(githubItem);
+  
+  leftColumn.appendChild(contactSection);
+  
+  // Create the right column
+  const rightColumn = document.createElement('div');
+  rightColumn.className = 'cv-right-column';
+  
+  // About section for left column
+  if (about && about.length) {
+    const aboutSection = document.createElement('div');
+    aboutSection.className = 'cv-section';
+    
+    const aboutTitle = document.createElement('h2');
+    aboutTitle.className = 'cv-left-section-title';
+    aboutTitle.textContent = 'Profile';
+    aboutTitle.innerHTML = '👤 ' + aboutTitle.innerHTML;
+    aboutSection.appendChild(aboutTitle);
+    
+    const aboutText = document.createElement('div');
+    aboutText.className = 'cv-profile';
+    aboutText.textContent = about.join(' ');
+    aboutSection.appendChild(aboutText);
+    
+    leftColumn.appendChild(aboutSection);
+  }
+
+  // Languages section for left column
+  const languageSection = document.createElement('div');
+  languageSection.className = 'cv-section';
+  
+  const languageTitle = document.createElement('h2');
+  languageTitle.className = 'cv-left-section-title';
+  languageTitle.innerHTML = '🌐 Languages';
+  languageSection.appendChild(languageTitle);
+
+  // Add languages from skills
+  const languagesSkill = skills.find(category => category.title === 'Languages');
+  if (languagesSkill && languagesSkill.skills.length) {
+    languagesSkill.skills.forEach(lang => {
+      const language = document.createElement('div');
+      language.className = 'cv-language';
+      
+      const langName = document.createElement('span');
+      langName.className = 'cv-language-name';
+      langName.textContent = lang.split('(')[0].trim();
+      language.appendChild(langName);
+      
+      // Add language level dots
+      const langLevel = document.createElement('div');
+      langLevel.className = 'cv-language-level';
+      
+      const isNative = lang.includes('native');
+      const isFluent = lang.includes('fluent');
+      
+      // Create 5 dots, fill them based on language level
+      for (let i = 0; i < 5; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'cv-dot';
+        
+        if (isNative) {
+          // All dots filled for native
+        } else if (isFluent && i >= 4) {
+          // 4 dots for fluent (last one empty)
+          dot.className += ' empty';
+        } else if (!isNative && !isFluent) {
+          // Default case - assume basic proficiency (3 dots)
+          if (i >= 3) {
+            dot.className += ' empty';
+          }
+        }
+        
+        langLevel.appendChild(dot);
+      }
+      
+      language.appendChild(langLevel);
+      languageSection.appendChild(language);
+    });
+  }
+  
+  leftColumn.appendChild(languageSection);
+  
+  // References section
+  const referenceSection = document.createElement('div');
+  referenceSection.className = 'cv-section';
+  
+  const referenceTitle = document.createElement('h2');
+  referenceTitle.className = 'cv-left-section-title';
+  referenceTitle.innerHTML = '📋 References';
+  referenceSection.appendChild(referenceTitle);
+  
+  // This is placeholder data - you might want to add this to your resume.json
+  const reference = document.createElement('div');
+  reference.className = 'cv-reference';
+  
+  const refName = document.createElement('div');
+  refName.className = 'cv-reference-name';
+  refName.textContent = 'Mart Stoop';
+  reference.appendChild(refName);
+  
+  const refPosition = document.createElement('div');
+  refPosition.className = 'cv-reference-position';
+  refPosition.textContent = 'Management Assistant, Stokerij Rubbens';
+  reference.appendChild(refPosition);
+  
+  const refContact = document.createElement('div');
+  refContact.className = 'cv-reference-contact';
+  refContact.textContent = '+32 494 86 19 71';
+  reference.appendChild(refContact);
+  
+  referenceSection.appendChild(reference);
+  leftColumn.appendChild(referenceSection);
+  
+  // Interests section
+  const interestSection = document.createElement('div');
+  interestSection.className = 'cv-section';
+  
+  const interestTitle = document.createElement('h2');
+  interestTitle.className = 'cv-left-section-title';
+  interestTitle.innerHTML = '🎯 Interests';
+  interestSection.appendChild(interestTitle);
+
+  // Add interest from education where it mentions photography
+  const photographyEdu = education.find(edu => edu.degree.includes('Photography'));
+  if (photographyEdu) {
+    const interest = document.createElement('div');
+    interest.className = 'cv-interest';
+    
+    const interestName = document.createElement('div');
+    interestName.className = 'cv-interest-name';
+    interestName.textContent = 'Photography';
+    interest.appendChild(interestName);
+    
+    const interestDetails = document.createElement('div');
+    interestDetails.textContent = `Photography Student - ${photographyEdu.institution}`;
+    interest.appendChild(interestDetails);
+    
+    interestSection.appendChild(interest);
+    leftColumn.appendChild(interestSection);
+  }
+  
+  // Professional Experience section for right column
+  if (experiences && experiences.length) {
+    const expSection = document.createElement('div');
+    expSection.className = 'cv-section';
+    
+    const expTitle = document.createElement('h2');
+    expTitle.className = 'cv-right-section-title';
+    expTitle.innerHTML = '💼 Professional Experience';
+    expSection.appendChild(expTitle);
+    
+    experiences.forEach(exp => {
+      const expItem = document.createElement('div');
+      expItem.className = 'cv-experience-item';
+      
+      const expHeader = document.createElement('div');
+      expHeader.className = 'cv-experience-header';
+      
+      const companyName = document.createElement('div');
+      companyName.className = 'cv-company-name';
+      companyName.textContent = exp.company + (exp.type ? ` (${exp.type})` : '');
+      
+      const expPeriod = document.createElement('div');
+      expPeriod.className = 'cv-period';
+      const position = exp.positions[0]; // Get the first/latest position
+      expPeriod.textContent = position.period;
+      
+      expHeader.appendChild(companyName);
+      expHeader.appendChild(expPeriod);
+      expItem.appendChild(expHeader);
+      
+      exp.positions.forEach(position => {
+        const positionTitle = document.createElement('div');
+        positionTitle.className = 'cv-position-title';
+        positionTitle.textContent = position.title;
+        expItem.appendChild(positionTitle);
+        
+        if (position.responsibilities && position.responsibilities.length) {
+          const respList = document.createElement('ul');
+          respList.className = 'cv-responsibilities';
+          
+          position.responsibilities.forEach(resp => {
+            const respItem = document.createElement('li');
+            respItem.textContent = resp;
+            respList.appendChild(respItem);
+          });
+          
+          expItem.appendChild(respList);
+        }
+      });
+      
+      expSection.appendChild(expItem);
+    });
+    
+    rightColumn.appendChild(expSection);
+  }
+  
+  // Education section for right column
+  if (education && education.length) {
+    const eduSection = document.createElement('div');
+    eduSection.className = 'cv-section';
+    
+    const eduTitle = document.createElement('h2');
+    eduTitle.className = 'cv-right-section-title';
+    eduTitle.innerHTML = '🎓 Education';
+    eduSection.appendChild(eduTitle);
+    
+    education.forEach(edu => {
+      const eduItem = document.createElement('div');
+      eduItem.className = 'cv-education-item';
+      
+      const eduHeader = document.createElement('div');
+      eduHeader.className = 'cv-education-header';
+      
+      const institution = document.createElement('div');
+      institution.className = 'cv-institution-name';
+      institution.textContent = edu.institution;
+      eduHeader.appendChild(institution);
+      
+      const period = document.createElement('div');
+      period.className = 'cv-period';
+      period.textContent = edu.period;
+      eduHeader.appendChild(period);
+      
+      eduItem.appendChild(eduHeader);
+      
+      const degree = document.createElement('div');
+      degree.className = 'cv-position-title';
+      degree.textContent = edu.degree;
+      eduItem.appendChild(degree);
+      
+      eduSection.appendChild(eduItem);
+    });
+    
+    rightColumn.appendChild(eduSection);
+  }
+  
+  // Skills section for right column
+  if (skills && skills.length) {
+    const skillsSection = document.createElement('div');
+    skillsSection.className = 'cv-section';
+    
+    const skillsTitle = document.createElement('h2');
+    skillsTitle.className = 'cv-right-section-title';
+    skillsTitle.innerHTML = '🔧 Skills';
+    skillsSection.appendChild(skillsTitle);
+    
+    // Filter out the Languages category as it's displayed separately
+    const technicalSkills = skills.filter(category => category.title !== 'Languages');
+    
+    technicalSkills.forEach(category => {
+      const skillGroup = document.createElement('div');
+      skillGroup.className = 'cv-skills-group';
+      
+      const groupTitle = document.createElement('div');
+      groupTitle.className = 'cv-skills-title';
+      groupTitle.textContent = category.title;
+      skillGroup.appendChild(groupTitle);
+      
+      if (category.skills && category.skills.length) {
+        const skillsList = document.createElement('ul');
+        skillsList.className = 'cv-skills-items';
+        
+        category.skills.forEach(skill => {
+          const skillItem = document.createElement('li');
+          skillItem.textContent = skill;
+          skillsList.appendChild(skillItem);
+        });
+        
+        skillGroup.appendChild(skillsList);
+      }
+      
+      skillsSection.appendChild(skillGroup);
+    });
+    
+    rightColumn.appendChild(skillsSection);
+  }
+  
+  // Certifications section for right column
+  if (certifications && certifications.length) {
+    const certSection = document.createElement('div');
+    certSection.className = 'cv-section';
+    
+    const certTitle = document.createElement('h2');
+    certTitle.className = 'cv-right-section-title';
+    certTitle.innerHTML = '🏆 Certificates';
+    certSection.appendChild(certTitle);
+    
+    const certList = document.createElement('ul');
+    certList.className = 'cv-certificates-list';
+    
+    certifications.forEach(cert => {
+      const certItem = document.createElement('li');
+      certItem.className = 'cv-certificate-item';
+      
+      const certLink = document.createElement('a');
+      certLink.className = 'cv-certificate-link';
+      certLink.href = cert.url;
+      certLink.target = '_blank';
+      certLink.textContent = `${cert.title} - ${cert.issuer}`;
+      
+      certItem.appendChild(certLink);
+      certList.appendChild(certItem);
+    });
+    
+    certSection.appendChild(certList);
+    rightColumn.appendChild(certSection);
+  }
+  
+  cvContainer.appendChild(leftColumn);
+  cvContainer.appendChild(rightColumn);
+  
+  // Add the CV container to the document body temporarily
+  document.body.appendChild(cvContainer);
+  
+  // Create the PDF using html2canvas and jsPDF
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
     format: 'a4',
+    compress: true,
+    putOnlyUsedFonts: true,
+    floatPrecision: 16 // For better text precision
   });
   
-  // Set document properties
-  doc.setProperties({
-    title: `${personal.name} - CV`,
-    subject: 'Curriculum Vitae',
-    author: personal.name,
-    creator: 'Portfolio CV Generator'
-  });
-  
-  // Add profile image if available
-  if (personal.profileImage) {
+  return new Promise((resolve, reject) => {
+    // Try to use a local image instead of external URLs to avoid CORS issues
     try {
-      // Calculate position for the image (right side of the header)
-      const imgX = doc.internal.pageSize.getWidth() - 60;
-      const imgY = 20; // 20mm from top
-      const imgSize = 40; // 30mm width/height
-      
-      // Add the actual image first
-      doc.addImage(personal.profileImage, 'JPEG', imgX, imgY, imgSize, imgSize, undefined, 'FAST');
-      
-      // Now draw a white circular border inside the image
-      doc.setDrawColor(255, 255, 255); // White color
-      doc.setLineWidth(10); // Border width
-      
-      // Draw white circle border - slightly smaller than the image dimensions
-      const innerSize = imgSize + 10; //
-      const centerX = imgX + imgSize/2;
-      const centerY = imgY + imgSize/2;
-      doc.circle(centerX, centerY, innerSize/2, 'S');
-      
-    } catch (error) {
-      console.error('Failed to add profile image to CV:', error);
-      // Continue without the image if there's an error
-    }
-  }
-  
-  // Add header with name and title
-  doc.setFontSize(24);
-  doc.setTextColor(37, 99, 235); // primary-color
-  doc.text(personal.name, 20, 20);
-  
-  doc.setFontSize(14);
-  doc.setTextColor(100);
-  doc.text(personal.title, 20, 30);
-  
-  // Add contact information
-  doc.setFontSize(10);
-  doc.setTextColor(80);
-  let contactY = 40;
-  
-  [
-    `Address: ${personal.address}`,
-    `Phone: ${personal.phone}`,
-    `Email: ${personal.email}`,
-    `LinkedIn: ${personal.linkedin}`,
-    `GitHub: ${personal.github}`
-  ].forEach(line => {
-    doc.text(line, 20, contactY);
-    contactY += 5;
-  });
-  
-  // About section
-  contactY += 10;
-  doc.setFontSize(16);
-  doc.setTextColor(30, 58, 138); // secondary-color
-  doc.text('About Me', 20, contactY);
-  
-  doc.setFontSize(10);
-  doc.setTextColor(80);
-  contactY += 8;
-  about.forEach(paragraph => {
-    const lines = doc.splitTextToSize(paragraph, 170);
-    doc.text(lines, 20, contactY);
-    contactY += lines.length * 5 + 5;
-  });
-  
-  // Work Experience
-  contactY += 5;
-  doc.setFontSize(16);
-  doc.setTextColor(30, 58, 138);
-  doc.text('Work Experience', 20, contactY);
-  contactY += 10;
-  
-  experiences.forEach(exp => {
-    // Check if we need a new page
-    if (contactY > 250) {
-      doc.addPage();
-      contactY = 20;
-    }
-    
-    doc.setFontSize(12);
-    doc.setTextColor(0);
-    doc.text(`${exp.company} ${exp.type ? `(${exp.type})` : ''}`, 20, contactY);
-    
-    doc.setFontSize(10);
-    doc.setTextColor(80);
-    doc.text(exp.location, 20, contactY + 5);
-    
-    let posY = contactY + 10;
-    exp.positions.forEach(pos => {
-      doc.setFontSize(11);
-      doc.setTextColor(37, 99, 235);
-      doc.text(`${pos.title} (${pos.period})`, 25, posY);
-      
-      posY += 5;
-      if (pos.responsibilities && pos.responsibilities.length > 0) {
-        pos.responsibilities.forEach(resp => {
-          doc.setFontSize(10);
-          doc.setTextColor(80);
-          const respLines = doc.splitTextToSize(`• ${resp}`, 160);
-          doc.text(respLines, 30, posY);
-          posY += respLines.length * 5;
-        });
+      // Use local profile image from public folder
+      const localImage = '/assets/images/profile.jpeg';
+      const img = cvContainer.querySelector('.cv-photo');
+      if (img) {
+        // Create a new Image to preload
+        const preloadImg = new Image();
+        preloadImg.crossOrigin = 'Anonymous';
+        preloadImg.onload = function() {
+          // Once loaded, set the src on the actual CV photo
+          img.src = preloadImg.src;
+          console.log('Preloaded profile image successfully');
+        };
+        preloadImg.onerror = function() {
+          console.warn('Failed to preload local image, falling back to original');
+        };
+        preloadImg.src = localImage;
       }
-      posY += 3;
-    });
-    
-    contactY = posY + 5;
-  });
-  
-  // Check if we need a new page
-  if (contactY > 250) {
-    doc.addPage();
-    contactY = 20;
-  }
-  
-  // Education
-  doc.setFontSize(16);
-  doc.setTextColor(30, 58, 138);
-  doc.text('Education', 20, contactY);
-  contactY += 10;
-  
-  education.forEach(edu => {
-    // Check if we need a new page
-    if (contactY > 250) {
-      doc.addPage();
-      contactY = 20;
+    } catch (err) {
+      console.error('Error setting local profile image:', err);
     }
     
-    doc.setFontSize(12);
-    doc.setTextColor(0);
-    doc.text(edu.degree, 20, contactY);
+    // Create event handlers for waiting until image is loaded
+    const profileImg = cvContainer.querySelector('.cv-photo');
+    const imagePromise = profileImg ? new Promise((imgResolve) => {
+      if (profileImg.complete) {
+        imgResolve();
+      } else {
+        profileImg.onload = imgResolve;
+        profileImg.onerror = () => {
+          console.warn('Failed to load profile image, continuing without it');
+          profileImg.style.display = 'none'; // Hide the image if it fails to load
+          imgResolve();
+        };
+        
+        // Set a timeout just in case the image never loads
+        setTimeout(imgResolve, 3000);
+      }
+    }) : Promise.resolve();
     
-    doc.setFontSize(10);
-    doc.setTextColor(80);
-    doc.text(`${edu.institution} (${edu.period})`, 20, contactY + 5);
-    
-    contactY += 10;
-    
-    // Add skills if they exist
-    if (edu.skills && edu.skills.length > 0) {
-      contactY += 3;
-      doc.text('Key Skills:', 25, contactY);
-      contactY += 5;
+    // Wait for image to load before rendering
+    imagePromise.then(() => {
+      // Ensure the PDF has proper font support
+      doc.setFont('helvetica');
       
-      edu.skills.forEach(skill => {
-        const skillLines = doc.splitTextToSize(`• ${skill}`, 160);
-        doc.text(skillLines, 30, contactY);
-        contactY += skillLines.length * 5;
+      html2canvas(cvContainer, {
+        scale: 2, // Higher scale for better quality
+        logging: true, // Enable logging to see any issues
+        useCORS: true,
+        allowTaint: true,
+        imageTimeout: 5000, // 5 second timeout for images
+        backgroundColor: '#FFFFFF', // Ensure white background
+        windowWidth: 210 * 3.78, // Convert mm to px (roughly)
+        windowHeight: 297 * 3.78, // Convert mm to px (roughly)
+        onclone: (clonedDoc) => {
+          console.log('Preparing cloned document for PDF generation');
+          // Force loaded state for images
+          const images = clonedDoc.querySelectorAll('img');
+          images.forEach(img => {
+            if (!img.complete) {
+              console.log('Image not complete:', img.src);
+            }
+          });
+          
+          // Try to force a reflow
+          clonedDoc.body.style.width = '210mm';
+        }
+      }).then(canvas => {
+        try {
+          // Remove the temporary CV container
+          document.body.removeChild(cvContainer);
+          document.head.removeChild(style);
+          
+          const imgData = canvas.toDataURL('image/png');
+          const pageWidth = 210; // A4 width in mm
+          const pageHeight = 297; // A4 height in mm
+          
+          // Calculate scale to fit page width
+          const imgWidth = pageWidth;
+          const imgHeight = canvas.height * pageWidth / canvas.width;
+          
+          // For multi-page support
+          const pxFullHeight = canvas.height;
+          const pxPageHeight = Math.floor(canvas.width * pageHeight / pageWidth);
+          const nPages = Math.ceil(pxFullHeight / pxPageHeight);
+          
+          // Add pages one by one
+          for (let i = 0; i < nPages; i++) {
+            if (i > 0) {
+              doc.addPage();
+            }
+            
+            // Calculate position of the canvas for the current page
+            const srcY = pxPageHeight * i;
+            const destY = 0;
+            
+            // Add the image to the page
+            doc.addImage(
+              canvas, 
+              'PNG', 
+              0, 
+              destY, 
+              pageWidth, 
+              pageHeight, 
+              undefined, 
+              'FAST',
+              0, 
+              {
+                srcY: srcY,
+                srcX: 0,
+                srcHeight: Math.min(pxPageHeight, pxFullHeight - srcY),
+                srcWidth: canvas.width
+              }
+            );
+          }
+          
+          console.log('PDF generation successful');
+          resolve(doc);
+        } catch (error) {
+          console.error('Error in PDF creation:', error);
+          reject(error);
+        }
+      }).catch(error => {
+        console.error('Error generating canvas:', error);
+        reject(error);
       });
-    }
-    
-    contactY += 5;
+    }).catch(error => {
+      console.error('Image loading error:', error);
+      reject(error);
+    });
   });
-  
-  // Skills
-  if (contactY > 220) {
-    doc.addPage();
-    contactY = 20;
-  }
-  
-  doc.setFontSize(16);
-  doc.setTextColor(30, 58, 138);
-  doc.text('Skills', 20, contactY);
-  contactY += 10;
-  
-  skillCategories.forEach(category => {
-    // Check page break
-    if (contactY > 270) {
-      doc.addPage();
-      contactY = 20;
-    }
-    
-    doc.setFontSize(12);
-    doc.setTextColor(0);
-    doc.text(category.title, 20, contactY);
-    
-    doc.setFontSize(10);
-    doc.setTextColor(80);
-    const skillText = category.skills.join(', ');
-    const skillLines = doc.splitTextToSize(skillText, 160);
-    doc.text(skillLines, 20, contactY + 5);
-    
-    contactY += skillLines.length * 5 + 10;
-  });
-  
-  // Certificates
-  if (contactY > 250) {
-    doc.addPage();
-    contactY = 20;
-  }
-  
-  doc.setFontSize(16);
-  doc.setTextColor(30, 58, 138);
-  doc.text('Certificates', 20, contactY);
-  contactY += 10;
-  
-  certificates.forEach(cert => {
-    doc.setFontSize(11);
-    doc.setTextColor(0);
-    doc.text(`${cert.title} - ${cert.issuer}`, 20, contactY);
-    contactY += 7;
-  });
-  
-  // Add page numbers only (removed "Generated from" text)
-  const pageCount = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    doc.setFontSize(8);
-    doc.setTextColor(150);
-    
-    // Only show page numbers
-    doc.text(
-      `Page ${i} of ${pageCount}`,
-      doc.internal.pageSize.getWidth() - 20,
-      doc.internal.pageSize.getHeight() - 10
-    );
-  }
-  
-  return doc;
 }
 
 /**
  * Generates and saves the CV as a PDF file
  */
-export function downloadCV() {
-  const doc = generateCV();
-  const fileName = `${resumeData.personal.name.replace(/\s+/g, '_')}_CV.pdf`;
-  doc.save(fileName);
+export function downloadCV(resumeData) {
+  if (!resumeData) {
+    console.error('Resume data is required for CV generation');
+    throw new Error('Resume data is required for CV generation');
+  }
+
+  // Show a loading indicator
+  const loadingToast = document.createElement('div');
+  loadingToast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #2c3e50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  `;
+  loadingToast.textContent = 'Generating CV...';
+  document.body.appendChild(loadingToast);
+
+  // Set a timeout to handle cases where generation takes too long
+  const timeoutId = setTimeout(() => {
+    console.warn('CV generation taking too long, using fallback method...');
+    document.body.removeChild(loadingToast);
+    downloadFallbackCV();
+  }, 15000); // 15 seconds timeout
+
+  generateCV(resumeData)
+    .then(doc => {
+      // Clear the timeout as generation completed successfully
+      clearTimeout(timeoutId);
+      
+      const fileName = `${resumeData.personal.name.replace(/\s+/g, '_')}_CV.pdf`;
+      doc.save(fileName);
+      
+      // Remove loading indicator and show success message
+      document.body.removeChild(loadingToast);
+      
+      const successToast = document.createElement('div');
+      successToast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #27ae60;
+        color: white;
+        padding: 10px 20px;
+      border-radius: 4px;
+      z-index: 9999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    `;
+    successToast.textContent = 'CV downloaded successfully!';
+    document.body.appendChild(successToast);
+    
+    setTimeout(() => {
+      document.body.removeChild(successToast);
+    }, 3000);
+  })
+    .catch(error => {
+      // Clear the timeout as generation completed (with error)
+      clearTimeout(timeoutId);
+      
+      console.error('Error generating CV:', error);
+      
+      // Only try to remove if it's still in the DOM
+      try {
+        document.body.removeChild(loadingToast);
+      } catch (e) {
+        // Element might have been removed already
+      }
+      
+      const errorToast = document.createElement('div');
+      errorToast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #c0392b;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        z-index: 9999;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      `;
+      errorToast.textContent = 'CV generation failed. Using fallback method...';
+      document.body.appendChild(errorToast);
+      
+      setTimeout(() => {
+        document.body.removeChild(errorToast);
+      }, 3000);
+      
+      // Fall back to the static PDF download
+      downloadFallbackCV();
+    });
 }

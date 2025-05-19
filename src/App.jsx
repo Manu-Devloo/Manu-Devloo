@@ -1,6 +1,6 @@
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.scss';
+import './styles/App.scss';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Admin from './pages/Admin';
 import Login from './pages/Login';

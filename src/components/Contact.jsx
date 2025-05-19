@@ -13,11 +13,27 @@ function Contact({ resumeData }) {
   
   const handleDownloadCV = (e) => {
     e.preventDefault();
+    
+    // Show feedback to user
+    const button = e.target.closest('button');
+    const originalText = button.textContent;
+    button.textContent = 'Generating...';
+    button.disabled = true;
+    
     try {
-      downloadCV();
+      downloadCV(resumeData);
+      
+      // Reset button after a delay
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.disabled = false;
+      }, 2000);
     } catch (error) {
       console.error("Error generating CV:", error);
-      downloadFallbackCV();
+      
+      // Reset button 
+      button.textContent = originalText;
+      button.disabled = false;
     }
   };
   

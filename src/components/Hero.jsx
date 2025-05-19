@@ -9,7 +9,7 @@ function Hero({ resumeData }) {
   const handleDownloadCV = (e) => {
     e.preventDefault();
     try {
-      // downloadCV();
+      // downloadCV(resumeData);
       downloadFallbackCV();
     } catch (error) {
       console.error("Error generating CV:", error);

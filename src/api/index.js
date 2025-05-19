@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { getToken } from '../utils/auth';
+import { getCachedData, setCachedData } from './cacheDB';
+import { SECTIONS } from '../../netlify/functions/utils/constants';
+
+const baseURL = import.meta.env.VITE_NETLIFY_API_URL || 'http://localhost:8888/.netlify'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_NETLIFY_API_URL || 'http://localhost:8888/.netlify/functions',
+  baseURL: `${baseURL}/functions`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,28 +25,43 @@ export const setData = async (data, section = null) => {
   try {
     const token = getToken();
     const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-    var response;
+    
+    let url;
+
     if (section) {
-      response = await api.post(`/setData/?section=${section}`, data, config);
+      url = `/setData/?section=${section}`;
     } else {
-      response = await api.post('/setData', data, config);
+      return new Error("Section needs to be used");
     }
+
+    const response = await api.post(url, data, config);
+
+    setCachedData(section, response.data)
+
     return response.data;
   } catch (error) {
     throw error.response.data;
   }
 };
 
-export const getData = async (section = null) => {
+export const getData = async (section = 'all') => {
   try {
-    var response;
-    if (section) {
-      response = await api.get(`/getData/?section=${section}`);
-    } else {
-      response = await api.get('/getData');
+    const cache = await getCachedData(section);
+
+    if (cache) {
+      return cache;
     }
-    return response.data;
+
+    let url = section !== 'all' ? `/getData/?section=${section}` : '/getData';
+
+    const response = await api.get(url);
+
+    const data = response.data;
+    
+    await setCachedData(section, data);
+    
+    return data;
   } catch (error) {
-    throw error.response.data;
+    throw error.response?.data || error;
   }
-}
+};

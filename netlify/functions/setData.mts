@@ -38,6 +38,7 @@ export default async (req: Request, context: Context) => {
 
   if (section != null && SECTIONS.includes(section)) {
     await store.setJSON(section, data);
+    
     // Trigger GitHub Actions workflow via repository_dispatch
     try {
       const githubToken = Netlify.env.get("GITHUB_TOKEN");

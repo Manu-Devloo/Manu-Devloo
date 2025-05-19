@@ -127,7 +127,7 @@
       ]
     }
   ],
-  "certificates": [
+  "certifications": [
     {
       "title": "Networking Basics",
       "issuer": "Cisco",
@@ -149,7 +149,7 @@
       "url": "https://www.credly.com/badges/dd00e10f-3a47-47af-95f7-00f0ba75702a/linked_in_profile"
     }
   ],
-  "skillCategories": [
+  "skills": [
     {
       "title": "Frontend Development",
       "icon": "FaCode",
