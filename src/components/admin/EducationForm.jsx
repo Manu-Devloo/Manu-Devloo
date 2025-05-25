@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Alert, Spinner, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Spinner, Row, Col, Collapse, Badge } from 'react-bootstrap';
 import { 
   FaGraduationCap, 
   FaUniversity, 
@@ -11,7 +11,9 @@ import {
   FaTools,
   FaCheckCircle,
   FaExclamationTriangle,
-  FaRedo
+  FaRedo,
+  FaChevronDown,
+  FaChevronUp
 } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 import PeriodPicker from '../common/PeriodPicker';
@@ -22,6 +24,7 @@ const EducationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openCards, setOpenCards] = useState({});
   
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +32,14 @@ const EducationForm = () => {
         setIsLoading(true);
         const data = await getData('education');
         setEducation(data || []);
+        
+        // Initialize all cards as open
+        const initialOpenState = (data || []).reduce((acc, _, index) => {
+          acc[index] = true;
+          return acc;
+        }, {});
+        setOpenCards(initialOpenState);
+        
         setError(null);
       } catch (err) {
         console.error("Error fetching education data:", err);
@@ -40,6 +51,23 @@ const EducationForm = () => {
     
     fetchData();
   }, []);
+
+  // Toggle card collapsed/expanded state - only one card open at a time
+  const toggleCard = (index) => {
+    setOpenCards(prev => {
+      const isCurrentlyOpen = prev[index];
+      // Close all cards first
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {});
+      // If the clicked card was closed, open it
+      if (!isCurrentlyOpen) {
+        newState[index] = true;
+      }
+      return newState;
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -174,92 +202,115 @@ const EducationForm = () => {
       <Form onSubmit={handleSubmit}>
         {education.map((edu, eduIndex) => (
           <Card key={eduIndex} className="mb-4 form-card hover-effect">
-            <Card.Header className="d-flex align-items-center">
+            <Card.Header 
+              className="d-flex align-items-center"
+              onClick={() => toggleCard(eduIndex)}
+              style={{ cursor: 'pointer' }}
+            >
               <FaUniversity className="me-2" />
               <span>{edu.institution || `Education #${eduIndex + 1}`}</span>
-              <Button 
-                variant="outline-danger" 
-                size="sm" 
-                className="ms-auto btn-icon-sm"
-                onClick={() => removeEducationItem(eduIndex)}
-                aria-label="Remove education item"
-              >
-                <FaTrash /> <span className="d-none d-md-inline">Remove</span>
-              </Button>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label><FaUniversity className="me-1" /> Institution</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      value={edu.institution} 
-                      onChange={(e) => updateEducation(eduIndex, 'institution', e.target.value)} 
-                      placeholder="University or school name"
-                      className="form-control-modern"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label><FaBookReader className="me-1" /> Degree</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      value={edu.degree} 
-                      onChange={(e) => updateEducation(eduIndex, 'degree', e.target.value)} 
-                      placeholder="Degree or qualification"
-                      className="form-control-modern"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <PeriodPicker
-                value={edu.period}
-                onChange={(value) => updateEducation(eduIndex, 'period', value)}
-                label={<><FaCalendarAlt className="me-1" /> Period</>}
-                required
-              />
-
-              <Form.Group className="mb-3">
-                <Form.Label><FaTools className="me-1" /> Skills</Form.Label>
-                <div className="skills-container p-3 border rounded mb-2">
-                  {edu.skills.map((skill, skillIndex) => (
-                    <div key={skillIndex} className="d-flex mb-2 align-items-center">
-                      <Form.Control 
-                        type="text" 
-                        value={skill}
-                        onChange={(e) => updateSkill(eduIndex, skillIndex, e.target.value)}
-                        placeholder="Skill gained during education"
-                        className="form-control-modern"
-                        required
-                      />
-                      <Button 
-                        variant="outline-danger" 
-                        size="sm"
-                        className="ms-2 btn-icon-sm"
-                        onClick={() => removeSkill(eduIndex, skillIndex)}
-                        aria-label="Remove skill"
-                      >
-                        <FaTrash />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
+              <div className="ms-auto d-flex align-items-center">
+                {edu.degree && (
+                  <Badge bg="light" text="dark" className="me-2">
+                    {edu.degree}
+                  </Badge>
+                )}
                 <Button 
-                  variant="outline-primary" 
-                  size="sm"
-                  onClick={() => addSkill(eduIndex)}
-                  className="mt-2"
-                  type="button"
+                  variant="outline-danger" 
+                  size="sm" 
+                  className="me-2 btn-icon-sm"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card toggle when clicking remove button
+                    removeEducationItem(eduIndex);
+                  }}
+                  aria-label="Remove education item"
                 >
-                  <FaPlus className="me-1" /> Add Skill
+                  <FaTrash /> <span className="d-none d-md-inline">Remove</span>
                 </Button>
-              </Form.Group>
-            </Card.Body>
+                {openCards[eduIndex] ? (
+                  <FaChevronUp className="text-secondary" />
+                ) : (
+                  <FaChevronDown className="text-secondary" />
+                )}
+              </div>
+            </Card.Header>
+            <Collapse in={openCards[eduIndex]}>
+              <div>
+                <Card.Body>
+                  <Row>
+                    <Col md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label><FaUniversity className="me-1" /> Institution</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          value={edu.institution} 
+                          onChange={(e) => updateEducation(eduIndex, 'institution', e.target.value)} 
+                          placeholder="University or school name"
+                          className="form-control-modern"
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Label><FaBookReader className="me-1" /> Degree</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          value={edu.degree} 
+                          onChange={(e) => updateEducation(eduIndex, 'degree', e.target.value)} 
+                          placeholder="Degree or qualification"
+                          className="form-control-modern"
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <PeriodPicker
+                    value={edu.period}
+                    onChange={(value) => updateEducation(eduIndex, 'period', value)}
+                    label={<><FaCalendarAlt className="me-1" /> Period</>}
+                    required
+                  />
+
+                  <Form.Group className="mb-3">
+                    <Form.Label><FaTools className="me-1" /> Skills</Form.Label>
+                    <div className="skills-container p-3 border rounded mb-2">
+                      {edu.skills.map((skill, skillIndex) => (
+                        <div key={skillIndex} className="d-flex mb-2 align-items-center">
+                          <Form.Control 
+                            type="text" 
+                            value={skill}
+                            onChange={(e) => updateSkill(eduIndex, skillIndex, e.target.value)}
+                            placeholder="Skill gained during education"
+                            className="form-control-modern"
+                            required
+                          />
+                          <Button 
+                            variant="outline-danger" 
+                            size="sm"
+                            className="ms-2 btn-icon-sm"
+                            onClick={() => removeSkill(eduIndex, skillIndex)}
+                            aria-label="Remove skill"
+                          >
+                            <FaTrash />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <Button 
+                      variant="outline-primary" 
+                      size="sm"
+                      onClick={() => addSkill(eduIndex)}
+                      className="mt-2"
+                      type="button"
+                    >
+                      <FaPlus className="me-1" /> Add Skill
+                    </Button>
+                  </Form.Group>
+                </Card.Body>
+              </div>
+            </Collapse>
           </Card>
         ))}
 

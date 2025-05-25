@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Row, Col, Alert, Spinner, Badge } from 'react-bootstrap';
+import { Form, Button, Card, Row, Col, Alert, Spinner, Badge, Collapse } from 'react-bootstrap';
 import { 
   FaBriefcase, 
   FaBuilding, 
@@ -13,7 +13,9 @@ import {
   FaCheckCircle,
   FaExclamationTriangle,
   FaRedo,
-  FaInfoCircle
+  FaInfoCircle,
+  FaChevronDown,
+  FaChevronUp
 } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 import PeriodPicker from '../common/PeriodPicker';
@@ -24,6 +26,7 @@ const ExperiencesForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openCards, setOpenCards] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +34,14 @@ const ExperiencesForm = () => {
         setIsLoading(true);
         const data = await getData('experiences');
         setExperiences(data || []);
+
+        // Initialize all cards as open
+        const initialOpenState = (data || []).reduce((acc, _, index) => {
+          acc[index] = true;
+          return acc;
+        }, {});
+        setOpenCards(initialOpenState);
+        
         setError(null);
       } catch (err) {
         console.error("Error fetching experiences data:", err);
@@ -64,6 +75,23 @@ const ExperiencesForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Toggle card collapsed/expanded state - only one card open at a time
+  const toggleCard = (index) => {
+    setOpenCards(prev => {
+      const isCurrentlyOpen = prev[index];
+      // Close all cards first
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {});
+      // If the clicked card was closed, open it
+      if (!isCurrentlyOpen) {
+        newState[index] = true;
+      }
+      return newState;
+    });
   };
 
   const addExperience = () => {
@@ -209,20 +237,41 @@ const ExperiencesForm = () => {
       <Form onSubmit={handleSubmit}>
         {experiences.map((experience, expIndex) => (
           <Card key={expIndex} className="mb-4 form-card hover-effect">
-            <Card.Header className="d-flex align-items-center">
+            <Card.Header 
+              className="d-flex align-items-center"
+              onClick={() => toggleCard(expIndex)}
+              style={{ cursor: 'pointer' }}
+            >
               <FaBuilding className="me-2" />
               <span>{experience.company || `Experience #${expIndex + 1}`}</span>
-              <Button
-                variant="outline-danger"
-                size="sm"
-                className="ms-auto btn-icon-sm"
-                onClick={() => removeExperience(expIndex)}
-                aria-label="Remove experience"
-              >
-                <FaTrash /> <span className="d-none d-md-inline">Remove</span>
-              </Button>
+              <div className="ms-auto d-flex align-items-center">
+                {experience.type && (
+                  <Badge bg="light" text="dark" className="me-2">
+                    {experience.type}
+                  </Badge>
+                )}
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  className="me-2 btn-icon-sm"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card toggle when clicking remove button
+                    removeExperience(expIndex);
+                  }}
+                  aria-label="Remove experience"
+                >
+                  <FaTrash /> <span className="d-none d-md-inline">Remove</span>
+                </Button>
+                {openCards[expIndex] ? (
+                  <FaChevronUp className="text-secondary" />
+                ) : (
+                  <FaChevronDown className="text-secondary" />
+                )}
+              </div>
             </Card.Header>
-            <Card.Body>
+            <Collapse in={openCards[expIndex]}>
+              <div>
+                <Card.Body>
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
@@ -365,7 +414,9 @@ const ExperiencesForm = () => {
               >
                 <FaPlus className="me-1" /> Add Position
               </Button>
-            </Card.Body>
+                </Card.Body>
+              </div>
+            </Collapse>
           </Card>
         ))}
 

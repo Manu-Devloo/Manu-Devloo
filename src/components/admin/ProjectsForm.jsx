@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Row, Col, Alert, InputGroup, Spinner, Badge, Image } from 'react-bootstrap';
+import { Form, Button, Card, Row, Col, Alert, InputGroup, Spinner, Badge, Image, Collapse } from 'react-bootstrap';
 import { 
   FaProjectDiagram, 
   FaTrash, 
@@ -15,7 +15,9 @@ import {
   FaCheckCircle,
   FaExclamationTriangle,
   FaRedo,
-  FaEye
+  FaEye,
+  FaChevronDown,
+  FaChevronUp
 } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 import YearPicker from '../common/YearPicker';
@@ -26,6 +28,7 @@ const ProjectsForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openCards, setOpenCards] = useState({});
   
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +36,14 @@ const ProjectsForm = () => {
         setIsLoading(true);
         const data = await getData('projects');
         setProjects(data || []);
+        
+        // Initialize all cards as open
+        const initialOpenState = (data || []).reduce((acc, _, index) => {
+          acc[index] = true;
+          return acc;
+        }, {});
+        setOpenCards(initialOpenState);
+        
         setError(null);
       } catch (err) {
         console.error("Error fetching projects data:", err);
@@ -66,6 +77,23 @@ const ProjectsForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Toggle card collapsed/expanded state - only one card open at a time
+  const toggleCard = (index) => {
+    setOpenCards(prev => {
+      const isCurrentlyOpen = prev[index];
+      // Close all cards first
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {});
+      // If the clicked card was closed, open it
+      if (!isCurrentlyOpen) {
+        newState[index] = true;
+      }
+      return newState;
+    });
   };
 
   const addProject = () => {
@@ -183,20 +211,39 @@ const ProjectsForm = () => {
         
         {projects.map((project, projectIndex) => (
           <Card key={projectIndex} className="mb-4 form-card hover-effect">
-            <Card.Header className="d-flex align-items-center">
+            <Card.Header 
+              className="d-flex align-items-center cursor-pointer"
+              onClick={() => toggleCard(projectIndex)}
+              style={{ cursor: 'pointer' }}
+            >
               <FaProjectDiagram className="me-2" />
-              <span>{project.title || `Project #${projectIndex + 1}`}</span>
-              <Button 
-                variant="outline-danger" 
-                size="sm" 
-                className="ms-auto btn-icon-sm"
-                onClick={() => removeProject(projectIndex)}
-                aria-label="Remove project"
-              >
-                <FaTrash /> <span className="d-none d-md-inline">Remove</span>
-              </Button>
+              <div className="flex-grow-1">
+                <span className="fw-semibold">{project.title || `Project #${projectIndex + 1}`}</span>
+                {project.year && (
+                  <Badge bg="secondary" className="ms-2">{project.year}</Badge>
+                )}
+                {project.role && (
+                  <Badge bg="info" className="ms-2">{project.role}</Badge>
+                )}
+              </div>
+              <div className="d-flex align-items-center">
+                <Button 
+                  variant="outline-danger" 
+                  size="sm" 
+                  className="me-2 btn-icon-sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeProject(projectIndex);
+                  }}
+                  aria-label="Remove project"
+                >
+                  <FaTrash /> <span className="d-none d-md-inline">Remove</span>
+                </Button>
+                {openCards[projectIndex] ? <FaChevronUp /> : <FaChevronDown />}
+              </div>
             </Card.Header>
-            <Card.Body>
+            <Collapse in={openCards[projectIndex]}>
+              <Card.Body>
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
@@ -349,6 +396,7 @@ const ProjectsForm = () => {
                 </Button>
               </Form.Group>
             </Card.Body>
+            </Collapse>
           </Card>
         ))}
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Alert, Spinner, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Spinner, Row, Col, Collapse, Badge } from 'react-bootstrap';
 import { 
   FaCertificate, 
   FaAward, 
@@ -13,7 +13,9 @@ import {
   FaCheckCircle,
   FaExclamationTriangle,
   FaRedo,
-  FaInfoCircle
+  FaInfoCircle,
+  FaChevronDown,
+  FaChevronUp
 } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 
@@ -23,6 +25,7 @@ const CertificatesForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openCards, setOpenCards] = useState({});
   
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +33,14 @@ const CertificatesForm = () => {
         setIsLoading(true);
         const data = await getData('certifications');
         setCertificates(data || []);
+        
+        // Initialize all cards as open
+        const initialOpenState = (data || []).reduce((acc, _, index) => {
+          acc[index] = true;
+          return acc;
+        }, {});
+        setOpenCards(initialOpenState);
+        
         setError(null);
       } catch (err) {
         console.error("Error fetching certificates data:", err);
@@ -63,6 +74,23 @@ const CertificatesForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Toggle card collapsed/expanded state - only one card open at a time
+  const toggleCard = (index) => {
+    setOpenCards(prev => {
+      const isCurrentlyOpen = prev[index];
+      // Close all cards first
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {});
+      // If the clicked card was closed, open it
+      if (!isCurrentlyOpen) {
+        newState[index] = true;
+      }
+      return newState;
+    });
   };
 
   const addCertificate = () => {
@@ -115,95 +143,118 @@ const CertificatesForm = () => {
   }
 
   return (
-    <div className="fade-in">
+    <div className="certificates-form animate-fade-in">
       {status.show && (
         <Alert 
           variant={status.type}
           onClose={() => setStatus({ ...status, show: false })} 
           dismissible
-          className="slide-in"
+          className="d-flex align-items-center"
         >
-          <div className="d-flex align-items-center">
-            {status.type === 'success' ? <FaCheckCircle className="me-2" /> : <FaExclamationTriangle className="me-2" />}
-            {status.message}
-          </div>
+          {status.type === 'success' ? (
+            <FaCheckCircle className="me-2" />
+          ) : (
+            <FaExclamationTriangle className="me-2" />
+          )}
+          <div>{status.message}</div>
         </Alert>
       )}
 
+      <div className="section-header mb-4">
+        <h4 className="mb-3"><FaCertificate className="me-2" /> Certificates & Credentials</h4>
+        <p className="text-muted">Manage your professional certifications and credentials</p>
+      </div>
+
+      {certificates.length === 0 && !isLoading && (
+        <div className="text-center p-4 mb-4 empty-state-container">
+          <FaCertificate style={{ fontSize: '2.5rem' }} className="text-muted mb-3" />
+          <h5>No Certificates Added Yet</h5>
+          <p className="mb-3 text-muted">Add your professional certifications to showcase your expertise.</p>
+          <Button 
+            variant="primary" 
+            onClick={addCertificate}
+            className="animated-button"
+          >
+            <FaPlus className="me-2" /> Add First Certificate
+          </Button>
+        </div>
+      )}
+
       <Form onSubmit={handleSubmit}>
-        <Card className="mb-4">
-          <Card.Body>
-            <div className="d-flex align-items-center mb-4">
-              <FaCertificate className="me-3 text-primary" style={{fontSize: '1.5rem'}} />
-              <div>
-                <Card.Title className="mb-1">Certificates & Credentials</Card.Title>
-                <Card.Subtitle className="mb-0">
-                  Manage your professional certifications and credentials
-                </Card.Subtitle>
+        {certificates.map((cert, certIndex) => (
+          <Card key={certIndex} className="mb-4 form-card hover-effect">
+            <Card.Header 
+              className="d-flex align-items-center"
+              onClick={() => toggleCard(certIndex)}
+              style={{ cursor: 'pointer' }}
+            >
+              <FaAward className="me-2" />
+              <span>{cert.title || `Certificate #${certIndex + 1}`}</span>
+              <div className="ms-auto d-flex align-items-center">
+                {cert.issuer && (
+                  <Badge bg="light" text="dark" className="me-2">
+                    {cert.issuer}
+                  </Badge>
+                )}
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  className="me-2 btn-icon-sm"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent card toggle when clicking remove button
+                    removeCertificate(certIndex);
+                  }}
+                  aria-label="Remove certificate"
+                >
+                  <FaTrash /> <span className="d-none d-md-inline">Remove</span>
+                </Button>
+                {openCards[certIndex] ? (
+                  <FaChevronUp className="text-secondary" />
+                ) : (
+                  <FaChevronDown className="text-secondary" />
+                )}
               </div>
-            </div>
-            
-            {certificates.length > 0 ? (
-              certificates.map((cert, certIndex) => (
-                <div key={certIndex} className="nested-form">
-                  <div className="d-flex align-items-center mb-3">
-                    <FaAward className="me-2 text-primary" />
-                    <h5 className="mb-0">{cert.title || `Certificate #${certIndex + 1}`}</h5>
-                    <Button 
-                      variant="outline-danger" 
-                      size="sm" 
-                      className="ms-auto btn-icon-sm"
-                      onClick={() => removeCertificate(certIndex)}
-                      aria-label="Remove certificate"
-                    >
-                      <FaTrash />
-                    </Button>
-                  </div>
-                  
+            </Card.Header>
+            <Collapse in={openCards[certIndex]}>
+              <div>
+                <Card.Body>
                   <Row>
                     <Col md={6}>
                       <Form.Group className="mb-3">
-                        <Form.Label className="d-flex align-items-center">
-                          <FaFileAlt className="me-2" />
-                          Certificate Title
-                        </Form.Label>
+                        <Form.Label><FaFileAlt className="me-1" /> Certificate Title</Form.Label>
                         <Form.Control 
                           type="text" 
                           value={cert.title} 
                           onChange={(e) => updateCertificate(certIndex, 'title', e.target.value)}
                           placeholder="e.g. AWS Certified Solutions Architect" 
+                          className="form-control-modern"
                           required
                         />
                       </Form.Group>
                     </Col>
-                    
                     <Col md={6}>
                       <Form.Group className="mb-3">
-                        <Form.Label className="d-flex align-items-center">
-                          <FaBuilding className="me-2" />
-                          Issuing Organization
-                        </Form.Label>
+                        <Form.Label><FaBuilding className="me-1" /> Issuing Organization</Form.Label>
                         <Form.Control 
                           type="text" 
                           value={cert.issuer} 
                           onChange={(e) => updateCertificate(certIndex, 'issuer', e.target.value)} 
                           placeholder="e.g. Amazon Web Services (AWS)"
+                          className="form-control-modern"
                           required
                         />
                       </Form.Group>
                     </Col>
                   </Row>
 
-                  <Form.Group className="mb-0">
-                    <Form.Label className="d-flex align-items-center">
-                      <FaLink className="me-2" />
-                      Certificate URL
-                    </Form.Label>
+                  <Form.Group className="mb-3">
+                    <Form.Label><FaLink className="me-1" /> Certificate URL</Form.Label>
                     <Form.Control 
                       type="url" 
                       value={cert.url} 
                       onChange={(e) => updateCertificate(certIndex, 'url', e.target.value)}
                       placeholder="https://credential.example.com/verify/12345" 
+                      className="form-control-modern"
                       required
                     />
                     <Form.Text className="text-muted">
@@ -211,45 +262,38 @@ const CertificatesForm = () => {
                       Link to the certificate or credential verification page
                     </Form.Text>
                   </Form.Group>
-                </div>
-              ))
-            ) : (
-              <div className="text-center p-4 mb-4 bg-light rounded-3">
-                <FaCertificate style={{ fontSize: '2.5rem' }} className="text-muted mb-3" />
-                <h5>No certificates added yet</h5>
-                <p className="text-muted">Add your professional certifications to showcase your expertise</p>
+                </Card.Body>
               </div>
-            )}
-            
-            <Button 
-              variant="outline-primary" 
-              className="add-item-button w-100" 
-              onClick={addCertificate}
-              type="button"
-            >
-              <FaPlus className="me-2" />
-              Add New Certificate
-            </Button>
-            
-          </Card.Body>
-        </Card>
+            </Collapse>
+          </Card>
+        ))}
 
-        <div className="action-buttons">
+        {certificates.length > 0 && (
+          <Button
+            variant="outline-success"
+            className="add-item-button animated-button"
+            onClick={addCertificate}
+            type="button"
+          >
+            <FaPlus className="me-2" /> Add New Certificate
+          </Button>
+        )}
+
+        <div className="d-flex justify-content-end mt-4">
           <Button 
             variant="primary" 
             type="submit" 
-            disabled={isSubmitting || certificates.length === 0}
-            className="d-flex align-items-center"
+            disabled={isSubmitting}
+            className="px-4 py-2"
           >
             {isSubmitting ? (
               <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
                 Saving...
               </>
             ) : (
               <>
-                <FaSave className="me-2" />
-                Save Changes
+                <FaSave className="me-2" /> Save Changes
               </>
             )}
           </Button>

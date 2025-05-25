@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Alert, Row, Col, Spinner, Badge } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Row, Col, Spinner, Badge, Collapse } from 'react-bootstrap';
 import { setData, getData } from '../../api';
 import * as FaIcons from 'react-icons/fa';
 import { 
@@ -13,7 +13,9 @@ import {
   FaInfoCircle,
   FaCheckCircle,
   FaExclamationTriangle,
-  FaRedo
+  FaRedo,
+  FaChevronDown,
+  FaChevronUp
 } from 'react-icons/fa';
 
 const SkillsForm = () => {
@@ -22,6 +24,7 @@ const SkillsForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openCards, setOpenCards] = useState({});
   
   // List of available Font Awesome icons that can be used
   const iconOptions = [
@@ -37,6 +40,14 @@ const SkillsForm = () => {
         const data = await getData('skills');
         // In resume.json it's "skillCategories" but in the API it's "skills"
         setSkillCategories(data || []);
+        
+        // Initialize all cards as open
+        const initialOpenState = (data || []).reduce((acc, _, index) => {
+          acc[index] = true;
+          return acc;
+        }, {});
+        setOpenCards(initialOpenState);
+        
         setError(null);
       } catch (err) {
         console.error("Error fetching skills data:", err);
@@ -70,6 +81,23 @@ const SkillsForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Toggle card collapsed/expanded state - only one card open at a time
+  const toggleCard = (index) => {
+    setOpenCards(prev => {
+      const isCurrentlyOpen = prev[index];
+      // Close all cards first
+      const newState = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {});
+      // If the clicked card was closed, open it
+      if (!isCurrentlyOpen) {
+        newState[index] = true;
+      }
+      return newState;
+    });
   };
 
   const addCategory = () => {
@@ -187,20 +215,36 @@ const SkillsForm = () => {
       <Form onSubmit={handleSubmit}>
         {skillCategories.map((category, catIndex) => (
           <Card key={catIndex} className="mb-4 form-card hover-effect">
-            <Card.Header className="d-flex align-items-center">
+            <Card.Header 
+              className="d-flex align-items-center cursor-pointer"
+              onClick={() => toggleCard(catIndex)}
+              style={{ cursor: 'pointer' }}
+            >
               {category.icon && renderIconPreview(category.icon)}
-              <span>{category.title || `Category #${catIndex + 1}`}</span>
-              <Button 
-                variant="outline-danger" 
-                size="sm" 
-                className="ms-auto btn-icon-sm"
-                onClick={() => removeCategory(catIndex)}
-                aria-label="Remove category"
-              >
-                <FaTrash /> <span className="d-none d-md-inline">Remove</span>
-              </Button>
+              <div className="flex-grow-1">
+                <span className="fw-semibold">{category.title || `Category #${catIndex + 1}`}</span>
+                {category.skills && category.skills.length > 0 && (
+                  <Badge bg="secondary" className="ms-2">{category.skills.length} skills</Badge>
+                )}
+              </div>
+              <div className="d-flex align-items-center">
+                <Button 
+                  variant="outline-danger" 
+                  size="sm" 
+                  className="me-2 btn-icon-sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeCategory(catIndex);
+                  }}
+                  aria-label="Remove category"
+                >
+                  <FaTrash /> <span className="d-none d-md-inline">Remove</span>
+                </Button>
+                {openCards[catIndex] ? <FaChevronUp /> : <FaChevronDown />}
+              </div>
             </Card.Header>
-            <Card.Body>
+            <Collapse in={openCards[catIndex]}>
+              <Card.Body>
               <Row className="align-items-end">
                 <Col md={8}>
                   <Form.Group className="mb-3">
@@ -273,6 +317,7 @@ const SkillsForm = () => {
                 </Button>
               </Form.Group>
             </Card.Body>
+            </Collapse>
           </Card>
         ))}
 
