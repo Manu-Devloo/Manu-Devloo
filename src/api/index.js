@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 import { getCachedData, setCachedData } from './cacheDB';
-import { SECTIONS } from '../../netlify/functions/utils/constants';
 
 const baseURL = import.meta.env.VITE_NETLIFY_API_URL || 'http://localhost:8888/.netlify'
 

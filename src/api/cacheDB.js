@@ -3,7 +3,7 @@ import { SECTIONS } from "../../netlify/functions/utils/constants";
 const DB_NAME = 'PortfolioDB';
 const STORE_NAME = 'cache';
 const DB_VERSION = 1;
-const EXPIRY_DAYS = 5;
+const EXPIRY_DAYS = 30;
 
 export async function openDB() {
   return new Promise((resolve, reject) => {
