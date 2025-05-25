@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Row, Col, Alert, InputGroup, Spinner } from 'react-bootstrap';
-import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 import YearPicker from '../common/YearPicker';
-import DraggableList from '../common/DraggableList';
 
 const ProjectsForm = () => {
   const [projects, setProjects] = useState([]);
@@ -98,10 +96,6 @@ const ProjectsForm = () => {
     setProjects(updatedProjects);
   };
 
-  const handleReorder = (newOrder) => {
-    setProjects(newOrder);
-  };
-
   if (isLoading) {
     return (
       <div className="text-center p-4">
@@ -137,143 +131,138 @@ const ProjectsForm = () => {
       )}
 
       <Form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <small className="text-muted">Drag projects to reorder them</small>
-        </div>
         
-        <DraggableList
-          items={projects}
-          onReorder={handleReorder}
-          renderItem={(project, projectIndex) => (
-            <Card className="mb-4">
-              <Card.Header className="d-flex align-items-center">
-                <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                <span>{project.title || `Project #${projectIndex + 1}`}</span>
-                <Button 
-                  variant="outline-danger" 
-                  size="sm" 
-                  className="ms-auto"
-                  onClick={() => removeProject(projectIndex)}
-                >
-                  Remove Project
-                </Button>
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        value={project.title} 
-                        onChange={(e) => updateProject(projectIndex, 'title', e.target.value)} 
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <YearPicker
-                      value={project.year}
-                      onChange={(value) => updateProject(projectIndex, 'year', value)}
-                      required
-                    />
-                  </Col>
-                </Row>
-                
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>URL</Form.Label>
-                      <Form.Control 
-                        type="url" 
-                        value={project.url || ''} 
-                        onChange={(e) => updateProject(projectIndex, 'url', e.target.value)} 
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>GitHub URL (optional)</Form.Label>
-                      <Form.Control 
-                        type="url" 
-                        value={project.github || ''} 
-                        onChange={(e) => updateProject(projectIndex, 'github', e.target.value)} 
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                
-                <Form.Group className="mb-3">
-                  <Form.Label>Image Path</Form.Label>
-                  <InputGroup>
-                    <InputGroup.Text>/assets/images/projects/</InputGroup.Text>
+        {projects.map((project, projectIndex) => (
+          <Card key={projectIndex} className="mb-4">
+            <Card.Header className="d-flex align-items-center">
+              <span>{project.title || `Project #${projectIndex + 1}`}</span>
+              <Button 
+                variant="outline-danger" 
+                size="sm" 
+                className="ms-auto"
+                onClick={() => removeProject(projectIndex)}
+              >
+                Remove Project
+              </Button>
+            </Card.Header>
+            <Card.Body>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Title</Form.Label>
                     <Form.Control 
                       type="text" 
-                      value={project.image ? project.image.replace('/assets/images/projects/', '') : ''} 
-                      onChange={(e) => updateProject(projectIndex, 'image', `/assets/images/projects/${e.target.value}`)} 
-                      placeholder="image-name.jpg"
+                      value={project.title} 
+                      onChange={(e) => updateProject(projectIndex, 'title', e.target.value)} 
+                      required
                     />
-                  </InputGroup>
-                  <Form.Text className="text-muted">
-                    Images should be placed in the public/assets/images/projects/ directory
-                  </Form.Text>
-                </Form.Group>
-                
-                <Form.Group className="mb-3">
-                  <Form.Label>Role</Form.Label>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Year</Form.Label>
+                    <YearPicker
+                      year={project.year}
+                      updateValue={(year) => updateProject(projectIndex, 'year', year)}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>URL</Form.Label>
+                    <Form.Control 
+                      type="url" 
+                      value={project.url || ''} 
+                      onChange={(e) => updateProject(projectIndex, 'url', e.target.value)} 
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>GitHub URL (optional)</Form.Label>
+                    <Form.Control 
+                      type="url" 
+                      value={project.github || ''} 
+                      onChange={(e) => updateProject(projectIndex, 'github', e.target.value)} 
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              
+              <Form.Group className="mb-3">
+                <Form.Label>Image Path</Form.Label>
+                <InputGroup>
+                  <InputGroup.Text>/assets/images/projects/</InputGroup.Text>
                   <Form.Control 
                     type="text" 
-                    value={project.role || ''} 
-                    onChange={(e) => updateProject(projectIndex, 'role', e.target.value)} 
-                    required
+                    value={project.image ? project.image.replace('/assets/images/projects/', '') : ''} 
+                    onChange={(e) => updateProject(projectIndex, 'image', `/assets/images/projects/${e.target.value}`)} 
+                    placeholder="image-name.jpg"
                   />
-                </Form.Group>
+                </InputGroup>
+                <Form.Text className="text-muted">
+                  Images should be placed in the public/assets/images/projects/ directory
+                </Form.Text>
+              </Form.Group>
+              
+              <Form.Group className="mb-3">
+                <Form.Label>Role</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  value={project.role || ''} 
+                  onChange={(e) => updateProject(projectIndex, 'role', e.target.value)} 
+                  required
+                />
+              </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control 
-                    as="textarea" 
-                    rows={3}
-                    value={project.description || ''} 
-                    onChange={(e) => updateProject(projectIndex, 'description', e.target.value)} 
-                    required
-                  />
-                </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Description</Form.Label>
+                <Form.Control 
+                  as="textarea" 
+                  rows={3}
+                  value={project.description || ''} 
+                  onChange={(e) => updateProject(projectIndex, 'description', e.target.value)} 
+                  required
+                />
+              </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Technologies</Form.Label>
-                  {project.technologies.map((tech, techIndex) => (
-                    <div key={techIndex} className="d-flex mb-2">
-                      <Form.Control 
-                        type="text" 
-                        value={tech}
-                        onChange={(e) => updateTechnology(projectIndex, techIndex, e.target.value)}
-                        required
-                      />
-                      <Button 
-                        variant="outline-danger" 
-                        size="sm"
-                        className="ms-2"
-                        onClick={() => removeTechnology(projectIndex, techIndex)}
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  ))}
-                  <Button 
-                    variant="outline-primary" 
-                    size="sm"
-                    onClick={() => addTechnology(projectIndex)}
-                    type="button"
-                  >
-                    Add Technology
-                  </Button>
-                </Form.Group>
-              </Card.Body>
-            </Card>
-          )}
-        />
+              <Form.Group className="mb-3">
+                <Form.Label>Technologies</Form.Label>
+                {project.technologies.map((tech, techIndex) => (
+                  <div key={techIndex} className="d-flex mb-2">
+                    <Form.Control 
+                      type="text" 
+                      value={tech}
+                      onChange={(e) => updateTechnology(projectIndex, techIndex, e.target.value)}
+                      required
+                    />
+                    <Button 
+                      variant="outline-danger" 
+                      size="sm"
+                      className="ms-2"
+                      onClick={() => removeTechnology(projectIndex, techIndex)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button 
+                  variant="outline-primary" 
+                  size="sm"
+                  onClick={() => addTechnology(projectIndex)}
+                  type="button"
+                >
+                  Add Technology
+                </Button>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        ))}
 
         <Button 
           variant="outline-success" 

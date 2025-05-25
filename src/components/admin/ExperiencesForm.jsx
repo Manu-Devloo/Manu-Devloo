@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Row, Col, Alert, Spinner } from 'react-bootstrap';
-import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 import PeriodPicker from '../common/PeriodPicker';
-import DraggableList from '../common/DraggableList';
 
 const ExperiencesForm = () => {
   const [experiences, setExperiences] = useState([]);
@@ -127,15 +125,7 @@ const ExperiencesForm = () => {
     setExperiences(updatedExperiences);
   };
 
-  const handleReorder = (newOrder) => {
-    setExperiences(newOrder);
-  };
 
-  const handlePositionReorder = (experienceIndex, newPositions) => {
-    const updatedExperiences = [...experiences];
-    updatedExperiences[experienceIndex].positions = newPositions;
-    setExperiences(updatedExperiences);
-  };
 
   if (isLoading) {
     return (
@@ -172,27 +162,19 @@ const ExperiencesForm = () => {
       )}
 
       <Form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <small className="text-muted">Drag items to reorder them</small>
-        </div>
-
-        <DraggableList
-          items={experiences}
-          onReorder={handleReorder}
-          renderItem={(experience, expIndex) => (
-            <Card className="mb-4">
-              <Card.Header className="d-flex align-items-center">
-                <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                <span>Experience #{expIndex + 1}: {experience.company}</span>
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                  className="ms-auto"
-                  onClick={() => removeExperience(expIndex)}
-                >
-                  Remove Experience
-                </Button>
-              </Card.Header>
+        {experiences.map((experience, expIndex) => (
+          <Card key={expIndex} className="mb-4">
+            <Card.Header className="d-flex align-items-center">
+              <span>Experience #{expIndex + 1}: {experience.company}</span>
+              <Button
+                variant="outline-danger"
+                size="sm"
+                className="ms-auto"
+                onClick={() => removeExperience(expIndex)}
+              >
+                Remove Experience
+              </Button>
+            </Card.Header>
               <Card.Body>
                 <Row>
                   <Col md={6}>
@@ -241,82 +223,74 @@ const ExperiencesForm = () => {
 
                 <hr />
                 <h5>Positions</h5>
-                <div className="mb-2">
-                  <small className="text-muted">Positions will be displayed in chronological order</small>
-                </div>
 
-                <DraggableList
-                  items={experience.positions || []}
-                  onReorder={(newPositions) => handlePositionReorder(expIndex, newPositions)}
-                  renderItem={(position, posIndex) => (
-                    <div key={posIndex} className="nested-form mb-4 p-3 border rounded">
-                      <div className="d-flex align-items-center mb-3">
-                        <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                        <h6 className="m-0">Position #{posIndex + 1}: {position.title}</h6>
-                        <Button
-                          variant="outline-danger"
-                          size="sm"
-                          className="ms-auto"
-                          onClick={() => removePosition(expIndex, posIndex)}
-                        >
-                          Remove
-                        </Button>
-                      </div>
+                {experience.positions?.map((position, posIndex) => (
+                  <div key={posIndex} className="nested-form mb-4 p-3 border rounded">
+                    <div className="d-flex align-items-center mb-3">
+                      <h6 className="m-0">Position #{posIndex + 1}: {position.title}</h6>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        className="ms-auto"
+                        onClick={() => removePosition(expIndex, posIndex)}
+                      >
+                        Remove
+                      </Button>
+                    </div>
 
-                      <Row>
-                        <Col md={6}>
-                          <Form.Group className="mb-3">
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control
-                              type="text"
-                              value={position.title}
-                              onChange={(e) => updatePosition(expIndex, posIndex, 'title', e.target.value)}
-                              required
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col md={6}>
-                          <PeriodPicker
-                            value={position.period}
-                            onChange={(value) => updatePosition(expIndex, posIndex, 'period', value)}
-                            label="Period"
+                    <Row>
+                      <Col md={6}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Title</Form.Label>
+                          <Form.Control
+                            type="text"
+                            value={position.title}
+                            onChange={(e) => updatePosition(expIndex, posIndex, 'title', e.target.value)}
                             required
                           />
-                        </Col>
-                      </Row>
+                        </Form.Group>
+                      </Col>
+                      <Col md={6}>
+                        <PeriodPicker
+                          value={position.period}
+                          onChange={(value) => updatePosition(expIndex, posIndex, 'period', value)}
+                          label="Period"
+                          required
+                        />
+                      </Col>
+                    </Row>
 
-                      <Form.Group className="mb-3">
-                        <Form.Label>Responsibilities</Form.Label>
-                        {position.responsibilities.map((resp, respIndex) => (
-                          <div key={respIndex} className="d-flex mb-2">
-                            <Form.Control
-                              type="text"
-                              value={resp}
-                              onChange={(e) => updateResponsibility(expIndex, posIndex, respIndex, e.target.value)}
-                              required
-                            />
-                            <Button
-                              variant="outline-danger"
-                              size="sm"
-                              className="ms-2"
-                              onClick={() => removeResponsibility(expIndex, posIndex, respIndex)}
-                            >
-                              Remove
-                            </Button>
-                          </div>
-                        ))}
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
-                          onClick={() => addResponsibility(expIndex, posIndex)}
-                          type="button"
-                        >
-                          Add Responsibility
-                        </Button>
-                      </Form.Group>
-                    </div>
-                  )}
-                />
+                    <Form.Group className="mb-3">
+                      <Form.Label>Responsibilities</Form.Label>
+                      {position.responsibilities.map((resp, respIndex) => (
+                        <div key={respIndex} className="d-flex mb-2">
+                          <Form.Control
+                            type="text"
+                            value={resp}
+                            onChange={(e) => updateResponsibility(expIndex, posIndex, respIndex, e.target.value)}
+                            required
+                          />
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            className="ms-2"
+                            onClick={() => removeResponsibility(expIndex, posIndex, respIndex)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => addResponsibility(expIndex, posIndex)}
+                        type="button"
+                      >
+                        Add Responsibility
+                      </Button>
+                    </Form.Group>
+                  </div>
+                ))}
 
                 <Button
                   variant="outline-primary"
@@ -327,10 +301,10 @@ const ExperiencesForm = () => {
                 >
                   Add Position
                 </Button>
+
               </Card.Body>
             </Card>
-          )}
-        />
+          ))}
 
         <Button
           variant="outline-success"

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Alert, Row, Col, Spinner } from 'react-bootstrap';
-import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
-import DraggableList from '../common/DraggableList';
 import * as FaIcons from 'react-icons/fa';
 
 const SkillsForm = () => {
@@ -101,16 +99,6 @@ const SkillsForm = () => {
     setSkillCategories(updatedSkillCategories);
   };
 
-  const handleReorder = (newOrder) => {
-    setSkillCategories(newOrder);
-  };
-
-  const handleSkillsReorder = (categoryIndex, newSkills) => {
-    const updatedSkillCategories = [...skillCategories];
-    updatedSkillCategories[categoryIndex].skills = newSkills;
-    setSkillCategories(updatedSkillCategories);
-  };
-
   // Render the selected icon for preview
   const renderIconPreview = (iconName) => {
     const IconComponent = FaIcons[iconName];
@@ -152,102 +140,84 @@ const SkillsForm = () => {
       )}
 
       <Form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <small className="text-muted">Drag categories to reorder them</small>
-        </div>
+        {skillCategories.map((category, catIndex) => (
+          <Card key={catIndex} className="mb-4">
+            <Card.Header className="d-flex align-items-center">
+              <span>{category.title || `Category #${catIndex + 1}`}</span>
+              <Button 
+                variant="outline-danger" 
+                size="sm" 
+                className="ms-auto"
+                onClick={() => removeCategory(catIndex)}
+              >
+                Remove Category
+              </Button>
+            </Card.Header>
+            <Card.Body>
+              <Row>
+                <Col md={8}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Category Title</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      value={category.title || ''} 
+                      onChange={(e) => updateCategory(catIndex, 'title', e.target.value)} 
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Icon</Form.Label>
+                    <div className="d-flex align-items-center">
+                      {category.icon && renderIconPreview(category.icon)}
+                      <Form.Select
+                        value={category.icon || 'FaCode'}
+                        onChange={(e) => updateCategory(catIndex, 'icon', e.target.value)}
+                      >
+                        {iconOptions.map(icon => (
+                          <option key={icon} value={icon}>{icon}</option>
+                        ))}
+                      </Form.Select>
+                    </div>
+                  </Form.Group>
+                </Col>
+              </Row>
 
-        <DraggableList
-          items={skillCategories}
-          onReorder={handleReorder}
-          renderItem={(category, catIndex) => (
-            <Card className="mb-4">
-              <Card.Header className="d-flex align-items-center">
-                <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                <span>{category.title || `Category #${catIndex + 1}`}</span>
-                <Button 
-                  variant="outline-danger" 
-                  size="sm" 
-                  className="ms-auto"
-                  onClick={() => removeCategory(catIndex)}
-                >
-                  Remove Category
-                </Button>
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  <Col md={8}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Category Title</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        value={category.title || ''} 
-                        onChange={(e) => updateCategory(catIndex, 'title', e.target.value)} 
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Icon</Form.Label>
-                      <div className="d-flex align-items-center">
-                        {category.icon && renderIconPreview(category.icon)}
-                        <Form.Select
-                          value={category.icon || 'FaCode'}
-                          onChange={(e) => updateCategory(catIndex, 'icon', e.target.value)}
-                        >
-                          {iconOptions.map(icon => (
-                            <option key={icon} value={icon}>{icon}</option>
-                          ))}
-                        </Form.Select>
-                      </div>
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Skills</Form.Label>
-                  <div className="mb-2">
-                    <small className="text-muted">Drag skills to reorder them</small>
+              <Form.Group className="mb-3">
+                <Form.Label>Skills</Form.Label>
+                {(category.skills || []).map((skill, skillIndex) => (
+                  <div key={skillIndex} className="d-flex mb-2 align-items-center">
+                    <Form.Control 
+                      type="text" 
+                      value={skill}
+                      onChange={(e) => updateSkill(catIndex, skillIndex, e.target.value)}
+                      required
+                    />
+                    <Button 
+                      variant="outline-danger" 
+                      size="sm"
+                      className="ms-2"
+                      onClick={() => removeSkill(catIndex, skillIndex)}
+                    >
+                      Remove
+                    </Button>
                   </div>
-                  
-                  <DraggableList
-                    items={category.skills || []}
-                    onReorder={(newSkills) => handleSkillsReorder(catIndex, newSkills)}
-                    renderItem={(skill, skillIndex) => (
-                      <div className="d-flex mb-2 align-items-center">
-                        <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                        <Form.Control 
-                          type="text" 
-                          value={skill}
-                          onChange={(e) => updateSkill(catIndex, skillIndex, e.target.value)}
-                          required
-                        />
-                        <Button 
-                          variant="outline-danger" 
-                          size="sm"
-                          className="ms-2"
-                          onClick={() => removeSkill(catIndex, skillIndex)}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    )}
-                  />
-                  
-                  <Button 
-                    variant="outline-primary" 
-                    size="sm"
-                    onClick={() => addSkill(catIndex)}
-                    type="button"
-                    className="mt-2"
-                  >
-                    Add Skill
-                  </Button>
-                </Form.Group>
-              </Card.Body>
-            </Card>
-          )}
-        />
+                ))}
+                
+                <Button 
+                  variant="outline-primary" 
+                  size="sm"
+                  onClick={() => addSkill(catIndex)}
+                  type="button"
+                  className="mt-2"
+                >
+                  Add Skill
+                </Button>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        ))}
 
         <Button 
           variant="outline-success" 

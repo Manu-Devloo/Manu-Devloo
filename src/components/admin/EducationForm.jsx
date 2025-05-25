@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Alert, Spinner } from 'react-bootstrap';
-import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
 import PeriodPicker from '../common/PeriodPicker';
-import DraggableList from '../common/DraggableList';
 
 const EducationForm = () => {
   const [education, setEducation] = useState([]);
@@ -94,10 +92,6 @@ const EducationForm = () => {
     setEducation(updatedEducation);
   };
 
-  const handleReorder = (newOrder) => {
-    setEducation(newOrder);
-  };
-
   if (isLoading) {
     return (
       <div className="text-center p-4">
@@ -133,88 +127,79 @@ const EducationForm = () => {
       )}
 
       <Form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <small className="text-muted">Drag items to reorder them</small>
-        </div>
-
-        <DraggableList
-          items={education}
-          onReorder={handleReorder}
-          renderItem={(edu, eduIndex) => (
-            <Card className="mb-4">
-              <Card.Header className="d-flex align-items-center">
-                <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                <span>{edu.institution || `Education #${eduIndex + 1}`}</span>
-                <Button 
-                  variant="outline-danger" 
-                  size="sm" 
-                  className="ms-auto"
-                  onClick={() => removeEducationItem(eduIndex)}
-                >
-                  Remove
-                </Button>
-              </Card.Header>
-              <Card.Body>
-                <Form.Group className="mb-3">
-                  <Form.Label>Institution</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    value={edu.institution} 
-                    onChange={(e) => updateEducation(eduIndex, 'institution', e.target.value)} 
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Degree</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    value={edu.degree} 
-                    onChange={(e) => updateEducation(eduIndex, 'degree', e.target.value)} 
-                    required
-                  />
-                </Form.Group>
-
-                <PeriodPicker
-                  value={edu.period}
-                  onChange={(value) => updateEducation(eduIndex, 'period', value)}
-                  label="Period"
+        {education.map((edu, eduIndex) => (
+          <Card key={eduIndex} className="mb-4">
+            <Card.Header className="d-flex align-items-center">
+              <span>{edu.institution || `Education #${eduIndex + 1}`}</span>
+              <Button 
+                variant="outline-danger" 
+                size="sm" 
+                className="ms-auto"
+                onClick={() => removeEducationItem(eduIndex)}
+              >
+                Remove
+              </Button>
+            </Card.Header>
+            <Card.Body>
+              <Form.Group className="mb-3">
+                <Form.Label>Institution</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  value={edu.institution} 
+                  onChange={(e) => updateEducation(eduIndex, 'institution', e.target.value)} 
                   required
                 />
+              </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Skills</Form.Label>
-                  {edu.skills.map((skill, skillIndex) => (
-                    <div key={skillIndex} className="d-flex mb-2">
-                      <Form.Control 
-                        type="text" 
-                        value={skill}
-                        onChange={(e) => updateSkill(eduIndex, skillIndex, e.target.value)}
-                        required
-                      />
-                      <Button 
-                        variant="outline-danger" 
-                        size="sm"
-                        className="ms-2"
-                        onClick={() => removeSkill(eduIndex, skillIndex)}
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  ))}
-                  <Button 
-                    variant="outline-primary" 
-                    size="sm"
-                    onClick={() => addSkill(eduIndex)}
-                    type="button"
-                  >
-                    Add Skill
-                  </Button>
-                </Form.Group>
-              </Card.Body>
-            </Card>
-          )}
-        />
+              <Form.Group className="mb-3">
+                <Form.Label>Degree</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  value={edu.degree} 
+                  onChange={(e) => updateEducation(eduIndex, 'degree', e.target.value)} 
+                  required
+                />
+              </Form.Group>
+
+              <PeriodPicker
+                value={edu.period}
+                onChange={(value) => updateEducation(eduIndex, 'period', value)}
+                label="Period"
+                required
+              />
+
+              <Form.Group className="mb-3">
+                <Form.Label>Skills</Form.Label>
+                {edu.skills.map((skill, skillIndex) => (
+                  <div key={skillIndex} className="d-flex mb-2">
+                    <Form.Control 
+                      type="text" 
+                      value={skill}
+                      onChange={(e) => updateSkill(eduIndex, skillIndex, e.target.value)}
+                      required
+                    />
+                    <Button 
+                      variant="outline-danger" 
+                      size="sm"
+                      className="ms-2"
+                      onClick={() => removeSkill(eduIndex, skillIndex)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button 
+                  variant="outline-primary" 
+                  size="sm"
+                  onClick={() => addSkill(eduIndex)}
+                  type="button"
+                >
+                  Add Skill
+                </Button>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        ))}
 
         <Button 
           variant="outline-success" 

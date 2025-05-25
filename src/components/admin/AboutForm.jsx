@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert, Card, Spinner } from 'react-bootstrap';
-import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
-import DraggableList from '../common/DraggableList';
 
 const AboutForm = () => {
   const [paragraphs, setParagraphs] = useState([]);
@@ -41,10 +39,6 @@ const AboutForm = () => {
 
   const removeParagraph = (index) => {
     setParagraphs(paragraphs.filter((_, i) => i !== index));
-  };
-
-  const handleReorder = (newOrder) => {
-    setParagraphs(newOrder);
   };
 
   const handleSubmit = async (e) => {
@@ -109,40 +103,35 @@ const AboutForm = () => {
           <Card.Body>
             <Card.Title>About Information</Card.Title>
             <Card.Subtitle className="mb-3 text-muted">
-              Edit paragraphs that describe you. Drag to reorder them.
+              Edit paragraphs that describe you.
             </Card.Subtitle>
             
-            <DraggableList
-              items={paragraphs}
-              onReorder={handleReorder}
-              renderItem={(paragraph, index) => (
-                <div className="mb-3 position-relative">
-                  <Form.Group>
-                    <Form.Label className="d-flex align-items-center">
-                      <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
-                      Paragraph {index + 1}
-                    </Form.Label>
-                    <div className="d-flex">
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        value={paragraph}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <Button 
-                        variant="outline-danger" 
-                        size="sm"
-                        className="ms-2"
-                        onClick={() => removeParagraph(index)}
-                        style={{ alignSelf: 'flex-start' }}
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  </Form.Group>
-                </div>
-              )}
-            />
+            {paragraphs.map((paragraph, index) => (
+              <div key={index} className="mb-3">
+                <Form.Group>
+                  <Form.Label>
+                    Paragraph {index + 1}
+                  </Form.Label>
+                  <div className="d-flex">
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={paragraph}
+                      onChange={(e) => handleChange(index, e.target.value)}
+                    />
+                    <Button 
+                      variant="outline-danger" 
+                      size="sm"
+                      className="ms-2"
+                      onClick={() => removeParagraph(index)}
+                      style={{ alignSelf: 'flex-start' }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </Form.Group>
+              </div>
+            ))}
             
             <Button 
               variant="outline-primary" 
