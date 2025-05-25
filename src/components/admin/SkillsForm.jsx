@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Card, Alert, Row, Col, Spinner } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Row, Col, Spinner, Badge } from 'react-bootstrap';
 import { setData, getData } from '../../api';
 import * as FaIcons from 'react-icons/fa';
+import { 
+  FaCode, 
+  FaListAlt,
+  FaLayerGroup,
+  FaTrash, 
+  FaPlus, 
+  FaSave, 
+  FaEye,
+  FaInfoCircle,
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaRedo
+} from 'react-icons/fa';
 
 const SkillsForm = () => {
   const [skillCategories, setSkillCategories] = useState([]);
@@ -102,108 +115,152 @@ const SkillsForm = () => {
   // Render the selected icon for preview
   const renderIconPreview = (iconName) => {
     const IconComponent = FaIcons[iconName];
-    return IconComponent ? <IconComponent size={24} className="me-2" /> : null;
+    return IconComponent ? <IconComponent size={24} className="me-2 text-primary" /> : null;
   };
 
   if (isLoading) {
     return (
-      <div className="text-center p-4">
-        <Spinner animation="border" role="status" />
-        <p className="mt-2">Loading data...</p>
+      <div className="text-center p-5">
+        <div className="mb-4">
+          <Spinner animation="border" role="status" variant="primary" />
+        </div>
+        <h5 className="text-muted">Loading Skills Information...</h5>
+        <p className="text-muted mb-0">Please wait while we fetch your data</p>
       </div>
     );
   }
   
   if (error) {
     return (
-      <Alert variant="danger">
-        {error}
-        <div className="mt-3">
-          <Button variant="outline-danger" onClick={() => window.location.reload()}>
-            Try Again
-          </Button>
+      <Alert variant="danger" className="text-center p-4">
+        <div className="mb-3">
+          <FaExclamationTriangle style={{fontSize: '2rem'}} />
         </div>
+        <h5>Oops! Something went wrong</h5>
+        <p className="mb-3">{error}</p>
+        <Button variant="outline-danger" onClick={() => window.location.reload()}>
+          <FaRedo className="me-2" />
+          Try Again
+        </Button>
       </Alert>
     );
   }
 
   return (
-    <div>
+    <div className="skills-form animate-fade-in">
       {status.show && (
         <Alert 
           variant={status.type}
           onClose={() => setStatus({ ...status, show: false })} 
           dismissible
+          className="d-flex align-items-center"
         >
-          {status.message}
+          {status.type === 'success' ? (
+            <FaCheckCircle className="me-2" />
+          ) : (
+            <FaExclamationTriangle className="me-2" />
+          )}
+          <div>{status.message}</div>
         </Alert>
+      )}
+
+      <div className="section-header mb-4">
+        <h4 className="mb-3"><FaLayerGroup className="me-2" /> Skills</h4>
+        <p className="text-muted">Manage your technical skills and categorize them for better presentation</p>
+      </div>
+
+      {skillCategories.length === 0 && !isLoading && (
+        <div className="text-center p-4 mb-4 empty-state-container">
+          <FaCode style={{ fontSize: '2.5rem' }} className="text-muted mb-3" />
+          <h5>No Skills Added Yet</h5>
+          <p className="mb-3 text-muted">Add skill categories to showcase your technical capabilities.</p>
+          <Button 
+            variant="primary" 
+            onClick={addCategory}
+            className="animated-button"
+          >
+            <FaPlus className="me-2" /> Add First Category
+          </Button>
+        </div>
       )}
 
       <Form onSubmit={handleSubmit}>
         {skillCategories.map((category, catIndex) => (
-          <Card key={catIndex} className="mb-4">
+          <Card key={catIndex} className="mb-4 form-card hover-effect">
             <Card.Header className="d-flex align-items-center">
+              {category.icon && renderIconPreview(category.icon)}
               <span>{category.title || `Category #${catIndex + 1}`}</span>
               <Button 
                 variant="outline-danger" 
                 size="sm" 
-                className="ms-auto"
+                className="ms-auto btn-icon-sm"
                 onClick={() => removeCategory(catIndex)}
+                aria-label="Remove category"
               >
-                Remove Category
+                <FaTrash /> <span className="d-none d-md-inline">Remove</span>
               </Button>
             </Card.Header>
             <Card.Body>
-              <Row>
+              <Row className="align-items-end">
                 <Col md={8}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Category Title</Form.Label>
+                    <Form.Label><FaListAlt className="me-1" /> Category Title</Form.Label>
                     <Form.Control 
                       type="text" 
                       value={category.title || ''} 
                       onChange={(e) => updateCategory(catIndex, 'title', e.target.value)} 
+                      placeholder="e.g., Programming Languages, Frameworks"
+                      className="form-control-modern"
                       required
                     />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Icon</Form.Label>
-                    <div className="d-flex align-items-center">
-                      {category.icon && renderIconPreview(category.icon)}
+                    <Form.Label><FaInfoCircle className="me-1" /> Icon</Form.Label>
+                    <div className="icon-selector d-flex align-items-center">
                       <Form.Select
                         value={category.icon || 'FaCode'}
                         onChange={(e) => updateCategory(catIndex, 'icon', e.target.value)}
+                        className="form-control-modern"
                       >
                         {iconOptions.map(icon => (
                           <option key={icon} value={icon}>{icon}</option>
                         ))}
                       </Form.Select>
+                      <div className="icon-preview ms-3">
+                        {renderIconPreview(category.icon || 'FaCode')}
+                      </div>
                     </div>
                   </Form.Group>
                 </Col>
               </Row>
 
               <Form.Group className="mb-3">
-                <Form.Label>Skills</Form.Label>
-                {(category.skills || []).map((skill, skillIndex) => (
-                  <div key={skillIndex} className="d-flex mb-2 align-items-center">
-                    <Form.Control 
-                      type="text" 
-                      value={skill}
-                      onChange={(e) => updateSkill(catIndex, skillIndex, e.target.value)}
-                      required
-                    />
-                    <Button 
-                      variant="outline-danger" 
-                      size="sm"
-                      className="ms-2"
-                      onClick={() => removeSkill(catIndex, skillIndex)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
+                <Form.Label><FaCode className="me-1" /> Skills</Form.Label>
+                <div className="skills-container p-3 border rounded mb-2">
+                  {(category.skills || []).map((skill, skillIndex) => (
+                    <div key={skillIndex} className="d-flex mb-2 align-items-center">
+                      <Form.Control 
+                        type="text" 
+                        value={skill}
+                        onChange={(e) => updateSkill(catIndex, skillIndex, e.target.value)}
+                        placeholder="e.g., JavaScript, React, Node.js"
+                        className="form-control-modern"
+                        required
+                      />
+                      <Button 
+                        variant="outline-danger" 
+                        size="sm"
+                        className="ms-2 btn-icon-sm"
+                        onClick={() => removeSkill(catIndex, skillIndex)}
+                        aria-label="Remove skill"
+                      >
+                        <FaTrash />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
                 
                 <Button 
                   variant="outline-primary" 
@@ -212,29 +269,41 @@ const SkillsForm = () => {
                   type="button"
                   className="mt-2"
                 >
-                  Add Skill
+                  <FaPlus className="me-1" /> Add Skill
                 </Button>
               </Form.Group>
             </Card.Body>
           </Card>
         ))}
 
-        <Button 
-          variant="outline-success" 
-          className="add-item-button" 
-          onClick={addCategory}
-          type="button"
-        >
-          Add Category
-        </Button>
+        {skillCategories.length > 0 && (
+          <Button 
+            variant="outline-success" 
+            className="add-item-button animated-button" 
+            onClick={addCategory}
+            type="button"
+          >
+            <FaPlus className="me-2" /> Add Category
+          </Button>
+        )}
 
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end mt-4">
           <Button 
             variant="primary" 
             type="submit" 
             disabled={isSubmitting}
+            className="px-4 py-2"
           >
-            {isSubmitting ? 'Saving...' : 'Save Changes'}
+            {isSubmitting ? (
+              <>
+                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <FaSave className="me-2" /> Save Changes
+              </>
+            )}
           </Button>
         </div>
       </Form>

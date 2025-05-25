@@ -1,8 +1,11 @@
-import Form from 'react-bootstrap/Form';
+import { Form, InputGroup } from 'react-bootstrap';
 
 const YearPicker = ({ year, setYear, updateValue }) => {
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <Form.Control
+    <InputGroup className="year-picker">
+      <Form.Control
         type="number"
         value={year}
         onChange={(e) => {
@@ -10,8 +13,13 @@ const YearPicker = ({ year, setYear, updateValue }) => {
           setYear && setYear(newYear);
           updateValue(newYear);
         }}
+        min="1900"
+        max={currentYear + 10}
+        placeholder="Year"
         required
+        className="text-center"
       />
+    </InputGroup>
   );
 };
 

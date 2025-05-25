@@ -1,5 +1,6 @@
-import { Form } from "react-bootstrap";
+import { Form, Row, Col, Card } from "react-bootstrap";
 import { useState, useId } from "react";
+import { FaCalendarAlt, FaArrowRight } from "react-icons/fa";
 import YearPicker from "./YearPicker";
 
 export default function PeriodPicker({ value, onChange }) {
@@ -88,86 +89,116 @@ export default function PeriodPicker({ value, onChange }) {
   };
 
   return (
-    <Form.Group>
-      <Form.Label>Period:</Form.Label>
+    <Form.Group className="period-picker">
+      <Form.Label className="d-flex align-items-center mb-3">
+        <FaCalendarAlt className="me-2 text-primary" />
+        <span>Time Period</span>
+      </Form.Label>
       
       {/* Period Type Selection */}
-      <div className="mb-3">
-        <Form.Check
-          type="radio"
-          id={`periodType-range-${uniqueId}`}
-          name={`periodType-${uniqueId}`}
-          label="Date Range"
-          checked={periodType === "range"}
-          onChange={() => handlePeriodTypeChange("range")}
-        />
-        <Form.Check
-          type="radio"
-          id={`periodType-oneMonth-${uniqueId}`}
-          name={`periodType-${uniqueId}`}
-          label="One Month"
-          checked={periodType === "oneMonth"}
-          onChange={() => handlePeriodTypeChange("oneMonth")}
-        />
-        <Form.Check
-          type="radio"
-          id={`periodType-present-${uniqueId}`}
-          name={`periodType-${uniqueId}`}
-          label="Present"
-          checked={periodType === "present"}
-          onChange={() => handlePeriodTypeChange("present")}
-        />
+      <Card className="mb-3 border-0 shadow-sm">
+        <Card.Body className="py-2">
+          <div className="period-type-selector">
+            <Form.Check
+              type="radio"
+              id={`periodType-range-${uniqueId}`}
+              name={`periodType-${uniqueId}`}
+              className={`period-type-option ${periodType === "range" ? 'active' : ''}`}
+              label="Date Range"
+              checked={periodType === "range"}
+              onChange={() => handlePeriodTypeChange("range")}
+            />
+            <Form.Check
+              type="radio"
+              id={`periodType-oneMonth-${uniqueId}`}
+              name={`periodType-${uniqueId}`}
+              className={`period-type-option ${periodType === "oneMonth" ? 'active' : ''}`}
+              label="One Month"
+              checked={periodType === "oneMonth"}
+              onChange={() => handlePeriodTypeChange("oneMonth")}
+            />
+            <Form.Check
+              type="radio"
+              id={`periodType-present-${uniqueId}`}
+              name={`periodType-${uniqueId}`}
+              className={`period-type-option ${periodType === "present" ? 'active' : ''}`}
+              label="Present"
+              checked={periodType === "present"}
+              onChange={() => handlePeriodTypeChange("present")}
+            />
+          </div>
+        </Card.Body>
+      </Card>
+
+      {/* Date Selection */}
+      <div className="date-selection">
+        <Row className="g-2 mb-3">
+          <Col xs={12}>
+            <div className="date-label start">Start Date</div>
+          </Col>
+          <Col xs={7} md={8}>
+            <Form.Select
+              value={firstMonth}
+              onChange={(e) => {
+                const newMonth = e.target.value;
+                setFirstMonth(newMonth);
+                updateValue(newMonth, firstYear, secondMonth, secondYear);
+              }}
+              className="month-select"
+            >
+              <option value="">Select Month</option>
+              {MONTHS.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+          <Col xs={5} md={4}>
+            <YearPicker
+              year={firstYear}
+              setYear={setFirstYear}
+              updateValue={(year) => updateValue(firstMonth, year, secondMonth, secondYear)}
+            />
+          </Col>
+        </Row>
+
+        {/* End Date - only show for range type */}
+        {periodType === "range" && (
+          <Row className="g-2">
+            <Col xs={12} className="d-flex align-items-center mb-2">
+              <div className="date-divider"></div>
+              <FaArrowRight className="mx-2 text-muted" />
+              <div className="date-label end">End Date</div>
+            </Col>
+            <Col xs={7} md={8}>
+              <Form.Select
+                value={secondMonth}
+                onChange={(e) => {
+                  const newMonth = e.target.value;
+                  setSecondMonth(newMonth);
+                  updateValue(firstMonth, firstYear, newMonth, secondYear);
+                }}
+                className="month-select"
+              >
+                <option value="">Select Month</option>
+                {MONTHS.map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col xs={5} md={4}>
+              <YearPicker
+                year={secondYear}
+                setYear={setSecondYear}
+                updateValue={(year) => updateValue(firstMonth, firstYear, secondMonth, year)}
+              />
+            </Col>
+          </Row>
+        )}
       </div>
-
-      {/* Start Date */}
-      <Form.Select
-        value={firstMonth}
-        onChange={(e) => {
-          const newMonth = e.target.value;
-          setFirstMonth(newMonth);
-          updateValue(newMonth, firstYear, secondMonth, secondYear);
-        }}
-      >
-        <option value="">Select a Month</option>
-        {MONTHS.map((month) => (
-          <option key={month} value={month}>
-            {month}
-          </option>
-        ))}
-      </Form.Select>
-      <YearPicker
-        year={firstYear}
-        setYear={setFirstYear}
-        updateValue={(year) => updateValue(firstMonth, year, secondMonth, secondYear)}
-      />
-
-      {/* End Date - only show for range type */}
-      {periodType === "range" && (
-        <>
-          To
-
-          <Form.Select
-            value={secondMonth}
-            onChange={(e) => {
-              const newMonth = e.target.value;
-              setSecondMonth(newMonth);
-                updateValue(firstMonth, firstYear, newMonth, secondYear);
-            }}
-          >
-            <option value="">Select a Month</option>
-            {MONTHS.map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-          </Form.Select>
-          <YearPicker
-            year={secondYear}
-            setYear={setSecondYear}
-            updateValue={(year) => updateValue(firstMonth, firstYear, secondMonth, year)}
-          />
-        </>
-      )}
     </Form.Group>
   );
 }
