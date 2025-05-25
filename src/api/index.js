@@ -36,7 +36,7 @@ export const setData = async (data, section = null) => {
 
     const response = await api.post(url, data, config);
 
-    setCachedData(section, response.data)
+    setCachedData(section, data);
 
     return response.data;
   } catch (error) {

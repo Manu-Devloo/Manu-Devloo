@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Alert, Row, Col, Spinner } from 'react-bootstrap';
 import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
+import DraggableList from '../common/DraggableList';
+import * as FaIcons from 'react-icons/fa';
 
 const SkillsForm = () => {
   const [skillCategories, setSkillCategories] = useState([]);
@@ -9,6 +11,13 @@ const SkillsForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // List of available Font Awesome icons that can be used
+  const iconOptions = [
+    'FaCode', 'FaServer', 'FaTools', 'FaCamera', 'FaMicrosoft', 'FaLanguage',
+    'FaDatabase', 'FaCloud', 'FaMobile', 'FaDesktop', 'FaBrain', 'FaPencilAlt',
+    'FaLaptopCode', 'FaNetworkWired', 'FaRobot', 'FaSitemap', 'FaUserCog'
+  ];
   
   useEffect(() => {
     const fetchData = async () => {
@@ -68,33 +77,45 @@ const SkillsForm = () => {
   };
 
   const updateCategory = (index, field, value) => {
-    const updatedCategories = [...skillCategories];
-    updatedCategories[index][field] = value;
-    setSkillCategories(updatedCategories);
+    const updatedSkillCategories = [...skillCategories];
+    updatedSkillCategories[index][field] = value;
+    setSkillCategories(updatedSkillCategories);
   };
 
   const addSkill = (categoryIndex) => {
-    const updatedCategories = [...skillCategories];
-    updatedCategories[categoryIndex].skills.push('');
-    setSkillCategories(updatedCategories);
+    const updatedSkillCategories = [...skillCategories];
+    updatedSkillCategories[categoryIndex].skills.push('');
+    setSkillCategories(updatedSkillCategories);
   };
 
   const removeSkill = (categoryIndex, skillIndex) => {
-    const updatedCategories = [...skillCategories];
-    updatedCategories[categoryIndex].skills = 
-      updatedCategories[categoryIndex].skills.filter((_, i) => i !== skillIndex);
-    setSkillCategories(updatedCategories);
+    const updatedSkillCategories = [...skillCategories];
+    updatedSkillCategories[categoryIndex].skills = 
+      updatedSkillCategories[categoryIndex].skills.filter((_, i) => i !== skillIndex);
+    setSkillCategories(updatedSkillCategories);
   };
 
   const updateSkill = (categoryIndex, skillIndex, value) => {
-    const updatedCategories = [...skillCategories];
-    updatedCategories[categoryIndex].skills[skillIndex] = value;
-    setSkillCategories(updatedCategories);
+    const updatedSkillCategories = [...skillCategories];
+    updatedSkillCategories[categoryIndex].skills[skillIndex] = value;
+    setSkillCategories(updatedSkillCategories);
   };
 
-  const iconOptions = [
-    'FaCode', 'FaServer', 'FaTools', 'FaCamera', 'FaMicrosoft', 'FaLanguage'
-  ];
+  const handleReorder = (newOrder) => {
+    setSkillCategories(newOrder);
+  };
+
+  const handleSkillsReorder = (categoryIndex, newSkills) => {
+    const updatedSkillCategories = [...skillCategories];
+    updatedSkillCategories[categoryIndex].skills = newSkills;
+    setSkillCategories(updatedSkillCategories);
+  };
+
+  // Render the selected icon for preview
+  const renderIconPreview = (iconName) => {
+    const IconComponent = FaIcons[iconName];
+    return IconComponent ? <IconComponent size={24} className="me-2" /> : null;
+  };
 
   if (isLoading) {
     return (
@@ -131,82 +152,102 @@ const SkillsForm = () => {
       )}
 
       <Form onSubmit={handleSubmit}>
-        {skillCategories.map((category, categoryIndex) => (
-          <Card key={categoryIndex} className="mb-4">
-            <Card.Header className="d-flex align-items-center">
-              <FaGripVertical className="me-2 drag-handle" />
-              <span>{category.title || `Skill Category #${categoryIndex + 1}`}</span>
-              <Button 
-                variant="outline-danger" 
-                size="sm" 
-                className="ms-auto"
-                onClick={() => removeCategory(categoryIndex)}
-              >
-                Remove Category
-              </Button>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col md={8}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Category Title</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      value={category.title} 
-                      onChange={(e) => updateCategory(categoryIndex, 'title', e.target.value)} 
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Icon</Form.Label>
-                    <Form.Select 
-                      value={category.icon} 
-                      onChange={(e) => updateCategory(categoryIndex, 'icon', e.target.value)}
-                    >
-                      {iconOptions.map(icon => (
-                        <option key={icon} value={icon}>
-                          {icon}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
+        <div className="mb-3">
+          <small className="text-muted">Drag categories to reorder them</small>
+        </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Skills</Form.Label>
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="d-flex mb-2">
-                    <Form.Control 
-                      type="text" 
-                      value={skill}
-                      onChange={(e) => updateSkill(categoryIndex, skillIndex, e.target.value)}
-                      required
-                    />
-                    <Button 
-                      variant="outline-danger" 
-                      size="sm"
-                      className="ms-2"
-                      onClick={() => removeSkill(categoryIndex, skillIndex)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
+        <DraggableList
+          items={skillCategories}
+          onReorder={handleReorder}
+          renderItem={(category, catIndex) => (
+            <Card className="mb-4">
+              <Card.Header className="d-flex align-items-center">
+                <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
+                <span>{category.title || `Category #${catIndex + 1}`}</span>
                 <Button 
-                  variant="outline-primary" 
-                  size="sm"
-                  onClick={() => addSkill(categoryIndex)}
-                  type="button"
+                  variant="outline-danger" 
+                  size="sm" 
+                  className="ms-auto"
+                  onClick={() => removeCategory(catIndex)}
                 >
-                  Add Skill
+                  Remove Category
                 </Button>
-              </Form.Group>
-            </Card.Body>
-          </Card>
-        ))}
+              </Card.Header>
+              <Card.Body>
+                <Row>
+                  <Col md={8}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Category Title</Form.Label>
+                      <Form.Control 
+                        type="text" 
+                        value={category.title || ''} 
+                        onChange={(e) => updateCategory(catIndex, 'title', e.target.value)} 
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Icon</Form.Label>
+                      <div className="d-flex align-items-center">
+                        {category.icon && renderIconPreview(category.icon)}
+                        <Form.Select
+                          value={category.icon || 'FaCode'}
+                          onChange={(e) => updateCategory(catIndex, 'icon', e.target.value)}
+                        >
+                          {iconOptions.map(icon => (
+                            <option key={icon} value={icon}>{icon}</option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Skills</Form.Label>
+                  <div className="mb-2">
+                    <small className="text-muted">Drag skills to reorder them</small>
+                  </div>
+                  
+                  <DraggableList
+                    items={category.skills || []}
+                    onReorder={(newSkills) => handleSkillsReorder(catIndex, newSkills)}
+                    renderItem={(skill, skillIndex) => (
+                      <div className="d-flex mb-2 align-items-center">
+                        <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
+                        <Form.Control 
+                          type="text" 
+                          value={skill}
+                          onChange={(e) => updateSkill(catIndex, skillIndex, e.target.value)}
+                          required
+                        />
+                        <Button 
+                          variant="outline-danger" 
+                          size="sm"
+                          className="ms-2"
+                          onClick={() => removeSkill(catIndex, skillIndex)}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    )}
+                  />
+                  
+                  <Button 
+                    variant="outline-primary" 
+                    size="sm"
+                    onClick={() => addSkill(catIndex)}
+                    type="button"
+                    className="mt-2"
+                  >
+                    Add Skill
+                  </Button>
+                </Form.Group>
+              </Card.Body>
+            </Card>
+          )}
+        />
 
         <Button 
           variant="outline-success" 
@@ -214,7 +255,7 @@ const SkillsForm = () => {
           onClick={addCategory}
           type="button"
         >
-          Add New Skill Category
+          Add Category
         </Button>
 
         <div className="d-flex justify-content-end">

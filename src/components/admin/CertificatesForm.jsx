@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Card, Alert, Spinner } from 'react-bootstrap';
 import { FaGripVertical } from 'react-icons/fa';
 import { setData, getData } from '../../api';
+import DraggableList from '../common/DraggableList';
 
 const CertificatesForm = () => {
   const [certificates, setCertificates] = useState([]);
@@ -72,6 +73,10 @@ const CertificatesForm = () => {
     setCertificates(updatedCertificates);
   };
 
+  const handleReorder = (newOrder) => {
+    setCertificates(newOrder);
+  };
+
   if (isLoading) {
     return (
       <div className="text-center p-4">
@@ -107,56 +112,64 @@ const CertificatesForm = () => {
       )}
 
       <Form onSubmit={handleSubmit}>
-        {certificates.map((cert, certIndex) => (
-          <Card key={certIndex} className="mb-4">
-            <Card.Header className="d-flex align-items-center">
-              <FaGripVertical className="me-2 drag-handle" />
-              <span>{cert.title || `Certificate #${certIndex + 1}`}</span>
-              <Button 
-                variant="outline-danger" 
-                size="sm" 
-                className="ms-auto"
-                onClick={() => removeCertificate(certIndex)}
-              >
-                Remove
-              </Button>
-            </Card.Header>
-            <Card.Body>
-              <Form.Group className="mb-3">
-                <Form.Label>Title</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  value={cert.title} 
-                  onChange={(e) => updateCertificate(certIndex, 'title', e.target.value)} 
-                  required
-                />
-              </Form.Group>
+        <div className="mb-3">
+          <small className="text-muted">Drag certificates to reorder them</small>
+        </div>
+        
+        <DraggableList
+          items={certificates}
+          onReorder={handleReorder}
+          renderItem={(cert, certIndex) => (
+            <Card className="mb-4">
+              <Card.Header className="d-flex align-items-center">
+                <FaGripVertical className="me-2" style={{ cursor: 'grab' }} />
+                <span>{cert.title || `Certificate #${certIndex + 1}`}</span>
+                <Button 
+                  variant="outline-danger" 
+                  size="sm" 
+                  className="ms-auto"
+                  onClick={() => removeCertificate(certIndex)}
+                >
+                  Remove
+                </Button>
+              </Card.Header>
+              <Card.Body>
+                <Form.Group className="mb-3">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control 
+                    type="text" 
+                    value={cert.title} 
+                    onChange={(e) => updateCertificate(certIndex, 'title', e.target.value)} 
+                    required
+                  />
+                </Form.Group>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Issuer</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  value={cert.issuer} 
-                  onChange={(e) => updateCertificate(certIndex, 'issuer', e.target.value)} 
-                  required
-                />
-              </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Issuer</Form.Label>
+                  <Form.Control 
+                    type="text" 
+                    value={cert.issuer} 
+                    onChange={(e) => updateCertificate(certIndex, 'issuer', e.target.value)} 
+                    required
+                  />
+                </Form.Group>
 
-              <Form.Group className="mb-3">
-                <Form.Label>URL</Form.Label>
-                <Form.Control 
-                  type="url" 
-                  value={cert.url} 
-                  onChange={(e) => updateCertificate(certIndex, 'url', e.target.value)} 
-                  required
-                />
-                <Form.Text className="text-muted">
-                  Link to the certificate or credential verification page
-                </Form.Text>
-              </Form.Group>
-            </Card.Body>
-          </Card>
-        ))}
+                <Form.Group className="mb-3">
+                  <Form.Label>URL</Form.Label>
+                  <Form.Control 
+                    type="url" 
+                    value={cert.url} 
+                    onChange={(e) => updateCertificate(certIndex, 'url', e.target.value)} 
+                    required
+                  />
+                  <Form.Text className="text-muted">
+                    Link to the certificate or credential verification page
+                  </Form.Text>
+                </Form.Group>
+              </Card.Body>
+            </Card>
+          )}
+        />
 
         <Button 
           variant="outline-success" 

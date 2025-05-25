@@ -1,0 +1,70 @@
+.draggable-item {
+  transition: background-color 0.2s ease;
+}
+
+.draggable-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.draggable-item.dragging {
+  background-color: rgba(0, 123, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #6c757d;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.nested-form {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.icon-preview {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+/* Make form labels bolder */
+.form-label {
+  font-weight: 600;
+}
+
+/* Improve spacing in forms */
+.card {
+  margin-bottom: 1.5rem;
+  overflow: visible;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* Better buttons */
+.btn-outline-danger {
+  border-width: 1px;
+}
+
+.btn-outline-primary {
+  border-width: 1px;
+}
+
+.btn-outline-success {
+  border-width: 1px;
+}

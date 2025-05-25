@@ -5,9 +5,9 @@
     "profileImage": "https://avatars.githubusercontent.com/u/95429732?s=400&u=7ce3a3bb8608b2cf3d5476347e646955c403c8a0&v=4",
     "address": "Bevrijdingslaan 85 A, 9200 Appels, Dendermonde, Belgium",
     "phone": "+32 468 22 74 25",
-    "email": "devloo.prive@gmail.com",
-    "website": "manudevloo.com",
-    "linkedin": "https://www.linkedin.com/in/manu-devloo-18557a270/",
+    "email": "contact@manudevloo.com",
+    "website": "https://www.manudevloo.com",
+    "linkedin": "https://www.linkedin.com/in/Manu-Devloo",
     "github": "https://github.com/Manu-Devloo",
     "shortBio": "Passionate about software development, with a focus on web development and backend solutions."
   },
@@ -25,7 +25,7 @@
           "period": "May 2024 - Present",
           "responsibilities": [
             "Setting up events and parties",
-            "Food service and delivery", 
+            "Food service and delivery",
             "Taking orders from customers",
             "Cashier duties",
             "Customer service and guest relations"
@@ -49,7 +49,10 @@
         {
           "title": "Delivery Driver",
           "period": "April 2023 - June 2023",
-          "responsibilities": ["Order delivery", "Customer service"]
+          "responsibilities": [
+            "Order delivery",
+            "Customer service"
+          ]
         }
       ],
       "type": "Student Job"
@@ -77,7 +80,11 @@
         {
           "title": "Store Associate",
           "period": "July 2022",
-          "responsibilities": ["Customer service", "Stock management", "Cashier duties"]
+          "responsibilities": [
+            "Customer service",
+            "Stock management",
+            "Cashier duties"
+          ]
         }
       ],
       "type": "Student Job"
@@ -89,10 +96,156 @@
         {
           "title": "Factory Worker",
           "period": "August 2022",
-          "responsibilities": ["Production line work", "Quality control", "Assembly tasks"]
+          "responsibilities": [
+            "Production line work",
+            "Quality control",
+            "Assembly tasks"
+          ]
         }
       ],
       "type": "Student Job"
+    },
+    {
+      "company": "Devloo",
+      "location": "Remote",
+      "type": "Freelance",
+      "positions": [
+        {
+          "title": "Self Employed",
+          "period": "May 2025",
+          "responsibilities": [
+            "As a freelance developer under the name Devloo, I work on modern web projects that focus on automation, AI integration, and user-centered design. I primarily use React, TypeScript, Node.js (Koa), and OpenAI technologies to build functional and responsive web applications."
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Rak Sunakh Website",
+      "url": "https://thai-ridgeback.eu",
+      "image": "/assets/images/projects/rak-sunakh.png",
+      "description": "A specialized website for a Thai Ridgeback kennel in the BeNeLux region. Features information about breeding programs, breed standards, health guarantees, and pedigree documentation. Includes blog section and support resources for puppy buyers with a focus on responsible breeding practices.",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "year": "2024",
+      "role": "Solo Developer",
+      "github": null
+    },
+    {
+      "title": "DevKin Website",
+      "url": "https://devkin.be",
+      "image": "/assets/images/projects/devkin.png",
+      "description": "A service company website for appliance repair and sales. Features on-site and workshop repair services in Dendermonde and Sambreville. Includes product sales with warranty information, customer support, and Trustpilot integration for reviews. Responsive design optimized for all devices.",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "year": "2023",
+      "role": "Solo Developer",
+      "github": null
+    },
+    {
+      "title": "React Frontend Project - BookShare",
+      "url": "https://frontendweb-2425-manu-devloo-1.onrender.com",
+      "image": "/assets/images/projects/bookshare.png",
+      "description": "A full-stack book sharing application developed for HOGENT. Features user authentication, book management, author profiles, and Google Books API integration. Backend uses MySQL with Prisma ORM, RESTful API endpoints, and email functionality for sending books to Kindle devices.",
+      "technologies": [
+        "React",
+        "Vite",
+        "TypeScript",
+        "JavaScript",
+        "SCSS",
+        "MySQL"
+      ],
+      "year": "2025",
+      "role": "Solo Developer",
+      "github": "https://github.com/HoGent-Projects/frontendweb-2425-Manu-Devloo"
+    },
+    {
+      "title": "Dellaware Shopfloor App",
+      "url": "https://two025-react-gent9.onrender.com",
+      "image": "/assets/images/projects/shopfloor.png",
+      "description": "A manufacturing management application for tracking production sites, machines, and maintenance schedules. Features an intuitive interface for monitoring equipment status, scheduling maintenance tasks, and generating reports. Built with modern React components and Bootstrap UI framework.",
+      "technologies": [
+        "React",
+        "Bootstrap",
+        "API Integration"
+      ],
+      "year": "2025",
+      "role": "Project Lead - Frontend Developer",
+      "github": null
+    }
+  ],
+  "skills": [
+    {
+      "title": "Frontend Development",
+      "icon": "FaCode",
+      "skills": [
+        "React.js",
+        "TypeScript",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ]
+    },
+    {
+      "title": "Backend Development",
+      "icon": "FaServer",
+      "skills": [
+        "Node.js",
+        "API Development",
+        "SQL",
+        "Docker",
+        "Python",
+        "Java",
+        "C++"
+      ]
+    },
+    {
+      "title": "Tools & Technologies",
+      "icon": "FaTools",
+      "skills": [
+        "Yarn",
+        "GitHub",
+        "GitHub Copilot",
+        "Microsoft Azure",
+        "Netlify",
+        "AWS",
+        "Planning"
+      ]
+    },
+    {
+      "title": "Design & Media",
+      "icon": "FaCamera",
+      "skills": [
+        "Photoshop",
+        "Lightroom",
+        "Studioverlichting",
+        "Fotografie"
+      ]
+    },
+    {
+      "title": "Microsoft Office",
+      "icon": "FaMicrosoft",
+      "skills": [
+        "Word",
+        "Excel",
+        "PowerPoint",
+        "Access"
+      ]
+    },
+    {
+      "title": "Languages",
+      "icon": "FaLanguage",
+      "skills": [
+        "Dutch (native)",
+        "English (fluent)"
+      ]
     }
   ],
   "education": [
@@ -147,80 +300,6 @@
       "title": "Getting Started with Artificial Intelligence",
       "issuer": "IBM",
       "url": "https://www.credly.com/badges/dd00e10f-3a47-47af-95f7-00f0ba75702a/linked_in_profile"
-    }
-  ],
-  "skills": [
-    {
-      "title": "Frontend Development",
-      "icon": "FaCode",
-      "skills": ["React.js", "TypeScript", "HTML", "CSS", "JavaScript"]
-    },
-    {
-      "title": "Backend Development",
-      "icon": "FaServer",
-      "skills": ["Node.js", "API Development", "SQL", "Docker", "Python", "Java", "C++"]
-    },
-    {
-      "title": "Tools & Technologies", 
-      "icon": "FaTools",
-      "skills": ["Yarn", "GitHub", "GitHub Copilot", "Microsoft Azure", "Netlify", "AWS", "Planning"]
-    },
-    {
-      "title": "Design & Media",
-      "icon": "FaCamera",
-      "skills": ["Photoshop", "Lightroom", "Studioverlichting", "Fotografie"]
-    },
-    {
-      "title": "Microsoft Office",
-      "icon": "FaMicrosoft",
-      "skills": ["Word", "Excel", "PowerPoint", "Access"]
-    },
-    {
-      "title": "Languages",
-      "icon": "FaLanguage",
-      "skills": ["Dutch (native)", "English (fluent)"]
-    }
-  ],
-  "projects": [
-    {
-      "title": "Rak Sunakh Website",
-      "url": "https://thai-ridgeback.eu",
-      "image": "/assets/images/projects/rak-sunakh.png",
-      "description": "A specialized website for a Thai Ridgeback kennel in the BeNeLux region. Features information about breeding programs, breed standards, health guarantees, and pedigree documentation. Includes blog section and support resources for puppy buyers with a focus on responsible breeding practices.",
-      "technologies": ["HTML", "CSS", "JavaScript"],
-      "year": "2024",
-      "role": "Solo Developer",
-      "github": null
-    },
-    {
-      "title": "DevKin Website",
-      "url": "https://devkin.be",
-      "image": "/assets/images/projects/devkin.png",
-      "description": "A service company website for appliance repair and sales. Features on-site and workshop repair services in Dendermonde and Sambreville. Includes product sales with warranty information, customer support, and Trustpilot integration for reviews. Responsive design optimized for all devices.",
-      "technologies": ["HTML", "CSS", "JavaScript"],
-      "year": "2023",
-      "role": "Solo Developer",
-      "github": null
-    },
-    {
-      "title": "React Frontend Project - BookShare",
-      "url": "https://frontendweb-2425-manu-devloo-1.onrender.com",
-      "image": "/assets/images/projects/bookshare.png",
-      "description": "A full-stack book sharing application developed for HOGENT. Features user authentication, book management, author profiles, and Google Books API integration. Backend uses MySQL with Prisma ORM, RESTful API endpoints, and email functionality for sending books to Kindle devices.",
-      "technologies": ["React", "Vite", "TypeScript", "JavaScript", "SCSS", "MySQL"],
-      "year": "2025",
-      "role": "Solo Developer",
-      "github": "https://github.com/HoGent-Projects/frontendweb-2425-Manu-Devloo"
-    },
-    {
-      "title": "Dellaware Shopfloor App",
-      "url": "https://two025-react-gent9.onrender.com",
-      "image": "/assets/images/projects/shopfloor.png",
-      "description": "A manufacturing management application for tracking production sites, machines, and maintenance schedules. Features an intuitive interface for monitoring equipment status, scheduling maintenance tasks, and generating reports. Built with modern React components and Bootstrap UI framework.",
-      "technologies": ["React", "Bootstrap", "API Integration"],
-      "year": "2025",
-      "role": "Project Lead - Frontend Developer",
-      "github": null
     }
   ]
 }

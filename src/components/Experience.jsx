@@ -125,6 +125,50 @@ function Experience({ resumeData }) {
     return calculateDuration(earliestStartStr, latestEndStr);
   };
   
+  // Updated helper to get the latest end date for an experience entry
+  const getLatestDateForExperience = (positions) => {
+    if (!positions || positions.length === 0) return new Date(0); // Return epoch if no positions
+
+    let overallLatestDate = new Date(0);
+
+    positions.forEach(position => {
+      const periodParts = position.period.split(' - ');
+      let currentPositionEndDate;
+
+      if (periodParts.length > 1) { // Format "Date1 - Date2" or "Date1 - Present"
+        const endDateStr = periodParts[1].trim();
+        if (endDateStr.toLowerCase() === 'present') {
+          currentPositionEndDate = new Date(); // Current date, e.g., May 19, 2025
+        } else {
+          currentPositionEndDate = parseDate(endDateStr); // Parses to first day of month
+          if (currentPositionEndDate) {
+            // Set to last day of the month for consistent sorting
+            currentPositionEndDate = new Date(currentPositionEndDate.getFullYear(), currentPositionEndDate.getMonth() + 1, 0);
+          }
+        }
+      } else { // Single date format "Month Year"
+        currentPositionEndDate = parseDate(periodParts[0].trim());
+        if (currentPositionEndDate) {
+          // Set to last day of the month
+          currentPositionEndDate = new Date(currentPositionEndDate.getFullYear(), currentPositionEndDate.getMonth() + 1, 0);
+        }
+      }
+      
+      currentPositionEndDate = currentPositionEndDate || new Date(0); // Fallback if parsing failed
+
+      if (currentPositionEndDate > overallLatestDate) {
+        overallLatestDate = currentPositionEndDate;
+      }
+    });
+    return overallLatestDate;
+  };
+  
+  const sortedExperiences = [...resumeData.experiences].sort((a, b) => {
+    const dateA = getLatestDateForExperience(a.positions);
+    const dateB = getLatestDateForExperience(b.positions);
+    return dateB - dateA; // Sort descending (most recent first)
+  });
+
   return (
     <section className="experience" id="experience">
       <Row>
@@ -132,7 +176,7 @@ function Experience({ resumeData }) {
           <h2 className="section-title">Work Experience</h2>
           
           <div className="timeline">
-            {resumeData.experiences.map((exp, index) => (
+            {sortedExperiences.map((exp, index) => (
               <div className="timeline-item" key={index}>
                 <div className="timeline-date">
                   {exp.positions[0].period}
