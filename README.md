@@ -45,7 +45,7 @@ Dutch (native) • English (fluent)
 ## Education
 
 ### HOGENT
-**Bachelor of Applied Computer Science** (January 2023 - January 2026)
+**Bachelor of Applied Computer Science** (September 2023 - January 2026)
 - Frontend: React.js, TypeScript, HTML, CSS
 - Backend: Node.js, API Development, SQL, Docker
 - Tools & Frameworks: Yarn, GitHub, GitHub Copilot, Microsoft Azure, AWS
