@@ -1,9 +1,12 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Container, Form, Button, Card, Alert, InputGroup } from 'react-bootstrap';
 import { FaUser, FaLock, FaSignInAlt } from 'react-icons/fa';
-import { login } from '../api';
-import { setToken } from '../utils/auth';
-import '../styles/Admin.scss';
+import Link from 'next/link';
+import { login } from '../../../api';
+import { setToken } from '../../../utils/auth';
+import '../../../styles/Admin.scss';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -87,7 +90,7 @@ export default function Login() {
           </Form>
           
           <div className="text-center mt-3">
-            <a href="/" className="text-decoration-none">Return to Homepage</a>
+            <Link href="/" className="text-decoration-none">Return to Homepage</Link>
           </div>
         </Card.Body>
       </Card>

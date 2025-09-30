@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState } from "react";
 import { Container, Tab, Tabs, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import {
   FaSignOutAlt,
   FaUserCircle,
@@ -11,23 +13,24 @@ import {
   FaGraduationCap,
   FaCertificate,
 } from "react-icons/fa";
-import { removeToken } from "../utils/auth";
-import PersonalForm from "../components/admin/PersonalForm";
-import AboutForm from "../components/admin/AboutForm";
-import ExperiencesForm from "../components/admin/ExperiencesForm";
-import ProjectsForm from "../components/admin/ProjectsForm";
-import SkillsForm from "../components/admin/SkillsForm";
-import EducationForm from "../components/admin/EducationForm";
-import CertificatesForm from "../components/admin/CertificatesForm";
-import "../styles/Admin.scss";
+import { removeToken } from "../../utils/auth";
+import PersonalForm from "../../components/admin/PersonalForm";
+import AboutForm from "../../components/admin/AboutForm";
+import ExperiencesForm from "../../components/admin/ExperiencesForm";
+import ProjectsForm from "../../components/admin/ProjectsForm";
+import SkillsForm from "../../components/admin/SkillsForm";
+import EducationForm from "../../components/admin/EducationForm";
+import CertificatesForm from "../../components/admin/CertificatesForm";
+import ProtectedRoute from "../../components/ProtectedRoute";
+import "../../styles/Admin.scss";
 
-export default function Admin() {
+function AdminContent() {
   const [activeTab, setActiveTab] = useState("personal");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleLogout = () => {
     removeToken();
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -49,7 +52,7 @@ export default function Admin() {
           <div className="d-flex align-items-center">
             <Button
               variant="outline-primary"
-              onClick={() => navigate("/")}
+              onClick={() => router.push("/")}
               className="me-3 view-portfolio-button"
             >
               <FaSignOutAlt className="me-2" />
@@ -154,5 +157,13 @@ export default function Admin() {
         </Tabs>
       </div>
     </Container>
+  );
+}
+
+export default function Admin() {
+  return (
+    <ProtectedRoute>
+      <AdminContent />
+    </ProtectedRoute>
   );
 }

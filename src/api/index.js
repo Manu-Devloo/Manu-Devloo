@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../utils/auth';
 import { getCachedData, setCachedData } from './cacheDB';
 
-const baseURL = import.meta.env.VITE_NETLIFY_API_URL || 'http://localhost:8888/.netlify'
+const baseURL = process.env.NEXT_PUBLIC_NETLIFY_API_URL || 'http://localhost:8888/.netlify'
 
 const api = axios.create({
   baseURL: `${baseURL}/functions`,
