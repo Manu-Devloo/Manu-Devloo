@@ -1,0 +1,171 @@
+---
+import resume from '../data/resume.json';
+import SectionHeading from './SectionHeading.astro';
+
+const parseEndYear = (s: string) => {
+  const m = s.match(/(\d{4})\s*$/);
+  return m ? Number(m[1]) : 0;
+};
+
+const education = [...resume.education].sort((a, b) => parseEndYear(b.period) - parseEndYear(a.period));
+---
+
+<section id="education" class="edu">
+  <div class="container">
+    <SectionHeading
+      index="03 —"
+      eyebrow="Education"
+      title="Built on code,"
+      italic="refined by craft."
+    />
+
+    <ol class="edu__list">
+      {education.map((e, i) => (
+        <li class="edu__item" data-reveal style={`--reveal-delay: ${i * 100}ms`}>
+          <div class="edu__marker">
+            <span class="edu__num">0{i + 1}</span>
+          </div>
+          <div class="edu__body">
+            <div class="edu__head">
+              <h3 class="edu__inst display">{e.institution}</h3>
+              <span class="edu__period">{e.period}</span>
+            </div>
+            <p class="edu__degree">{e.degree}</p>
+            <ul class="edu__skills">
+              {e.skills.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .edu__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .edu__item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--border);
+    transition: background 0.4s var(--ease-out-quart);
+    position: relative;
+    isolation: isolate;
+  }
+
+  .edu__item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu__item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 4%, transparent), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-quart);
+  }
+
+  .edu__item:hover::before {
+    opacity: 1;
+  }
+
+  .edu__marker {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .edu__num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+  }
+
+  .edu__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .edu__inst {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .edu__period {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .edu__degree {
+    color: var(--text-muted);
+    margin: 0 0 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .edu__skills {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .edu__skills li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .edu__skills li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .edu__item {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      padding: 1.75rem 0;
+    }
+
+    .edu__marker {
+      margin-bottom: 0.25rem;
+    }
+
+    .edu__head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .edu__inst {
+      font-size: clamp(1.5rem, 8vw, 2rem);
+    }
+
+    .edu__degree {
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+    }
+  }
+</style>

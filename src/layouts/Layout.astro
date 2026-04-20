@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+import resume from '../data/resume.json';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${resume.personal.name} — ${resume.personal.title}`,
+  description = resume.personal.shortBio,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const profileImageUrl = new URL(resume.personal.profileImage, Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: resume.personal.name,
+  jobTitle: resume.personal.title,
+  url: resume.personal.website,
+  email: resume.personal.email,
+  telephone: resume.personal.phone,
+  image: profileImageUrl,
+  sameAs: [resume.personal.linkedin, resume.personal.github],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Dendermonde',
+    addressCountry: 'BE',
+  },
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#07070a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={profileImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- Theme boot (no flash) -->
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved ?? (prefersDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch {}
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <ClientRouter />
+  </head>
+  <body>
+    <!-- Skip to content -->
+    <a
+      href="#main"
+      style="position:absolute;left:-9999px;top:0;"
+      onfocus="this.style.left='1rem';this.style.top='1rem';this.style.zIndex='10000';this.style.padding='.5rem 1rem';this.style.background='var(--bg-elevated)';this.style.border='1px solid var(--border)';this.style.borderRadius='6px';"
+      onblur="this.style.left='-9999px';"
+    >
+      Skip to content
+    </a>
+
+    <!-- Custom cursor -->
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+
+    <!-- Noise overlay -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <slot />
+
+    <!-- Global scripts -->
+    <script>
+      import '../scripts/cursor.ts';
+      import '../scripts/reveal.ts';
+      import '../scripts/magnetic.ts';
+      import '../scripts/theme.ts';
+      import '../scripts/tilt.ts';
+      import '../scripts/nav.ts';
+    </script>
+  </body>
+</html>

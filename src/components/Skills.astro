@@ -1,0 +1,280 @@
+---
+import resume from '../data/resume.json';
+import SectionHeading from './SectionHeading.astro';
+
+// Flattened ticker of all skills
+const allSkills = resume.skills.flatMap((c) => c.skills);
+
+// Icon mapping: render inline SVGs so no extra dependency
+const catIcon: Record<string, string> = {
+  'Frontend Development': '<path d="M8 6L2 12l6 6M16 6l6 6-6 6M14 4l-4 16"/>',
+  'Backend Development': '<path d="M3 5h18v4H3zM3 11h18v4H3zM3 17h18v4H3z"/><circle cx="6" cy="7" r="0.5" fill="currentColor"/><circle cx="6" cy="13" r="0.5" fill="currentColor"/><circle cx="6" cy="19" r="0.5" fill="currentColor"/>',
+  'Tools & Technologies': '<path d="M14 6l3-3 4 4-3 3-4-4zM9 11L3 17v4h4l6-6M14 6L9 11l4 4 5-5"/>',
+  'Design & Media': '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+  'Microsoft Office': '<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>',
+  'Languages': '<path d="M5 8l6 6 6-6M12 3v11M4 21h16"/>',
+};
+---
+
+<section id="skills" class="sk">
+  <!-- Full-bleed ticker at top -->
+  <div class="sk__ticker" aria-hidden="true">
+    <div class="marquee">
+      <div class="marquee__track">
+        {Array.from({ length: 2 }).map(() => (
+          <div class="sk__ticker-group">
+            {allSkills.map((s) => (
+              <span class="sk__ticker-item">{s}</span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <SectionHeading
+      index="05 —"
+      eyebrow="Skills"
+      title="Tools of"
+      italic="the trade."
+    />
+
+    <div class="sk__grid">
+      {resume.skills.map((cat, i) => (
+        <article class="sk__card" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+          <div class="sk__icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={catIcon[cat.title] ?? ''} />
+          </div>
+          <h3 class="sk__title">{cat.title}</h3>
+          <p class="sk__skills">
+            {cat.skills.map((s, idx) => (
+              <>
+                {idx > 0 && <span aria-hidden="true"> · </span>}
+                <span class="sk__skill">{s}</span>
+              </>
+            ))}
+          </p>
+          <span class="sk__num" aria-hidden="true">0{i + 1}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sk__ticker {
+    margin: -3rem 0 clamp(4rem, 7vw, 6rem);
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+    overflow: hidden;
+    transform: rotate(-1.5deg);
+    margin-left: -5vw;
+    margin-right: -5vw;
+    width: 110vw;
+  }
+
+  .marquee {
+    overflow: hidden;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: sk-marquee 60s linear infinite;
+  }
+
+  .sk__ticker-group {
+    display: flex;
+    gap: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .sk__ticker-item {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.3s var(--ease-out-quart);
+  }
+
+  .sk__ticker-item:hover {
+    color: var(--accent);
+  }
+
+  .sk__ticker-item::after {
+    content: ' ✦';
+    color: var(--accent);
+    margin-left: 2.5rem;
+    font-style: normal;
+  }
+
+  @keyframes sk-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Grid */
+  .sk__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 900px) {
+    .sk__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 540px) {
+    .sk__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sk__card {
+    position: relative;
+    padding: 2rem;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 260px;
+    transition: background 0.4s var(--ease-out-quart);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .sk__card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in oklab, var(--accent) 8%, transparent),
+      transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-quart);
+  }
+
+  .sk__card:hover::before {
+    opacity: 1;
+  }
+
+  .sk__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--bg-soft);
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+
+  .sk__title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .sk__skills {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  .sk__skill {
+    transition: color 0.3s var(--ease-out-quart);
+  }
+
+  .sk__skill:hover {
+    color: var(--accent);
+  }
+
+  .sk__skills span[aria-hidden] {
+    color: var(--text-faint);
+  }
+
+  .sk__num {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+  }
+
+  @media (max-width: 640px) {
+    .sk__ticker {
+      margin: -1rem calc(-1 * var(--gutter)) 2.5rem;
+      padding: 1rem 0;
+      transform: none;
+      width: auto;
+    }
+
+    .sk__ticker-group {
+      gap: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .sk__ticker-item {
+      font-size: clamp(1rem, 5vw, 1.35rem);
+    }
+
+    .sk__ticker-item::after {
+      margin-left: 1.5rem;
+    }
+
+    .sk__card {
+      min-height: 0;
+      padding: 1.4rem;
+      gap: 0.85rem;
+    }
+
+    .sk__title {
+      font-size: 1.3rem;
+    }
+
+    .sk__skills {
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .sk__num {
+      top: 1rem;
+      right: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Move glow with cursor per card
+  const init = () => {
+    document.querySelectorAll<HTMLElement>('.sk__card').forEach((card) => {
+      if ((card as any)._skBound) return;
+      (card as any)._skBound = true;
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        card.style.setProperty('--my', `${e.clientY - r.top}px`);
+      });
+    });
+  };
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>

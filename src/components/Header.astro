@@ -1,0 +1,344 @@
+---
+import resume from '../data/resume.json';
+
+const links = [
+  { href: '#work', label: 'Work' },
+  { href: '#about', label: 'About' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="hdr" data-header>
+  <div class="hdr__inner">
+    <a href="#top" class="hdr__brand" aria-label={resume.personal.name}>
+      <span class="hdr__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28">
+          <defs>
+            <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--accent)" />
+              <stop offset="100%" stop-color="var(--accent-2)" />
+            </linearGradient>
+          </defs>
+          <circle cx="12" cy="12" r="10" fill="none" stroke="url(#brand-grad)" stroke-width="1.5" />
+          <path d="M7 15V9l5 6 5-6v6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+      <span class="hdr__name">Manu <span class="italic">Devloo</span></span>
+    </a>
+
+    <nav class="hdr__nav" data-nav aria-label="Primary">
+      <ul>
+        {links.map((l) => (
+          <li>
+            <a href={l.href} data-nav-link>
+              <span>{l.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="hdr__actions">
+      <button class="hdr__theme" data-theme-toggle aria-label="Toggle theme">
+        <span class="hdr__theme-track" aria-hidden="true">
+          <span class="hdr__theme-sun">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+            </svg>
+          </span>
+          <span class="hdr__theme-moon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
+        </span>
+      </button>
+
+      <a
+        href="#contact"
+        class="btn btn--ghost hdr__cta"
+        data-magnetic
+      >
+        Get in touch
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+
+      <button class="hdr__menu" data-nav-toggle aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.25rem 0;
+    transition: padding 0.4s var(--ease-out-quart);
+  }
+
+  .hdr[data-scrolled] {
+    padding: 0.6rem 0;
+  }
+
+  .hdr__inner {
+    width: min(100% - 2 * var(--gutter), 1400px);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.75rem 1.25rem 0.75rem 1rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--bg) 70%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid var(--border);
+    transition: background 0.4s var(--ease-out-quart), border-color 0.4s var(--ease-out-quart);
+  }
+
+  .hdr[data-scrolled] .hdr__inner {
+    background: color-mix(in oklab, var(--bg) 85%, transparent);
+    box-shadow: 0 8px 32px -16px rgba(0, 0, 0, 0.6);
+  }
+
+  .hdr__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hdr__mark {
+    display: grid;
+    place-items: center;
+    color: var(--text);
+  }
+
+  .hdr__name .italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hdr__nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hdr__nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hdr__nav a {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: color 0.3s var(--ease-out-quart);
+  }
+
+  .hdr__nav a span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hdr__nav a::before {
+    content: '';
+    position: absolute;
+    inset: 0.25rem 0.5rem;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    opacity: 0;
+    transform: scale(0.85);
+    transition:
+      opacity 0.3s var(--ease-out-quart),
+      transform 0.3s var(--ease-spring);
+  }
+
+  .hdr__nav a:hover,
+  .hdr__nav a[data-active] {
+    color: var(--text);
+  }
+
+  .hdr__nav a:hover::before,
+  .hdr__nav a[data-active]::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .hdr__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hdr__theme {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    color: var(--text-muted);
+    transition: color 0.3s var(--ease-out-quart), background 0.3s var(--ease-out-quart);
+  }
+
+  .hdr__theme:hover {
+    color: var(--text);
+    background: var(--bg-soft);
+  }
+
+  .hdr__theme-track {
+    position: relative;
+    width: 14px;
+    height: 14px;
+  }
+
+  .hdr__theme-sun,
+  .hdr__theme-moon {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transition: opacity 0.4s var(--ease-out-quart), transform 0.5s var(--ease-spring);
+  }
+
+  :root[data-theme='dark'] .hdr__theme-sun {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+
+  :root[data-theme='light'] .hdr__theme-moon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.6);
+  }
+
+  .hdr__cta {
+    padding: 0.65rem 1.15rem;
+    font-size: 0.85rem;
+  }
+
+  .hdr__menu {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg-soft);
+  }
+  .hdr__menu span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.35s var(--ease-out-quart);
+  }
+
+  @media (max-width: 900px) {
+    .hdr {
+      padding: 0.9rem 0;
+    }
+    .hdr__inner {
+      gap: 0.75rem;
+      padding: 0.65rem 0.75rem 0.65rem 0.9rem;
+      border-radius: 24px;
+    }
+    .hdr__actions {
+      margin-left: auto;
+    }
+    .hdr__nav {
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 0px) + 5.35rem);
+      left: var(--gutter);
+      right: var(--gutter);
+      flex: none;
+      max-height: min(70svh, 30rem);
+      padding: 0.85rem;
+      overflow: auto;
+      background: color-mix(in oklab, var(--bg) 88%, transparent);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: 0 28px 80px -44px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-12px) scale(0.98);
+      transition:
+        opacity 0.35s var(--ease-out-quart),
+        transform 0.35s var(--ease-spring),
+        visibility 0.35s var(--ease-out-quart);
+      z-index: 99;
+    }
+    .hdr__nav[data-open='true'] {
+      pointer-events: auto;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    .hdr__nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.3rem;
+      text-align: left;
+    }
+    .hdr__nav a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 5.5vw, 2rem);
+      font-weight: 400;
+      color: var(--text);
+      padding: 0.95rem 1.05rem;
+      letter-spacing: -0.02em;
+      border-radius: 18px;
+    }
+    .hdr__nav a::before {
+      inset: 0;
+      border-radius: 18px;
+    }
+    .hdr__menu {
+      display: flex;
+    }
+    .hdr__cta {
+      display: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hdr__inner {
+      padding: 0.5rem 0.75rem 0.5rem 0.85rem;
+    }
+    .hdr__actions {
+      gap: 0.35rem;
+    }
+    .hdr__name {
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    .hdr__name .italic {
+      display: none;
+    }
+  }
+</style>

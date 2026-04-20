@@ -1,6 +1,53 @@
-[build]
-  command = "yarn build"
-  publish = ".next"
+# ──────────────────────────────────────────────────────────
+# Netlify configuration for the Astro portfolio.
+# ──────────────────────────────────────────────────────────
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--no-audit --no-fund"
+
+# Long-cache fingerprinted bundles
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Static assets (images, PDFs)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Security headers on every response
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Legacy routes from the previous Next.js site
+[[redirects]]
+  from = "/admin/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/api/*"
+  to = "/"
+  status = 301

@@ -1,0 +1,170 @@
+---
+import resume from '../data/resume.json';
+const year = new Date().getFullYear();
+---
+
+<footer class="ft">
+  <!-- Huge brand signature -->
+  <div class="ft__signature" aria-hidden="true">
+    <span class="ft__sig-text display">Manu <span class="italic">Devloo</span></span>
+  </div>
+
+  <div class="container ft__inner">
+    <div class="ft__col">
+      <p class="eyebrow">Colophon</p>
+      <p class="ft__body">
+        Designed and built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>.
+        Lightweight, fast, and intentionally simple.
+      </p>
+    </div>
+
+    <div class="ft__col">
+      <p class="eyebrow">Elsewhere</p>
+      <ul>
+        <li><a href={resume.personal.github} target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href={resume.personal.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href={`mailto:${resume.personal.email}`}>Email ↗</a></li>
+      </ul>
+    </div>
+
+    <div class="ft__col">
+      <p class="eyebrow">Local time</p>
+      <p class="ft__body" data-clock>—</p>
+    </div>
+  </div>
+
+  <div class="container ft__bottom">
+    <span>© {year} {resume.personal.name}. All rights reserved.</span>
+    <button class="ft__up" data-magnetic onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+      Back to top ↑
+    </button>
+  </div>
+</footer>
+
+<script>
+  const init = () => {
+    const el = document.querySelector<HTMLElement>('[data-clock]');
+    if (!el) return;
+    const tick = () => {
+      const now = new Date().toLocaleTimeString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Brussels',
+      });
+      el.textContent = `${now} — Brussels`;
+    };
+    tick();
+    setInterval(tick, 60000);
+  };
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .ft {
+    position: relative;
+    padding: 5rem 0 2rem;
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .ft__signature {
+    width: 100%;
+    text-align: center;
+    line-height: 0.85;
+    margin-bottom: 4rem;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .ft__sig-text {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(5rem, 20vw, 20rem);
+    letter-spacing: -0.04em;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.85;
+  }
+
+  .ft__sig-text .italic {
+    font-style: italic;
+  }
+
+  .ft__inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (max-width: 700px) {
+    .ft__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ft__col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .ft__col a {
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: color 0.3s var(--ease-out-quart);
+  }
+
+  .ft__col a:hover {
+    color: var(--accent);
+  }
+
+  .ft__body {
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 40ch;
+  }
+
+  .ft__body a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .ft__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .ft__up {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text);
+    transition: border-color 0.3s var(--ease-out-quart), background 0.3s var(--ease-out-quart);
+  }
+
+  .ft__up:hover {
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 8%, transparent);
+  }
+</style>

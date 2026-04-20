@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Message received — Manu Devloo"
+  description="Thanks for reaching out."
+>
+  <Header />
+
+  <main id="main" class="ty">
+    <div class="container">
+      <div class="ty__frame">
+        <div class="ty__bg" aria-hidden="true">
+          <div class="ty__orb ty__orb--a"></div>
+          <div class="ty__orb ty__orb--b"></div>
+        </div>
+
+        <p class="eyebrow" data-reveal>— Got it —</p>
+
+        <h1 class="ty__title display" data-reveal-words>
+          Thank you.
+        </h1>
+        <p class="ty__italic italic display" data-reveal-words>
+          Message received.
+        </p>
+
+        <p class="ty__body" data-reveal style="--reveal-delay: 400ms">
+          I read every message personally and usually reply within a day or
+          two. In the meantime — check out my recent work or keep exploring.
+        </p>
+
+        <div class="ty__ctas" data-reveal style="--reveal-delay: 600ms">
+          <a href="/" class="btn btn--primary" data-magnetic>
+            Back to home
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="/#work" class="btn" data-magnetic>
+            See selected work
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .ty {
+    padding-top: 10rem;
+    padding-bottom: 6rem;
+    min-height: 70vh;
+  }
+
+  .ty__frame {
+    position: relative;
+    padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--bg-elevated);
+    text-align: center;
+  }
+
+  .ty__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    filter: blur(90px);
+    opacity: 0.55;
+  }
+
+  .ty__orb {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+  }
+
+  .ty__orb--a {
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, var(--accent-2), transparent 65%);
+    animation: float 22s ease-in-out infinite;
+  }
+
+  .ty__orb--b {
+    bottom: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, var(--accent), transparent 65%);
+    animation: float 24s ease-in-out infinite reverse;
+  }
+
+  :root[data-theme='light'] .ty__bg {
+    opacity: 0.3;
+  }
+
+  .ty .eyebrow {
+    justify-content: center;
+    display: inline-flex;
+    margin-bottom: 2rem;
+  }
+
+  .ty__title {
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .ty__italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    line-height: 1;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .ty__body {
+    max-width: 40ch;
+    margin: 2.5rem auto 0;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .ty__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+</style>

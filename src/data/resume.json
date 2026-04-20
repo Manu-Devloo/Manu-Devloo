@@ -1,24 +1,97 @@
 {
   "personal": {
     "name": "Manu Devloo",
-    "title": "Bachelor Student in Applied Computer Science",
-    "profileImage": "https://avatars.githubusercontent.com/u/95429732?s=400&u=7ce3a3bb8608b2cf3d5476347e646955c403c8a0&v=4",
+    "title": "Product & GTM Engineer · Full-stack Developer",
+    "profileImage": "/assets/images/profile.jpeg",
     "address": "Bevrijdingslaan 85 A, 9200 Appels, Dendermonde, Belgium",
     "phone": "+32 468 22 74 25",
     "email": "contact@manudevloo.com",
     "website": "https://www.manudevloo.com",
     "linkedin": "https://www.linkedin.com/in/Manu-Devloo",
     "github": "https://github.com/Manu-Devloo",
-    "shortBio": "Passionate about software development, with a focus on web development and backend solutions."
+    "shortBio": "Product & GTM engineer and full-stack developer building thoughtful web products with AI, automation, and a sharp eye for detail."
   },
   "about": [
-    "My passion primarily lies in software development, with a strong focus on web development and backend development. I've always been interested in technology, which has motivated me to continue developing myself and specializing in modern technologies and frameworks.",
-    "My personality traits are: extraversion, intuition, thinking, and judging. I enjoy working on development projects, both frontend and backend. I'm motivated, eager to learn, and enjoy working in a team, but I also like to take the lead on projects. My focus is on writing efficient, scalable, and well-structured code."
+    "I work where product thinking and engineering meet. I enjoy turning rough ideas into clear interfaces, reliable systems, and features that feel considered from the first click to the final detail.",
+    "Most of my work lives on the web, across React, TypeScript, Node.js, and AI tooling. I care about speed, structure, and usability, and I like being close to both the product decisions and the implementation."
   ],
   "experiences": [
     {
+      "company": "saply.ai",
+      "location": "Ghent Metropolitan Area, Belgium",
+      "type": "Full-time",
+      "positions": [
+        {
+          "title": "Product & GTM Engineer",
+          "period": "March 2026 - Present",
+          "responsibilities": [
+            "Ship customer-facing features and internal tooling for an AI-driven product",
+            "Run go-to-market experiments and translate results into product decisions",
+            "Bridge product, engineering, and commercial execution in a small senior team",
+            "Hybrid from Ghent"
+          ]
+        },
+        {
+          "title": "Software Developer",
+          "period": "November 2025 - March 2026",
+          "responsibilities": [
+            "Built full-stack product features for an AI-driven platform",
+            "Shipped production work across the stack while transitioning into a permanent role"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Revolte Studentenraad",
+      "location": "Ghent, Belgium",
+      "type": "Student Council",
+      "positions": [
+        {
+          "title": "Adviserend Lid Departementale Studentenraad DIT",
+          "period": "March 2026 - Present",
+          "responsibilities": [
+            "Advisory member on the Department IT student council",
+            "Representing student interests in programme and policy decisions"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Recommand",
+      "location": "Remote",
+      "type": "Freelance",
+      "positions": [
+        {
+          "title": "Software Engineer",
+          "period": "November 2025 - Present",
+          "responsibilities": [
+            "Deliver web features and integrations as a freelance engineer",
+            "Collaborate remotely with the in-house team",
+            "Focus on dependable delivery and product-quality execution"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Devloo Development",
+      "location": "Remote",
+      "type": "Freelance",
+      "positions": [
+        {
+          "title": "Self Employed",
+          "period": "May 2025 - Present",
+          "responsibilities": [
+            "Build modern web products with a focus on automation, AI integration, and user-centered design",
+            "Work primarily with React, TypeScript, Node.js, and OpenAI tooling",
+            "Support clients with product thinking, web design, and implementation"
+          ]
+        }
+      ]
+    },
+    {
       "company": "Stokerij Rubbens",
       "location": "Wichelen, Belgium",
+      "type": "Student Job",
       "positions": [
         {
           "title": "All-round Employee",
@@ -39,12 +112,12 @@
             "Beverage service and delivery"
           ]
         }
-      ],
-      "type": "Student Job"
+      ]
     },
     {
       "company": "Dominos",
       "location": "Dendermonde, Belgium",
+      "type": "Student Job",
       "positions": [
         {
           "title": "Delivery Driver",
@@ -54,12 +127,12 @@
             "Customer service"
           ]
         }
-      ],
-      "type": "Student Job"
+      ]
     },
     {
       "company": "Dee Spas",
       "location": "Malta",
+      "type": "Internship",
       "positions": [
         {
           "title": "Intern",
@@ -70,28 +143,12 @@
             "International work experience"
           ]
         }
-      ],
-      "type": "Internship"
-    },
-    {
-      "company": "Lidl Belgium & Luxembourg",
-      "location": "De Panne, Belgium",
-      "positions": [
-        {
-          "title": "Store Associate",
-          "period": "July 2022",
-          "responsibilities": [
-            "Customer service",
-            "Stock management",
-            "Cashier duties"
-          ]
-        }
-      ],
-      "type": "Student Job"
+      ]
     },
     {
       "company": "AluK Belgium",
       "location": "Hamme, Belgium",
+      "type": "Student Job",
       "positions": [
         {
           "title": "Factory Worker",
@@ -102,19 +159,20 @@
             "Assembly tasks"
           ]
         }
-      ],
-      "type": "Student Job"
+      ]
     },
     {
-      "company": "Devloo",
-      "location": "Remote",
-      "type": "Freelance",
+      "company": "Lidl Belgium & Luxembourg",
+      "location": "De Panne, Belgium",
+      "type": "Student Job",
       "positions": [
         {
-          "title": "Self Employed",
-          "period": "May 2025",
+          "title": "Store Associate",
+          "period": "July 2022",
           "responsibilities": [
-            "As a freelance developer under the name Devloo, I work on modern web projects that focus on automation, AI integration, and user-centered design. I primarily use React, TypeScript, Node.js (Koa), and OpenAI technologies to build functional and responsive web applications."
+            "Customer service",
+            "Stock management",
+            "Cashier duties"
           ]
         }
       ]
@@ -122,10 +180,10 @@
   ],
   "projects": [
     {
-      "title": "Rak Sunakh Website",
+      "title": "Rak Sunakh",
       "url": "https://thai-ridgeback.eu",
       "image": "/assets/images/projects/rak-sunakh.png",
-      "description": "A specialized website for a Thai Ridgeback kennel in the BeNeLux region. Features information about breeding programs, breed standards, health guarantees, and pedigree documentation. Includes blog section and support resources for puppy buyers with a focus on responsible breeding practices.",
+      "description": "Designed and built a content-rich website for a Thai Ridgeback kennel, helping prospective owners understand breeding, pedigree, health guarantees, and support resources with clarity and trust.",
       "technologies": [
         "HTML",
         "CSS",
@@ -139,7 +197,7 @@
       "title": "DevKin Website",
       "url": "https://devkin.be",
       "image": "/assets/images/projects/devkin.png",
-      "description": "A service company website for appliance repair and sales. Features on-site and workshop repair services in Dendermonde and Sambreville. Includes product sales with warranty information, customer support, and Trustpilot integration for reviews. Responsive design optimized for all devices.",
+      "description": "Built a clear, conversion-focused website for an appliance repair and sales business, combining service information, warranty details, customer support, and trust signals into a stronger local presence.",
       "technologies": [
         "HTML",
         "CSS",
@@ -150,34 +208,31 @@
       "github": null
     },
     {
-      "title": "React Frontend Project - BookShare",
-      "url": "https://frontendweb-2425-manu-devloo-1.onrender.com",
-      "image": "/assets/images/projects/bookshare.png",
-      "description": "A full-stack book sharing application developed for HOGENT. Features user authentication, book management, author profiles, and Google Books API integration. Backend uses MySQL with Prisma ORM, RESTful API endpoints, and email functionality for sending books to Kindle devices.",
+      "title": "De Riethoeve",
+      "url": "https://www.deriethoeve.be/",
+      "image": "/assets/images/projects/deriethoeve.webp",
+      "description": "Designed and built a fast brochure site for Hoevecamperplaats De Riethoeve, clearly presenting the stay, amenities, local offerings, and contact details for visitors planning a stop in Assenede.",
       "technologies": [
-        "React",
-        "Vite",
-        "TypeScript",
-        "JavaScript",
-        "SCSS",
-        "MySQL"
+        "HTML",
+        "CSS",
+        "JavaScript"
       ],
-      "year": "2025",
+      "year": "2026",
       "role": "Solo Developer",
-      "github": "https://github.com/HoGent-Projects/frontendweb-2425-Manu-Devloo"
+      "github": null
     },
     {
       "title": "Dellaware Shopfloor App",
       "url": "https://two025-react-gent9.onrender.com",
       "image": "/assets/images/projects/shopfloor.png",
-      "description": "A manufacturing management application for tracking production sites, machines, and maintenance schedules. Features an intuitive interface for monitoring equipment status, scheduling maintenance tasks, and generating reports. Built with modern React components and Bootstrap UI framework.",
+      "description": "Led the frontend for a manufacturing app used to track sites, machines, and maintenance planning, with a focus on operational clarity and day-to-day usability.",
       "technologies": [
         "React",
         "Bootstrap",
         "API Integration"
       ],
       "year": "2025",
-      "role": "Project Lead - Frontend Developer",
+      "role": "Project Lead · Frontend Developer",
       "github": null
     }
   ],
@@ -225,8 +280,8 @@
       "skills": [
         "Photoshop",
         "Lightroom",
-        "Studioverlichting",
-        "Fotografie"
+        "Studio Lighting",
+        "Photography"
       ]
     },
     {
@@ -257,8 +312,8 @@
         "Frontend: React.js, TypeScript, HTML, CSS",
         "Backend: Node.js, API Development, SQL, Docker",
         "Tools & Frameworks: Yarn, GitHub, GitHub Copilot, Microsoft Azure, AWS",
-        "Software Development & Analysis: Functional Analysis, Software Analysis, Costing, Planning",
-        "Netwerken & Cybersecurity: Networking, Network Protocols, Network Defense, Threat Analysis, Linux, Linux Kernel"
+        "Software Development & Analysis: Functional analysis, software analysis, costing, planning",
+        "Networking & Cybersecurity: Networking, network protocols, network defense, threat analysis, Linux"
       ]
     },
     {

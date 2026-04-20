@@ -1,0 +1,317 @@
+---
+import resume from '../data/resume.json';
+import SectionHeading from './SectionHeading.astro';
+
+// Sort experiences by most recent position. Uses Date parsing so ties
+// between multiple "Present" roles fall back to start date.
+const parsePart = (s: string) => {
+  const t = s.trim();
+  if (!t) return 0;
+  if (/present/i.test(t)) return Date.now();
+  const d = new Date(`1 ${t}`);
+  return isNaN(d.getTime()) ? 0 : d.getTime();
+};
+
+const parsePeriod = (p: string) => {
+  const [a, b] = p.split(/\s*[–-]\s*/);
+  const start = parsePart(a || '');
+  const end = parsePart(b || a || '');
+  return { start, end };
+};
+
+const experiences = [...resume.experiences].sort((a, b) => {
+  const ap = a.positions.map((p) => parsePeriod(p.period));
+  const bp = b.positions.map((p) => parsePeriod(p.period));
+  const aEnd = Math.max(...ap.map((x) => x.end));
+  const bEnd = Math.max(...bp.map((x) => x.end));
+  if (bEnd !== aEnd) return bEnd - aEnd;
+  const aStart = Math.max(...ap.map((x) => x.start));
+  const bStart = Math.max(...bp.map((x) => x.start));
+  return bStart - aStart;
+});
+---
+
+<section id="experience" class="xp">
+  <div class="container">
+    <SectionHeading
+      index="02 —"
+      eyebrow="Experience"
+      title="Work that shaped"
+      italic="how I build."
+    />
+
+    <div class="xp__timeline">
+      <div class="xp__line" aria-hidden="true">
+        <div class="xp__line-progress"></div>
+      </div>
+
+      <ol class="xp__list">
+        {experiences.map((exp, i) => (
+          <li class="xp__item" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <div class="xp__dot" aria-hidden="true"></div>
+
+            <div class="xp__head">
+              <div class="xp__head-main">
+                <h3 class="xp__company">{exp.company}</h3>
+                <span class="xp__loc">{exp.location}</span>
+              </div>
+              <span class="xp__type">{exp.type}</span>
+            </div>
+
+            <ul class="xp__roles">
+              {exp.positions.map((pos) => (
+                <li class="xp__role">
+                  <div class="xp__role-head">
+                    <span class="xp__role-title">{pos.title}</span>
+                    <span class="xp__role-period">{pos.period}</span>
+                  </div>
+                  <ul class="xp__tasks">
+                    {pos.responsibilities.map((r) => <li>{r}</li>)}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll progress on timeline
+  const init = () => {
+    const line = document.querySelector<HTMLElement>('.xp__line-progress');
+    const section = document.querySelector<HTMLElement>('#experience');
+    if (!line || !section) return;
+
+    const onScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const start = vh * 0.6;
+      const end = -rect.height + vh * 0.4;
+      const raw = (start - rect.top) / (start - end);
+      const p = Math.max(0, Math.min(1, raw));
+      line.style.transform = `scaleY(${p})`;
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  };
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .xp__timeline {
+    position: relative;
+    padding-left: clamp(2rem, 5vw, 4rem);
+  }
+
+  .xp__line {
+    position: absolute;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    left: clamp(0.4rem, 1vw, 0.75rem);
+    width: 1px;
+    background: var(--border);
+  }
+
+  .xp__line-progress {
+    position: absolute;
+    inset: 0;
+    background: var(--accent-grad);
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.15s linear;
+    box-shadow: 0 0 12px -2px var(--accent);
+  }
+
+  .xp__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 5vw, 5rem);
+  }
+
+  .xp__item {
+    position: relative;
+  }
+
+  .xp__dot {
+    position: absolute;
+    left: calc(-1 * clamp(2rem, 5vw, 4rem) + clamp(0.4rem, 1vw, 0.75rem));
+    top: 0.75rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    transform: translateX(-50%);
+    transition: background 0.3s var(--ease-out-quart), border-color 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
+  }
+
+  .xp__item:hover .xp__dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 15%, transparent);
+  }
+
+  .xp__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .xp__head-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .xp__company {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .xp__loc {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .xp__type {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .xp__roles {
+    list-style: none;
+    padding: 1.25rem 0 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .xp__role {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .xp__role-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .xp__role-title {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .xp__role-period {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  .xp__tasks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.5rem 1.5rem;
+  }
+
+  .xp__tasks li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .xp__tasks li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 8px;
+    height: 1px;
+    background: var(--text-faint);
+  }
+
+  @media (max-width: 720px) {
+    .xp__timeline {
+      padding-left: 1.5rem;
+    }
+
+    .xp__line {
+      left: 0.35rem;
+      top: 0.4rem;
+      bottom: 0.4rem;
+    }
+
+    .xp__dot {
+      left: calc(-1 * 1.5rem + 0.35rem);
+      top: 0.5rem;
+      width: 10px;
+      height: 10px;
+    }
+
+    .xp__list {
+      gap: 2.25rem;
+    }
+
+    .xp__head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .xp__company {
+      font-size: clamp(1.5rem, 8vw, 2.2rem);
+    }
+
+    .xp__roles {
+      padding-top: 1rem;
+      gap: 1.1rem;
+    }
+
+    .xp__role-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .xp__tasks {
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+    }
+
+    .xp__tasks li {
+      font-size: 0.9rem;
+    }
+  }
+</style>

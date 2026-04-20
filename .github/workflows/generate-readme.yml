@@ -1,37 +1,42 @@
 name: Generate README
 
 on:
+  # Triggered manually or by external dispatch (e.g. after data edits).
   repository_dispatch:
     types: [generate-readme]
+  workflow_dispatch:
+  # Keep README in sync whenever the resume JSON changes on main.
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/resume.json'
+      - 'scripts/generateReadme.js'
 
 jobs:
   generate-readme:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '22.9.0'
-        
-    - name: Enable Corepack
-      run: corepack enable
-      
-    - name: Install dependencies
-      run: yarn install
-    
-    - name: Generate README
-      run: yarn generate-readme
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Commit and push changes
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add README.md
-        git commit -m 'Update README'
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate README
+        run: node scripts/generateReadme.js
+
+      - name: Commit changes
+        run: |
+          if [[ -z "$(git status --porcelain README.md)" ]]; then
+            echo "README already up to date."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m 'chore: auto-update README from resume.json'
+          git push

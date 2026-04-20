@@ -1,0 +1,659 @@
+---
+import resume from '../data/resume.json';
+---
+
+<section id="contact" class="ct2">
+  <div class="container">
+    <div class="ct2__frame">
+      <div class="ct2__bg" aria-hidden="true">
+        <div class="ct2__orb ct2__orb--a"></div>
+        <div class="ct2__orb ct2__orb--b"></div>
+      </div>
+
+      <div class="ct2__head">
+        <div class="ct2__meta" data-reveal>
+          <span class="eyebrow">07 — Let's connect</span>
+        </div>
+
+        <h2 class="ct2__title display" data-reveal-words>
+          Have something
+        </h2>
+        <p class="ct2__italic italic display" data-reveal-words>worth building?</p>
+      </div>
+
+      <div class="ct2__grid">
+        <aside class="ct2__side" data-reveal style="--reveal-delay: 200ms">
+          <p class="ct2__lead">
+            Whether you're planning a product, hiring for a role, or need
+            someone who can move from idea to implementation, I'd be happy to talk.
+          </p>
+
+          <ul class="ct2__links">
+            <li>
+              <span class="ct2__label">Email</span>
+              <a href={`mailto:${resume.personal.email}`}>{resume.personal.email}</a>
+            </li>
+            <li>
+              <span class="ct2__label">LinkedIn</span>
+              <a href={resume.personal.linkedin} target="_blank" rel="noopener">/in/Manu-Devloo</a>
+            </li>
+            <li>
+              <span class="ct2__label">GitHub</span>
+              <a href={resume.personal.github} target="_blank" rel="noopener">/Manu-Devloo</a>
+            </li>
+            <li>
+              <span class="ct2__label">Phone</span>
+              <a href={`tel:${resume.personal.phone}`}>{resume.personal.phone}</a>
+            </li>
+            <li>
+              <span class="ct2__label">Resume</span>
+              <a href="/assets/cv/Manu_Devloo_CV.pdf" target="_blank" rel="noopener">Download PDF ↓</a>
+            </li>
+          </ul>
+        </aside>
+
+        <form
+          class="ct2__form"
+          name="contact"
+          method="POST"
+          action="/thank-you/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          data-reveal
+          style="--reveal-delay: 300ms"
+        >
+          <!-- Netlify: form identifier -->
+          <input type="hidden" name="form-name" value="contact" />
+          <!-- Netlify: honeypot, must stay hidden from humans -->
+          <p class="ct2__honey" aria-hidden="true">
+            <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          <div class="ct2__row">
+            <label class="ct2__field">
+              <span class="ct2__flabel">Your name</span>
+              <input type="text" name="name" required autocomplete="name" placeholder="Jane Doe" />
+            </label>
+            <label class="ct2__field">
+              <span class="ct2__flabel">Email</span>
+              <input type="email" name="email" required autocomplete="email" placeholder="jane@company.com" />
+            </label>
+          </div>
+
+          <label class="ct2__field">
+            <span class="ct2__flabel">Subject</span>
+            <input type="text" name="subject" placeholder="Project, freelance work, role…" />
+          </label>
+
+          <label class="ct2__field">
+            <span class="ct2__flabel">Message</span>
+            <textarea name="message" required rows="5" placeholder="Tell me what you're building, what you need, and where you are in the process."></textarea>
+          </label>
+
+          <div class="ct2__actions">
+            <button type="submit" class="ct2__submit" data-magnetic>
+              <span class="ct2__submit-text">Send message</span>
+              <span class="ct2__submit-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </span>
+            </button>
+            <p class="ct2__status" data-form-status role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="ct2__loc" data-reveal style="--reveal-delay: 700ms">
+        Based in Dendermonde, Belgium · Open to remote and on-site collaboration
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Progressive enhancement: submit via fetch for inline success,
+  // fall back to native navigation to /thank-you/ if JS fails.
+  const init = () => {
+    const form = document.querySelector<HTMLFormElement>('.ct2__form');
+    const status = document.querySelector<HTMLElement>('[data-form-status]');
+    if (!form || !status) return;
+    if ((form as any)._bound) return;
+    (form as any)._bound = true;
+
+    const submit = form.querySelector<HTMLButtonElement>('.ct2__submit');
+    const submitText = form.querySelector<HTMLElement>('.ct2__submit-text');
+    const defaultSubmitLabel = submitText?.textContent ?? 'Send message';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      status.textContent = 'Sending your message';
+      status.dataset.state = 'pending';
+      submit?.setAttribute('data-loading', 'true');
+      if (submitText) submitText.textContent = 'Sending…';
+
+      try {
+        const body = new URLSearchParams();
+        data.forEach((v, k) => body.append(k, typeof v === 'string' ? v : ''));
+
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+        });
+
+        if (!res.ok) throw new Error(`${res.status}`);
+
+        status.textContent = "Message sent — I'll be in touch soon.";
+        status.dataset.state = 'success';
+        form.reset();
+        if (submitText) submitText.textContent = 'Sent ✓';
+        setTimeout(() => {
+          if (submitText) submitText.textContent = defaultSubmitLabel;
+        }, 3000);
+      } catch {
+        status.textContent = 'Something went wrong — try emailing me directly.';
+        status.dataset.state = 'error';
+        if (submitText) submitText.textContent = defaultSubmitLabel;
+      } finally {
+        submit?.removeAttribute('data-loading');
+      }
+    });
+  };
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .ct2__frame {
+    position: relative;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 5rem);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--bg-elevated);
+  }
+
+  .ct2__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    filter: blur(90px);
+    opacity: 0.55;
+  }
+
+  .ct2__orb {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+  }
+
+  .ct2__orb--a {
+    top: -20%;
+    left: -10%;
+    background: radial-gradient(circle, var(--accent), transparent 65%);
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .ct2__orb--b {
+    bottom: -30%;
+    right: -10%;
+    background: radial-gradient(circle, var(--accent-2), transparent 65%);
+    animation: float 26s ease-in-out infinite reverse;
+  }
+
+  :root[data-theme='light'] .ct2__bg {
+    opacity: 0.3;
+  }
+
+  .ct2__head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .ct2__meta {
+    margin-bottom: 2rem;
+  }
+
+  .ct2__title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .ct2__italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-left: clamp(1rem, 5vw, 3.5rem);
+    margin: 0.25rem 0 0;
+  }
+
+  /* Grid: side info + form */
+  .ct2__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .ct2__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ct2__frame {
+      padding: clamp(2.5rem, 8vw, 3.5rem) clamp(1.25rem, 5vw, 1.75rem);
+      border-radius: 28px;
+    }
+
+    .ct2__italic {
+      padding-left: 0;
+    }
+
+    .ct2__lead {
+      max-width: none;
+    }
+  }
+
+  .ct2__side {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .ct2__lead {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 42ch;
+  }
+
+  .ct2__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+  }
+
+  .ct2__links li {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ct2__label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .ct2__links a {
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: color 0.3s var(--ease-out-quart);
+    word-break: break-word;
+  }
+
+  .ct2__links a:hover {
+    color: var(--accent);
+  }
+
+  /* ───────── Form ───────── */
+  .ct2__form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--bg-elevated) 90%, transparent), color-mix(in oklab, var(--bg) 85%, transparent));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow:
+      0 1px 0 0 color-mix(in oklab, #fff 6%, transparent) inset,
+      0 30px 80px -40px rgba(0, 0, 0, 0.6);
+  }
+
+  /* A soft gradient border-glow behind the form */
+  .ct2__form::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      140deg,
+      color-mix(in oklab, var(--accent) 35%, transparent),
+      transparent 35%,
+      color-mix(in oklab, var(--accent-2) 25%, transparent) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .ct2__honey {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .ct2__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 520px) {
+    .ct2__row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Field container — acts like a card with a focus-within ring */
+  .ct2__field {
+    --field-border: var(--border);
+    --field-bg: color-mix(in oklab, var(--bg) 60%, transparent);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.85rem 1rem 0.9rem;
+    background: var(--field-bg);
+    border: 1px solid var(--field-border);
+    border-radius: 14px;
+    transition:
+      border-color 0.35s var(--ease-out-quart),
+      background 0.35s var(--ease-out-quart),
+      box-shadow 0.35s var(--ease-out-quart);
+  }
+
+  .ct2__field::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent);
+    transition: opacity 0.35s var(--ease-out-quart);
+  }
+
+  .ct2__field:hover {
+    --field-border: var(--border-strong);
+  }
+
+  .ct2__field:focus-within {
+    --field-border: color-mix(in oklab, var(--accent) 60%, var(--border-strong));
+    --field-bg: color-mix(in oklab, var(--accent) 3%, var(--bg));
+  }
+
+  .ct2__field:focus-within::after {
+    opacity: 1;
+  }
+
+  .ct2__flabel {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: color 0.35s var(--ease-out-quart);
+    user-select: none;
+  }
+
+  .ct2__field:focus-within .ct2__flabel {
+    color: var(--accent);
+  }
+
+  .ct2__field input,
+  .ct2__field textarea {
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--text);
+    padding: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: vertical;
+    caret-color: var(--accent);
+    width: 100%;
+  }
+
+  .ct2__field textarea {
+    min-height: 140px;
+    font-family: var(--font-sans);
+  }
+
+  .ct2__field input::placeholder,
+  .ct2__field textarea::placeholder {
+    color: var(--text-faint);
+  }
+
+  /* Native validation feedback */
+  .ct2__field input:user-invalid,
+  .ct2__field textarea:user-invalid {
+    color: var(--text);
+  }
+
+  .ct2__field:has(input:user-invalid),
+  .ct2__field:has(textarea:user-invalid) {
+    --field-border: color-mix(in oklab, var(--accent) 55%, var(--border));
+  }
+
+  /* ───────── Actions ───────── */
+  .ct2__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .ct2__submit {
+    --submit-fg: var(--bg);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem 1rem 1rem 1.5rem;
+    color: var(--submit-fg);
+    background: var(--text);
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      color 0.4s var(--ease-out-quart),
+      transform 0.3s var(--ease-spring),
+      box-shadow 0.4s var(--ease-out-quart);
+    will-change: transform;
+    box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.6);
+  }
+
+  .ct2__submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--accent-grad);
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-out-expo);
+  }
+
+  .ct2__submit:hover {
+    color: #fff;
+    box-shadow: var(--accent-glow);
+  }
+
+  .ct2__submit:hover::before {
+    transform: translateY(0);
+  }
+
+  .ct2__submit:active {
+    transform: scale(0.97);
+  }
+
+  .ct2__submit[data-loading='true'] {
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  .ct2__submit-arrow {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--bg) 25%, transparent);
+    color: inherit;
+    transition:
+      transform 0.4s var(--ease-spring),
+      background 0.4s var(--ease-out-quart);
+  }
+
+  .ct2__submit:hover .ct2__submit-arrow {
+    transform: rotate(-45deg);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* ───────── Status line ───────── */
+  .ct2__status {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    min-height: 1.4em;
+  }
+
+  .ct2__status:not(:empty)::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 4px color-mix(in oklab, currentColor 20%, transparent);
+  }
+
+  .ct2__status[data-state='pending'] {
+    color: var(--text);
+  }
+
+  .ct2__status[data-state='pending']::before {
+    animation: ct2-pulse 1.2s ease-in-out infinite;
+  }
+
+  .ct2__status[data-state='success'] {
+    color: #22c55e;
+  }
+
+  .ct2__status[data-state='error'] {
+    color: var(--accent);
+  }
+
+  @keyframes ct2-pulse {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  .ct2__loc {
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .ct2__head {
+      margin-bottom: 2rem;
+    }
+
+    .ct2__meta {
+      margin-bottom: 1rem;
+    }
+
+    .ct2__title,
+    .ct2__italic {
+      font-size: clamp(2.25rem, 13vw, 3.6rem);
+    }
+
+    .ct2__grid {
+      gap: 1.5rem;
+    }
+
+    .ct2__links li {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+      padding: 0.9rem 0;
+    }
+
+    .ct2__form {
+      padding: 1.2rem;
+      border-radius: 20px;
+    }
+
+    .ct2__actions {
+      align-items: stretch;
+    }
+
+    .ct2__submit {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .ct2__loc {
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+  }
+</style>

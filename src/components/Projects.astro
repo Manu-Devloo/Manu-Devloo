@@ -1,0 +1,313 @@
+---
+import resume from '../data/resume.json';
+import SectionHeading from './SectionHeading.astro';
+
+const projects = [...resume.projects].sort((a, b) => Number(b.year) - Number(a.year));
+---
+
+<section id="work" class="pj">
+  <div class="container">
+    <SectionHeading
+      index="04 —"
+      eyebrow="Selected Work"
+      title="Selected"
+      italic="product work."
+    />
+
+    <div class="pj__grid">
+      {projects.map((p, i) => (
+        <article
+          class="pj__card"
+          data-tilt
+          data-reveal
+          style={`--reveal-delay: ${i * 100}ms; --i: ${i}`}
+        >
+          <a
+            href={p.url}
+            target="_blank"
+            rel="noopener"
+            class="pj__link"
+            aria-label={`Visit ${p.title}`}
+          >
+            <div class="pj__media">
+              <div class="pj__glow" aria-hidden="true"></div>
+              <img src={p.image} alt={p.title} loading="lazy" />
+              <span class="pj__year">{p.year}</span>
+            </div>
+
+            <div class="pj__body">
+              <header class="pj__head">
+                <h3 class="pj__title">
+                  <span>{p.title}</span>
+                  <span class="pj__arrow" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17L17 7M9 7h8v8" />
+                    </svg>
+                  </span>
+                </h3>
+                <span class="pj__role">{p.role}</span>
+              </header>
+
+              <p class="pj__desc">{p.description}</p>
+
+              <p class="pj__stack">
+                {p.technologies.map((t, idx) => (
+                  <>
+                    {idx > 0 && <span aria-hidden="true"> · </span>}
+                    <span>{t}</span>
+                  </>
+                ))}
+              </p>
+
+              {p.github && (
+                <div class="pj__ghrow">
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener"
+                    class="pj__gh"
+                    onclick="event.stopPropagation()"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.04-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.4 1.02 0 2.04.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    View source
+                  </a>
+                </div>
+              )}
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pj__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    perspective: 2000px;
+  }
+
+  @media (max-width: 860px) {
+    .pj__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pj__grid {
+      gap: 1.25rem;
+    }
+  }
+
+  .pj__card {
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --glow-x: 50%;
+    --glow-y: 50%;
+    position: relative;
+    border-radius: 24px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+    transition: transform 0.4s var(--ease-out-quart), border-color 0.4s var(--ease-out-quart);
+    will-change: transform;
+  }
+
+  .pj__card:hover {
+    border-color: var(--border-strong);
+  }
+
+  .pj__link {
+    display: block;
+    height: 100%;
+  }
+
+  .pj__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pj__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.8s var(--ease-out-expo), filter 0.4s var(--ease-out-quart);
+    transform: scale(1.02);
+  }
+
+  .pj__card:hover .pj__media img {
+    transform: scale(1.08);
+    filter: saturate(1.15);
+  }
+
+  .pj__glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(
+      400px circle at var(--glow-x) var(--glow-y),
+      color-mix(in oklab, var(--accent) 18%, transparent) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-quart);
+    pointer-events: none;
+    mix-blend-mode: plus-lighter;
+  }
+
+  .pj__card:hover .pj__glow {
+    opacity: 1;
+  }
+
+  .pj__year {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+
+  .pj__body {
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transform: translateZ(20px);
+  }
+
+  .pj__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .pj__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .pj__arrow {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--text-muted);
+    transition: transform 0.4s var(--ease-spring), background 0.3s var(--ease-out-quart), color 0.3s var(--ease-out-quart);
+  }
+
+  .pj__card:hover .pj__arrow {
+    background: var(--accent);
+    color: #fff;
+    transform: rotate(-45deg);
+  }
+
+  .pj__role {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .pj__desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .pj__stack {
+    margin: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .pj__stack span[aria-hidden] {
+    color: var(--text-faint);
+    padding: 0 0.15rem;
+  }
+
+  .pj__ghrow {
+    margin-top: 0.25rem;
+  }
+
+  .pj__gh {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 2px;
+    transition: color 0.3s var(--ease-out-quart), border-color 0.3s var(--ease-out-quart);
+  }
+
+  .pj__gh:hover {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .pj__card {
+      border-radius: 22px;
+    }
+
+    .pj__media {
+      aspect-ratio: 4 / 3;
+    }
+
+    .pj__body {
+      padding: 1.25rem;
+      gap: 0.85rem;
+    }
+
+    .pj__title {
+      align-items: flex-start;
+      font-size: 1.5rem;
+    }
+
+    .pj__arrow {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .pj__desc {
+      font-size: 0.92rem;
+    }
+
+    .pj__stack {
+      font-size: 0.74rem;
+      line-height: 1.7;
+    }
+  }
+</style>
