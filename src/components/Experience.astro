@@ -83,16 +83,22 @@ const experiences = [...resume.experiences].sort((a, b) => {
   const init = () => {
     const line = document.querySelector<HTMLElement>('.xp__line-progress');
     const section = document.querySelector<HTMLElement>('#experience');
-    if (!line || !section) return;
+    if (!line || !section || (section as any)._timelineBound) return;
+    (section as any)._timelineBound = true;
 
+    let raf = 0;
     const onScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const start = vh * 0.6;
-      const end = -rect.height + vh * 0.4;
-      const raw = (start - rect.top) / (start - end);
-      const p = Math.max(0, Math.min(1, raw));
-      line.style.transform = `scaleY(${p})`;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const start = vh * 0.6;
+        const end = -rect.height + vh * 0.4;
+        const raw = (start - rect.top) / (start - end);
+        const p = Math.max(0, Math.min(1, raw));
+        line.style.transform = `scaleY(${p})`;
+      });
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });

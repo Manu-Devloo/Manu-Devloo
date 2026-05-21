@@ -10,6 +10,7 @@ const init = () => {
     el.textContent = '';
     let i = 0;
     for (const piece of words) {
+      if (piece === '') continue;
       if (/^\s+$/.test(piece)) {
         el.appendChild(document.createTextNode(piece));
         continue;

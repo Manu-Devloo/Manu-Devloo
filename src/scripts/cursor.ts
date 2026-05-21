@@ -2,6 +2,7 @@
 // Disabled automatically on touch devices via CSS.
 
 const init = () => {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   const dot = document.querySelector<HTMLElement>('.cursor-dot');
   const ring = document.querySelector<HTMLElement>('.cursor-ring');
   if (!dot || !ring) return;

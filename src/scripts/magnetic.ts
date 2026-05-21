@@ -3,6 +3,7 @@
 const STRENGTH = 0.35;
 
 const init = () => {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
     if ((el as any)._magBound) return;
     (el as any)._magBound = true;

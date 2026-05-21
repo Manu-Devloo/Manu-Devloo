@@ -4,7 +4,7 @@ import SectionHeading from './SectionHeading.astro';
 
 const stats = [
   { value: '3+', label: 'Years coding' },
-  { value: '5', label: 'Shipped projects' },
+  { value: '20+', label: 'Projects touched' },
   { value: '6', label: 'Skill domains' },
   { value: '4', label: 'Certifications' },
 ];
@@ -35,7 +35,7 @@ const stats = [
 
       <aside class="about__side">
         <div class="about__portrait" data-reveal>
-          <img src={resume.personal.profileImage} alt={resume.personal.name} loading="lazy" />
+          <img src={resume.personal.profileImage} alt={`Portrait of ${resume.personal.name}`} loading="lazy" />
           <div class="about__portrait-frame" aria-hidden="true"></div>
         </div>
 

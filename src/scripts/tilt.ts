@@ -3,6 +3,7 @@
 const MAX = 6; // degrees
 
 const init = () => {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
     if ((card as any)._tiltBound) return;
     (card as any)._tiltBound = true;

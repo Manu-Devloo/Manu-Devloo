@@ -31,7 +31,11 @@ const projects = [...resume.projects].sort((a, b) => Number(b.year) - Number(a.y
           >
             <div class="pj__media">
               <div class="pj__glow" aria-hidden="true"></div>
-              <img src={p.image} alt={p.title} loading="lazy" />
+              <img
+                src={p.image}
+                alt={`${p.title} project screenshot showing the ${p.role.toLowerCase()} web interface`}
+                loading="lazy"
+              />
               <span class="pj__year">{p.year}</span>
             </div>
 
@@ -109,18 +113,20 @@ const projects = [...resume.projects].sort((a, b) => Number(b.year) - Number(a.y
     --glow-x: 50%;
     --glow-y: 50%;
     position: relative;
-    border-radius: 24px;
-    background: var(--bg-elevated);
+    border-radius: 28px;
+    background: color-mix(in oklab, var(--bg-elevated) 92%, white 8%);
     border: 1px solid var(--border);
     overflow: hidden;
     transform-style: preserve-3d;
     transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
-    transition: transform 0.4s var(--ease-out-quart), border-color 0.4s var(--ease-out-quart);
+    box-shadow: 0 24px 90px -62px rgba(0, 0, 0, 0.9);
+    transition: transform 0.4s var(--ease-out-quart), border-color 0.4s var(--ease-out-quart), box-shadow 0.4s var(--ease-out-quart);
     will-change: transform;
   }
 
   .pj__card:hover {
     border-color: var(--border-strong);
+    box-shadow: 0 30px 110px -66px color-mix(in oklab, var(--accent) 50%, black);
   }
 
   .pj__link {
@@ -201,7 +207,7 @@ const projects = [...resume.projects].sort((a, b) => Number(b.year) - Number(a.y
     justify-content: space-between;
     gap: 1rem;
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 650;
     font-size: clamp(1.35rem, 2vw, 1.65rem);
     color: var(--text);
     margin: 0;

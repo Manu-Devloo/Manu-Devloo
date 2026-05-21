@@ -67,7 +67,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
     <!-- Theme boot (no flash) -->
@@ -78,6 +78,7 @@ const jsonLd = {
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           const theme = saved ?? (prefersDark ? 'dark' : 'light');
           document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.style = 'studio';
         } catch {}
       })();
     </script>
@@ -110,6 +111,7 @@ const jsonLd = {
     <script>
       import '../scripts/cursor.ts';
       import '../scripts/reveal.ts';
+      import '../scripts/premiumMotion.ts';
       import '../scripts/magnetic.ts';
       import '../scripts/theme.ts';
       import '../scripts/tilt.ts';
