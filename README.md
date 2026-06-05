@@ -154,7 +154,7 @@ Dutch (native) • English (fluent)
   Built a clear, conversion-focused website for an appliance repair and sales business, combining service information, warranty details, customer support, and trust signals into a stronger local presence.
 - **De Riethoeve** (2026) — [www.deriethoeve.be](https://www.deriethoeve.be/)
   Designed and built a fast brochure site for Hoevecamperplaats De Riethoeve, clearly presenting the stay, amenities, local offerings, and contact details for visitors planning a stop in Assenede.
-- **Dellaware Shopfloor App** (2025) — [two025-react-gent9.onrender.com](https://two025-react-gent9.onrender.com)
+- **Delaware Shopfloor App** (2025) — [two025-react-gent9.onrender.com](https://two025-react-gent9.onrender.com)
   Led the frontend for a manufacturing app used to track sites, machines, and maintenance planning, with a focus on operational clarity and day-to-day usability.
 
 ---
